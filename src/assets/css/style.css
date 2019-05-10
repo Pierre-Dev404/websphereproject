@@ -1,0 +1,101 @@
+/* css basique */
+* {
+    box-sizing: border-box;
+}
+body {
+    line-height: 1.6;
+    margin: 0;
+    min-height: 100vh;
+}
+ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+/* end css basique */
+
+/* css topbar */
+a {
+    color: #34495e;
+    text-decoration: none;
+}
+.logo {
+    margin: 0;
+    font-size: 1.45em;
+}
+.main-nav{
+    display:flex;
+    justify-content: space-around;
+}
+.main-nav {
+    margin-top: 5px;
+}
+.logo a,
+.main-nav a {
+    padding: 10px 15px;
+    text-transform: uppercase;
+    text-align: center;
+    display: block;
+}
+.main-nav a {
+    color: #34495e;
+    font-size: .99em;
+    font-family: 'Montserrat', sans-serif;
+}
+.main-nav a:hover {
+    color: #718daa;
+}
+.header {
+    padding-top: .5em;
+    padding-bottom: .5em;
+    border: 1px solid #a2a2a2;
+    background-color: #f4f4f4;
+}
+/* end css topbar */
+
+/* css footer */
+.main_footer{
+    display:flex;
+    justify-content: space-around;
+}
+.main_footer{
+    padding-top: .5em;
+    padding-bottom: .5em;
+    border: 1px solid #a2a2a2;
+    background-color: #f4f4f4;
+}
+.use{
+    display:flex;
+    flex-direction: column;
+}
+.about{
+    display:flex;
+    flex-direction: column;
+}
+/* end css footer */
+
+
+/* css formulaire inscription */
+form {
+    background-color:#FAFAFA;
+    padding:10px;
+    width:50%;
+    text-align:center;
+    margin-left:25%;
+}
+label {
+    margin-top:10px;
+    display:block;
+}
+
+input, textarea, select, option {
+    background-color:#FFF3F3;
+}
+.inputcss, textarea{
+    padding:3px;
+    border:1px solid #F5C5C5;
+    border-radius:5px;
+    width:200px;
+    box-shadow:1px 1px 2px #C0C0C0 inset;
+}
+/* end css formulaire inscription */

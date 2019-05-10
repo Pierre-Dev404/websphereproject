@@ -1,0 +1,26 @@
+
+Options +FollowSymLinks
+RewriteEngine On
+
+#First rewrite any request to the wrong domain to use the correct one (here www.)
+#RewriteCond %{HTTP_HOST} !^www\.
+#RewriteRule ^(.*)$ https://www.%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+#Now, rewrite to HTTPS:
+#RewriteCond %{HTTPS} off
+#RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+RewriteCond %{REQUEST_URI} !\.(?:css|js|jpe?g|gif|png)$ [NC]
+RewriteCond %{REQUEST_FILENAME} !-d  
+RewriteCond %{REQUEST_FILENAME} !-f 
+
+RewriteRule ^([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)/$ index.php?p=$1&id=$2&sid=$3 [L]
+RewriteRule ^([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)$ index.php?p=$1&id=$2&sid=$3 [L]
+
+RewriteRule ^([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)/$ index.php?p=$1&id=$2 [L]
+RewriteRule ^([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)$ index.php?p=$1&id=$2 [L]
+
+RewriteRule ^([a-zA-Z0-9_-]+)/$ index.php?p=$1 [L]
+RewriteRule ^([a-zA-Z0-9_-]+)$ index.php?p=$1 [L]
+RewriteRule ^([a-zA-Z0-9_-]+)$ index.php [L]
+
