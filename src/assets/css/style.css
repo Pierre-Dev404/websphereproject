@@ -99,3 +99,15 @@ input, textarea, select, option {
     box-shadow:1px 1px 2px #C0C0C0 inset;
 }
 /* end css formulaire inscription */
+
+/* css liste des projets */
+.allproject{
+    width:20%;
+    border:1px solid black;
+    display:flex;
+    flex-direction:column;
+}
+.project{
+    display:flex;
+    justify-content:space-around;
+}

@@ -2,7 +2,7 @@
     
     $pageTitle="Accueil";
 
-    echo $twig->render('dashboard.html', 
+    echo $twig->render('home.html',
     array('title' => 'Accueil', 
     'assets' => 'assets/',
     'name' => $_SESSION['surname']." ".$_SESSION['name'],

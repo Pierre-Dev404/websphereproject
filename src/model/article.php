@@ -1,5 +1,29 @@
 <?php
-    if(!empty($_POST) AND isset($_POST['delete'])){
+
+
+
+
+
+$project = new Project($bdd);
+$result= $project->getProject();
+// echo '<pre>';
+// print_r($result);
+// echo '</pre>';
+$row="";
+//for ($i=0; $i < count($result); $i++) {
+foreach($result as $element){
+    $row .= '
+
+<div class="allproject">
+        <p>'.$element['title'].'</p>
+        <p>'.$element['price'].'</p>
+        <p>'.$element['content'].'</p>
+</div>
+        ';
+}
+
+
+    /* if(!empty($_POST) AND isset($_POST['delete'])){
         $article = new Article($bdd);
         $article->deleteArticle($_POST['delete']);
     }
@@ -35,5 +59,5 @@
             <td><i class="fa fa-trash delete" type="button" data-id="'.$element['id'].'" data-type="suppr" data-toggle="modal" data-target="#modaldelete"></i></td>                        
         </tr>
         ';
-    }
+    }*/
 

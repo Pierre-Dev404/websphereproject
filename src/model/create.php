@@ -16,15 +16,15 @@ if(!empty($_POST)){
         AND !empty($_POST['city'])
         AND !empty($_POST['phone'])
         AND !empty($_POST['iban'])){
-        $name = $_POST['nom'];
-        $firstname = $_POST['prenom'];
-        $mail = $_POST['mail'];
-        $password = $_POST['password'];
-        $enterprise_name = $_POST['enterprise_name'];
-        $siret = $_POST['siret'];
-        $city = $_POST['city'];
-        $phone = $_POST['phone'];
-        $iban = $_POST['iban'];
+        $cr_name = $_POST['nom'];
+        $cr_firstname = $_POST['prenom'];
+        $cr_mail = $_POST['mail'];
+        $cr_password = $_POST['password'];
+        $cr_enterprise_name = $_POST['enterprise_name'];
+        $cr_siret = $_POST['siret'];
+        $cr_city = $_POST['city'];
+        $cr_phone = $_POST['phone'];
+        $cr_iban = $_POST['iban'];
 echo "<pre> $iban </pre>" ;
 
         
@@ -51,7 +51,7 @@ echo "<pre> $iban </pre>" ;
             $req->execute();*/
             
             $user = new User ($bdd);
-            $user->createUser( $name, $firstname, $mail, $password, $enterprise_name, $siret, $city, $iban, $phone);
+            $user->createUser( $cr_name, $cr_firstname, $cr_mail, $cr_password, $cr_enterprise_name, $cr_siret, $cr_city, $cr_iban, $cr_phone);
             // $user = new User ($bdd);
             // $user->createUser('yoyo','asticot','yoastico@gmail.com','papayoyo','img.pjg',3,3);
 

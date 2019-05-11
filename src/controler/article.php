@@ -1,16 +1,11 @@
 <?php
-$pageTitle="Liste articles";
+$pageTitle="Liste des projets";
 // HTML 
 include('model/article.php');         
 echo $twig->render('table.html',
 
 array('title' => 'Liste des utilisateurs', 
 'assets' => 'assets/',
-'name' => $_SESSION['surname']." ".$_SESSION['name'],
-'projectName' => "LaPiscine",
-'projectNameShort' => "L-P",
-'titre_table'=>"des articles",
+'projet' => 'Liste des projets',
 'list' => $row )
 );
-
-var_dump($row);

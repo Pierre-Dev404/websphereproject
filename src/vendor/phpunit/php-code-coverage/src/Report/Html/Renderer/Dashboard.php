@@ -25,7 +25,7 @@ final class Dashboard extends Renderer
     {
         $classes  = $node->getClassesAndTraits();
         $template = new \Text_Template(
-            $this->templatePath . 'dashboard.html',
+            $this->templatePath . 'home.html',
             '{{',
             '}}'
         );

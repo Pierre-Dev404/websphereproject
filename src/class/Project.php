@@ -1,35 +1,28 @@
 <?php
 
-class Article{
+class Project{
 
-    private $_date_derniere_modif;
-    private $_article_title;
-    private $_article_content;
-    private $_image_coverimage;
-    private $_id_auteur;
-    private $_prenom_nom_auteur;
-    private $_id_status;
-    private $_article_status_type;
-    private $_id_category_blog;
-    private $_category_blog_type;
-    private $_id_article;
+    private $_id_project;
+    private $_title;
+    private $_start_date;
+    private $_end_date;
+    private $_price;
+    private $_content;
+    private $_id_project_status;
     private $_bdd;
 
-    function __construct($bdd, $idArticle = null){
+    function __construct($bdd, $idProject = null){
         $this->_bdd=$bdd;
-        if($idArticle !== NULL){
-            $article = $this->getArticle($idArticle);
-            $this->_id_article=$idArticle;
-            $this->_id_status=$article['id_article_status'];
-            $this->_id_auteur=$article['user_id'];
-            $this->_article_title=$article['title'];
-            $this->_article_content=$article['content'];
-            $this->_prenom_nom_auteur=$article['nom']." ".$article['prenom'];
-            $this->_date_derniere_modif=$article['date'];
-            $this->_image_coverimage=$article['coverImage'];
-            $this->_article_status_type=$article['type'];
-            $this->_id_category_blog=$article['id_category_blog'];
-            $this->_category_blog_type=$article['category_blog_type'];
+        if($idProject !== NULL){
+            $projet = $this->getProjet($idProject);
+            $this->_id_project=$idProject;
+            $this->_id_project_status=$projet['id_project_status'];
+            $this->_title=$projet['title'];
+            $this->_start_date=$projet['start_date'];
+            $this->_end_date=$projet['end_date'];
+            $this->_price=$projet['price'];
+            $this->_content=$projet['content'];
+
         }
         //la variable $bdd n'est pas accessible depuis l'interieur de la classe vers l'exterieur de la classe
         //donc on passe a l'instanciation de la classe article l'objet BDD
@@ -39,25 +32,13 @@ class Article{
     }
 
     //Obtention des infos concernant 1 article en spécifiant sont ID dans la méthode
-    function getArticle($id){
+    function getProject(){
 
-        $req = $this->_bdd->prepare('SELECT article.id, title, content,coverImage, user.nom, user.prenom, 
-                                      article_status.type, user.id AS user_id, rel_event_article.id_article_status, 
-                                      date, category_blog.id AS id_category_blog, category_blog.type AS category_blog_type 
-               FROM article
-               INNER JOIN rel_event_article ON rel_event_article.id_article=article.id
-               INNER JOIN user ON user.id = rel_event_article.id
-               INNER JOIN article_status ON article_status.id = rel_event_article.id_article_status
-               INNER JOIN rel_article_category ON rel_article_category.id_article = article.id
-               INNER JOIN category_blog ON category_blog.id = rel_article_category.id
-               AND rel_event_article.id_article_status !=3
-               AND date = (SELECT MAX(date)
-                       FROM rel_event_article
-                       WHERE rel_event_article.id_article = article.id)
-               WHERE article.id = :idArticle');
-        $req->bindParam(':idArticle', $id);
+        $req = $this->_bdd->prepare('SELECT * 
+                                        FROM project
+                                        WHERE id_project_status = 1');
         $req->execute();
-        return $req->fetch();
+        return $req->fetchAll();
     }
 
     //Obtention de la liste de tous les articles

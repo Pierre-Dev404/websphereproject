@@ -50,24 +50,24 @@ class User
                     return $result ;
     }
 
-    function createUser($cr_name, $cr_firstname, $cr_mail, $cr_password, $cr_enterprise_name, $cr_siret, $cr_city, $cr_iban, $cr_phone)
+    function createUser($cu_name, $cu_firstname, $cu_mail, $cu_password, $cu_enterprise_name, $cu_siret, $cu_city, $cu_iban, $cu_phone)
     {
 
 
-        $this->_password = password_hash($cr_password, PASSWORD_DEFAULT);
+        $this->_password = password_hash($cu_password, PASSWORD_DEFAULT);
         print_r($this->_password);
         $req = $this->_bdd->prepare("INSERT INTO users (name, firstname, mail, password, enterprise_name, siret, city, iban, phone)
                                     VALUES (:name, :firstname, :mail, :password, :enterprise_name, :siret, :city, :iban, :phone)");
         if ($req->execute(array(
-            'name' => $cr_name,
-            'firstname' => $cr_firstname,
-            'mail' => $cr_mail,
+            'name' => $cu_name,
+            'firstname' => $cu_firstname,
+            'mail' => $cu_mail,
             'password' => $this->_password,
-            'enterprise_name' => $cr_enterprise_name,
-            'siret' => $cr_siret,
-            'city' => $cr_city,
-            'iban' => $cr_iban,
-            'phone' => $cr_phone
+            'enterprise_name' => $cu_enterprise_name,
+            'siret' => $cu_siret,
+            'city' => $cu_city,
+            'iban' => $cu_iban,
+            'phone' => $cu_phone
         ))) {
             echo "Succes\n";
             //$user_last_id = mysqli_insert_id();
@@ -87,7 +87,7 @@ class User
                 echo "<pre>La checkbox $valeur a été cochée<br></pre>";
             }*/
         foreach ($_POST['user_type'] as $type) {
-            echo "<pre> La valeur de type traitee est $type </pre>";
+            error_log("La valeur de type traitee est $type ");
             $req = $this->_bdd->prepare("INSERT INTO user_type (id_type, id_user)
                                     VALUES (:id_type, :id_user)");
             if ($req->execute(array(
@@ -155,22 +155,85 @@ class User
             $req->bindParam(':mail', $mail);
             $req->execute();
             $checkMail = $req->fetch();
-
+            error_log("User.php, methode connexion : Connexion init") ;
             if (!empty($checkMail)) {
                 $checkPass = password_verify($password, $checkMail['password']);
 
                 if ($checkPass) {
+                    session_start();
+                    #session_unset() ;
+                    #session_destroy() ;
+                    # Lignes suivantes pour DEBUG
+                    if(isset($_SESSION['id'])) {
+                        if($_SESSION['id'] == $checkMail['id_user']) {
+                            error_log("User.php, methode connexion : utilisateur est deja connecte") ;
+                        } else {
+                            error_log("User.php, methode connexion : un nouvel utilisateur se connecte") ;
+                        }
+                    }
+                    else {
+                        error_log("User.php, methode connexion : Pas de variable de session pour la session en cours") ;
+                    }
+                    # Fin lignes DEBUG
+
+                    #if(session_status() == PHP_SESSION_ACTIVE) error_log("Session deja active");
                     $_SESSION['id'] = $checkMail['id_user'];
                     $_SESSION['name'] = $checkMail['name'];
                     $_SESSION['surname'] = $checkMail['firstname'];
                     $_SESSION['mail'] = $mail;
+
+                    # Gestion du cas ou un utilisateur se reconnecte sans qu'il y ait eu deocnnexion
+                    # Ne doit pas se produire sauf si acces direct a la page de connexion
+                    # Accepte, mais il faut supprimer les types d'utilisateur (Client, Freelance...)
+                    # positionnes par l'utilisateur precedent pour ne pas recuperer ses valeurs
+
+                    # Recherche de tous les types d'utilisateur configures dans la base type
+                    $listeDesTypesUtilisteur=$this->_bdd->query('SELECT name FROM type');
+                    foreach  ($listeDesTypesUtilisteur as $typeExistant) {
+                        $nameTypeExistant=$typeExistant['name'];
+                        error_log("User.php, methode connexion : suppression si positionne de  $nameTypeExistant") ;
+                        # Si le type est positionne dans la session, on le supprime
+                        if (isset($_SESSION[$nameTypeExistant])) unset($_SESSION[$nameTypeExistant]) ;
+                    }
+                    #$req->bindParam(':utilisateur', $checkMail['id_user']);
+                    #$req->execute();
+                    #$listUserTypeOfUser = $req->fetchall();
+
+
+
+
+
+                    # On recherche tous les types d'utilisateur de l'utilisateur qui vient de se connecter
+                    $req = $this->_bdd->prepare('SELECT t.name FROM type AS t join user_type AS ut ON t.id_type=ut.id_type WHERE ut.id_user= :utilisateur');
+                    $req->bindParam(':utilisateur', $checkMail['id_user']);
+                    $req->execute();
+                    $listUserTypeOfUser = $req->fetchall();
+
+
+                    # Puis on positionne pour l'utilisateur les types utilisateur qui lui sont attribues
+                    # Freelance, Client (plusieurs types sont autorises pour un meme utilisateur)
+                    foreach($listUserTypeOfUser as $userType){
+                        $typeUtilisateur=$userType['name'] ;
+                        error_log("User.php, methode connexion : type utilisateur $typeUtilisateur") ;
+                        $_SESSION[$typeUtilisateur] = "Yes";
+                        }
+
+                    # DEBUG
+                    $id_debug=$checkMail['id_user'];
+                    $surname_debug=$checkMail['firstname'] ;
+                    error_log("User.php, methode connexion : Connexion avec ID $id_debug et SESSION surname  $surname_debug") ;
+                    /* Redirection vers la page admin.php
+                    Il de doit y avoir aucun echo avant cette commande sinon la redirection ne fonctionnera pas.
+                    */
                     header('location: admin.php');
                     return "Vous êtes connecté";
                 } else {
                     $this->_mail = $mail;
+                    error_log( "User.php, methode connexion : Mot de passe incorrect" );
                     return "Mot de passe incorrect";
                 }
             } else {
+                error_log( "User.php, methode connexion : Adresse mail inconnue" );
                 return "Adresse mail inconnue";
             }
         }
