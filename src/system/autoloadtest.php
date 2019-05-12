@@ -1,8 +1,7 @@
 <?php
 
 /* V1: Trop simple et manuel */
-// include 'src/class/Categorie.php';
-// include 'src/class/User.php';
+// include 'src/class/TypeUser.phpphp/ include 'src/class/User.php';
 
 /* V2 */
 $directory="src/class/";

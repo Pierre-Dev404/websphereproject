@@ -1,10 +1,8 @@
 <?php
-class Categorie {
+class TypeUser {
     private $_bdd;
-    private $_id;
-    private $_type;
-    private $_verify;
-    private $_adress = 'category_blog';
+    private $_id_type;
+    private $_name;
     /* 
     Si on oublie de passer un argument à une méthode et que celui-ci est attendu, 
     PHP va renvoyer une erreur
@@ -19,17 +17,53 @@ class Categorie {
         $result= $var->maMethode()
         $mavariable dans la méthode vaut "LaPiscine"        
     */
-    function __construct($bdd = NULL, $idcategorie = NULL){
-        if ($idcategorie != NULL) {
-            $this->_id = $idcategorie;
+    function __construct($bdd, $idTypeUser = null)
+    {
+        $this->_bdd = $bdd;
+        if($idTypeUser != NULL){
+            $project = $this->getTypeUser($idTypeUser);
+            $this->_id_type = $idTypeUser;
+            $this->_name = $project['name'];
         }
-        if ($bdd == NULL) {
-            $this->_bdd = new PDO('mysql:host=localhost;dbname=blog_e_commerce;charset=utf8', 'root', 'root');
-        }     
-        else{
-            $this->_bdd = $bdd;
-        }   
     }
+    function getType($id_type)
+    {
+        $req = $this->_bdd->prepare("SELECT id_type, name
+                                FROM type 
+                                WHERE id=:id");
+        $req->bindParam(':id', $id_type);
+        $req->execute();
+        $result = $req->fetch();
+        return $result;
+    }
+
+    function getAllTypes()
+    {
+        $req = $this->_bdd->prepare("SELECT *
+                                    FROM type");
+        $req->execute();
+        $result = $req->fetchAll();
+       // var_dump($result);
+        return $result ;
+    }
+
+    /*
+    function getAllTypes()
+    {
+        error_log("User.php, methode getAllTypes : entree dans la fonction ");
+        $listeDesTypesUtilisteur=$this->_bdd->query('SELECT id_type, name FROM type');
+        foreach  ($listeDesTypesUtilisteur as $typeExistant) {
+            $nameTypeExistant[]= array($typeExistant['id_type'],$typeExistant['name']);
+            error_log("User.php, methode getAllTypes : Element ajoute");
+
+
+        }*/
+
+
+
+
+
+
 
     function create($type) {
         $this->_type = $type;

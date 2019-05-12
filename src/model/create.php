@@ -1,4 +1,5 @@
 <?php
+error_log("model create.php : Entree script");
 /*
 $mailTmp="";
 $nomTmp="";
@@ -6,65 +7,64 @@ $prenomTmp="";
 $msg="";
 */
 
-if(!empty($_POST)){
-        if(!empty($_POST['nom'])
-        AND !empty($_POST['prenom'])
-        AND !empty($_POST['mail'])
-        AND !empty($_POST['password'])
-        AND !empty($_POST['enterprise_name'])
-        AND !empty($_POST['siret'])
-        AND !empty($_POST['city'])
-        AND !empty($_POST['phone'])
-        AND !empty($_POST['iban'])){
-        $cr_name = $_POST['nom'];
-        $cr_firstname = $_POST['prenom'];
-        $cr_mail = $_POST['mail'];
-        $cr_password = $_POST['password'];
-        $cr_enterprise_name = $_POST['enterprise_name'];
-        $cr_siret = $_POST['siret'];
-        $cr_city = $_POST['city'];
-        $cr_phone = $_POST['phone'];
-        $cr_iban = $_POST['iban'];
-echo "<pre> $iban </pre>" ;
 
-        
+if(empty($_POST)){
     /*
-     * if($password != $ConfPassword){
-            $mailTmp = $_POST['mail'];
-            $nomTmp = $_POST['nom'];
-            $prenomTmp = $_POST['prenom'];
-            $msg = "Les mots de passe ne correspondent pas";
-
-      }
-        else{
-            $idcivilite=1;
-            $idstatus=2;
-
-            /*$req = $bdd->prepare("INSERT INTO user (nom, prenom, mail, password, id_civilite, id_user_status)
-                                    VALUES(:nom, :prenom, :mail, :password, :idcivilite, :idstatus)");
-            $req->bindParam(':nom', $nom);
-            $req->bindParam(':prenom', $prenom);
-            $req->bindParam(':mail', $mail);
-            $req->bindParam(':password', $password);
-            $req->bindParam(':idcivilite', $idcivilite);
-            $req->bindParam(':idstatus', $idstatus);
-            $req->execute();*/
-            
-            $user = new User ($bdd);
-            $user->createUser( $cr_name, $cr_firstname, $cr_mail, $cr_password, $cr_enterprise_name, $cr_siret, $cr_city, $cr_iban, $cr_phone);
-            // $user = new User ($bdd);
-            // $user->createUser('yoyo','asticot','yoastico@gmail.com','papayoyo','img.pjg',3,3);
-
-           }
+     *  Il n'y a pas de donnes POST, on prepare les champs du formulaire (checkbox crees dynamiquement
+     */
+    $type = new TypeUser ($bdd);
+    $result = $type->getAllTypes();
+    $rowtype="";
+    foreach($result as $element){
+        $rowtype .= '
+            <input type="checkbox" name="user_type[]" value='.$element['id_type'].' />'.$element['name'].'<br>
+            ';
+        }
     }
     else {
-        $msg = "Tous les champs ne sont pas remplis";
-}
-    //penser à vérifier la présence du cnfirm password
+        /*
+        *  Il a des donnes POST envoyees par le formulaire precedemment affiche
+         * On recupere les champs du formulaire pour creer l'objet USER
+         * et appeler la methode createUser qui renverra par une fonction header
+         * sur la page admin
+        */
+        if (!empty($_POST['nom'])
+            AND !empty($_POST['prenom'])
+            AND !empty($_POST['mail'])
+            AND !empty($_POST['password'])
+            AND !empty($_POST['enterprise_name'])
+            AND !empty($_POST['siret'])
+            AND !empty($_POST['city'])
+            AND !empty($_POST['phone'])
+            AND !empty($_POST['iban'])) {
+            $cr_name = $_POST['nom'];
+            $cr_firstname = $_POST['prenom'];
+            $cr_mail = $_POST['mail'];
+            $cr_password = $_POST['password'];
+            $cr_enterprise_name = $_POST['enterprise_name'];
+            $cr_siret = $_POST['siret'];
+            $cr_city = $_POST['city'];
+            $cr_phone = $_POST['phone'];
+            $cr_iban = $_POST['iban'];
 
-    // ensuite ajouter vérif password et password confirm identiques sinon on affiche un message
+            error_log("model create.php : instanciation objet User ");
+            $user = new User ($bdd);
 
+            $user->createUser($cr_name, $cr_firstname, $cr_mail, $cr_password, $cr_enterprise_name, $cr_siret, $cr_city, $cr_iban, $cr_phone);
+            $login = $user->connexion($cr_mail, $cr_password);
+            $mailTmp = $user->_mail;
+            $msg = $login;
+            error_log("model create.php : SORTIE CONNEXION APRES CREATION USER");
+            error_log("model create.php : msg est $msg");
+            //$msg = "Tous les champs ne sont pas remplis";
+        } else {
+            $msg = "Tous les champs ne sont pas remplis";
+        }
+        //penser à vérifier la présence du cnfirm password
 
+        // ensuite ajouter vérif password et password confirm identiques sinon on affiche un message
+
+    }
 
             
    // print_r($_POST);

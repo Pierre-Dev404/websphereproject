@@ -5,11 +5,6 @@ ini_set("display_errors", 1);
 /* Exemple de pagination pour l'url rewriting */
 require('system/init.php');
 
-
-
-
-
-
 if(isset($_GET['p']) AND $_GET['p']=="pageinfo"){
     phpinfo();
 }
@@ -28,7 +23,7 @@ elseif(isset($_GET['p']) AND $_GET['p']=="inscription"){
             'message' => "Et on s'inscrit !!!")); */
 }
 elseif(isset($_GET['p']) AND $_GET['p']=="project"){
-    include('controler/article.php');
+    include('controler/project.php');
 }
 elseif(isset($_GET['p']) AND $_GET['p']=="deconnexion"){
     include('controler/deconnexion.php');
@@ -46,7 +41,7 @@ elseif(isset($_GET['p']) AND $_GET['p']=="deconnexion"){
 #}
 else{
     include('model/front.php');
-    echo $twig->render('front.html',
+    echo $twig->render('accueil.html',
     array('title' => 'Accueil',
     'assets_front' => 'assets/front/'
     ));

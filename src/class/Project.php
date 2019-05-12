@@ -14,7 +14,7 @@ class Project{
     function __construct($bdd, $idProject = null){
         $this->_bdd=$bdd;
         if($idProject !== NULL){
-            $projet = $this->getProjet($idProject);
+            $projet = $this->getProject($idProject);
             $this->_id_project=$idProject;
             $this->_id_project_status=$projet['id_project_status'];
             $this->_title=$projet['title'];
@@ -58,35 +58,42 @@ class Project{
         return $req->fetchAll();
     }
 
-    //creation d'un article
-    function createArticle($titre,$content,$imgName,$imgError,$imgSize,$imgTmp,$id_category,$id_user)
+    //creation d'un projet
+    function createProject($cr_title,$cr_content,$cr_start_date,$cr_end_date,$cr_price)
     {
-        $pathFile="files/articles/";
-        $pathImg = $pathFile.$imgName;
-        $req = $this->_bdd->prepare('INSERT INTO article (title, content, coverImage) 
-                        VALUES (:titre, :content, :coverImage)');
-        $req->bindParam (':titre', $titre);
-        $req->bindParam (':content', $content);
-        $req->bindParam (':coverImage', $pathImg);
-        $req->execute();
-        //On recupère l'ID du dernier article inseré
-        $lastId =$this->_bdd->lastInsertId();
-        //On injecte ensuite la catégorie et l'ID de l'article dans la table 'rel_article_category'
-        $req = $this->_bdd->prepare('INSERT INTO rel_article_category (id, id_article) VALUES (:categorie,:lastId)');
-        $req->execute(array(
-            'lastId' => $lastId,
-            'categorie' => $id_category
-        ));
-        //On injecte ensuite l'ID user, l'ID de l'art. le status et une DATE dans la table 'rel_event_article'
-        $req = $this->_bdd->prepare('INSERT INTO rel_event_article (id, id_article, id_article_status, date) 
-                              VALUES (:user,:lastId,1,NOW())');
-        $req->execute(array(
-            'user' => $id_user,
-            'lastId' => $lastId,
-        ));
-        $this->saveImgArticle($imgName,$imgError,$imgSize,$imgTmp);
+        error_log("Classe Project, : Entree methode createProject");
+        $status_initial_projet = "1" ; // 1 = Status Non accepte
+        if (isset($_SESSION['Client'])) {
+            $cp_id_user = $_SESSION['id'];
+            $req = $this->_bdd->prepare('INSERT INTO project (title, start_date, end_date, price, content, id_project_status) 
+                        VALUES (:title, :start_date, :end_date, :price, :content, :id_project_status)');
+            $req->bindParam(':title', $cr_title);
+            $req->bindParam(':start_date', $cr_start_date);
+            $req->bindParam(':end_date', $cr_end_date);
+            $req->bindParam(':price', $cr_price);
+            $req->bindParam(':content', $cr_content);
+            $req->bindParam(':id_project_status', $status_initial_projet);
+
+            $req->execute();
+            //On recupère l'ID du dernier projet inseré
+            $lastId = $this->_bdd->lastInsertId();
+            $ID_TYPE=$_SESSION['Client'];
+            error_log("Classe Project,methode createProject : le id_user est $cp_id_user");
+            error_log("Classe Project,methode createProject : le lastId recupere de insertion dans project est $lastId");
+            error_log("Classe Project,methode createProject : le id_type  est $ID_TYPE");
+            //On injecte ensuite la catégorie et l'ID de l'article dans la table 'rel_article_category'
+            error_log("INSERT INTO work (id_user, id_project, id_type) VALUES ($cp_id_user, $lastId , $ID_TYPE)");
+            $req = $this->_bdd->prepare('INSERT INTO work (id_user, id_project, id_type) VALUES (:label_id_user, :label_id_project, :label_id_type)');
+            $req->bindParam(':label_id_user', $cp_id_user);
+            $req->bindParam(':label_id_project', $lastId);
+            $req->bindParam(':label_id_type', $ID_TYPE);
+            $req->execute();
+        } else  {
+            // il faut avoir l'attribut Cient pour pouvoir creer un projet
+            echo "Operation reservee aux profils client" ;
+        }
     }
-    
+
     function saveImgArticle($imgName,$imgError,$imgSize,$imgTmp){
         $pathFile="files/articles/";
         if (isset($imgName) AND $imgError == 0)

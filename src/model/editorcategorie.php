@@ -6,7 +6,7 @@ if(!empty($_POST)) {
     // $content = $_POST['content'];
     // $image = $_POST['image'];
     
-    $categorie = new Categorie();
+    $categorie = new TypeUser();
     $categorie->create($type);
 
     

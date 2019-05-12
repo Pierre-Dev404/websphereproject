@@ -1,6 +1,6 @@
 <?php
 
-    $categorie = new Categorie();
+    $categorie = new TypeUser();
     $result=$categorie->getAll();
 
 

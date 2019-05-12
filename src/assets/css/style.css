@@ -102,12 +102,7 @@ input, textarea, select, option {
 
 /* css liste des projets */
 .allproject{
-    width:20%;
-    border:1px solid black;
-    display:flex;
-    flex-direction:column;
-}
-.project{
     display:flex;
     justify-content:space-around;
 }
+

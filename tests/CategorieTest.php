@@ -5,11 +5,11 @@ use PHPUnit\Framework\TestCase;
 class CategorieTest extends TestCase
 {
     function testlilian() {
-        $category = new Categorie();
+        $category = new TypeUser();
         $this->assertSame(2, $category->lilian(1));        
     }
     function testread() {
-        $category = new Categorie();
+        $category = new TypeUser();
         $result=array(
             'id' => '1',
             0 => '1',

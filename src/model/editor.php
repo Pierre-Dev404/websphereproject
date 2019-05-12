@@ -3,7 +3,7 @@
     // $req = $bdd->prepare('SELECT id, type FROM category_blog');
     // $req->execute();
     // $result=$req->fetchAll();
-    $categorie = new Categorie($bdd);
+    $categorie = new TypeUser($bdd);
     $article = new Article($bdd);
     
     $list = $categorie->getAll();
@@ -19,7 +19,7 @@
         $coverImage = "monimgae.jpg";
         $art_status = 2; //brouillon par défaut
         
-        $article->createArticle($_POST['title'],$_POST['content'],$coverImage,$_POST['categorie'],$_SESSION['id']);
+        $article->createArticle($_POST['title'],$_POST['content'],$coverImage,$_POST['TypeUser'],$_SESSION['id']);
         header("location: admin.php?p=article");
 
         // $req = $this->_bdd->prepare('INSERT INTO article (title, content, coverImage) VALUES (:title,:content,:coverImage)');

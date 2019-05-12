@@ -55,7 +55,6 @@ class User
 
 
         $this->_password = password_hash($cu_password, PASSWORD_DEFAULT);
-        print_r($this->_password);
         $req = $this->_bdd->prepare("INSERT INTO users (name, firstname, mail, password, enterprise_name, siret, city, iban, phone)
                                     VALUES (:name, :firstname, :mail, :password, :enterprise_name, :siret, :city, :iban, :phone)");
         if ($req->execute(array(
@@ -75,13 +74,13 @@ class User
             echo($user_last_id);
         } else {
             echo "une erreur est survenue lors de l'insertion";
-            print_r($req->errorInfo());
+           // print_r($req->errorInfo());
         };
-
+        // Il y a au moins un etat actif, on ne peut pas etre ni client ni freelance, defaut= client
         if (empty($_POST['user_type'])) {
             $_POST['user_type']=array(2);
         }
-        print_r($_POST['user_type']) ;
+        #print_r($_POST['user_type']) ;
         /*foreach($_POST['user_type'] as $valeur)
             {
                 echo "<pre>La checkbox $valeur a été cochée<br></pre>";
@@ -149,6 +148,27 @@ class User
             }
         }
 
+
+        /*function getAllTypes()
+        {
+            error_log("User.php, methode getAllTypes : entree dans la fonction ");
+            $listeDesTypesUtilisteur=$this->_bdd->query('SELECT id_type, name FROM type');
+            foreach  ($listeDesTypesUtilisteur as $typeExistant) {
+                $nameTypeExistant[]= array($typeExistant['id_type'],$typeExistant['name']);
+                error_log("User.php, methode getAllTypes : Element ajoute");
+
+
+            }
+
+            return($nameTypeExistant) ;
+
+        }
+        */
+
+
+
+
+
         function connexion($mail, $password)
         {
             $req = $this->_bdd->prepare('SELECT id_user, name, firstname, mail, password, enterprise_name, siret, city, iban, phone FROM users WHERE mail= :mail');
@@ -204,7 +224,8 @@ class User
 
 
                     # On recherche tous les types d'utilisateur de l'utilisateur qui vient de se connecter
-                    $req = $this->_bdd->prepare('SELECT t.name FROM type AS t join user_type AS ut ON t.id_type=ut.id_type WHERE ut.id_user= :utilisateur');
+                    # pour lui attribuer ses types utilisateur (etape qui suit)
+                    $req = $this->_bdd->prepare('SELECT t.id_type, t.name FROM type AS t join user_type AS ut ON t.id_type=ut.id_type WHERE ut.id_user= :utilisateur');
                     $req->bindParam(':utilisateur', $checkMail['id_user']);
                     $req->execute();
                     $listUserTypeOfUser = $req->fetchall();
@@ -214,8 +235,9 @@ class User
                     # Freelance, Client (plusieurs types sont autorises pour un meme utilisateur)
                     foreach($listUserTypeOfUser as $userType){
                         $typeUtilisateur=$userType['name'] ;
+                        $idTypeUtilisateur=$userType['id_type'] ;
                         error_log("User.php, methode connexion : type utilisateur $typeUtilisateur") ;
-                        $_SESSION[$typeUtilisateur] = "Yes";
+                        $_SESSION[$typeUtilisateur] = $idTypeUtilisateur;
                         }
 
                     # DEBUG
