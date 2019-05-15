@@ -41,6 +41,24 @@ class User
                     return $result;
     }
 
+    function userBySkills()
+    {
+        foreach ($_POST['skill'] as $type) {
+            $req = $this->_bdd->prepare("SELECT u.name, u.firstname, u.enterprise_name, u.city, s.name
+                                    FROM users u 
+                                    JOIN user_skill us on u.id_user = us.id_user
+                                    JOIN skill s on s.id_skill = us.id_skill
+                                    WHERE us.id_skill=:skill
+                                      ");
+            if ($req->execute(array(
+                'skill' => $type,
+            )));
+            $result = $req->fetchAll();
+            return $result ;
+        }
+    }
+
+
     function getAllUser()
     {
         $req = $this->_bdd->prepare("SELECT id, nom, prenom, mail, avatar, id_civilite, id_user_status 
@@ -73,11 +91,18 @@ class User
             $user_last_id = $this->_bdd->lastInsertId();
             echo($user_last_id);
         } else {
-            echo "une erreur est survenue lors de l'insertion";
-           // print_r($req->errorInfo());
+            $erreur_insert=$req->errorInfo() ;
+            if ($erreur_insert['0'] == '23000'){
+               // $disp_error=$erreur_insert['2'];
+                //echo "une erreur est survenue lors de l'insertion $disp_error";
+                return "DUPLICATEMAIL";
+            }
+
+           print_r($req->errorInfo());
         };
         // Il y a au moins un etat actif, on ne peut pas etre ni client ni freelance, defaut= client
         if (empty($_POST['user_type'])) {
+            // On affecte un array car on attend un *TABLEAU* de competences
             $_POST['user_type']=array(2);
         }
         #print_r($_POST['user_type']) ;

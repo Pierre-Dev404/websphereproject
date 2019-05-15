@@ -15,9 +15,9 @@ ul {
 /* end css basique */
 
 /* css topbar */
-a {
-    color: #34495e;
+a, li {
     text-decoration: none;
+    color: #C4D1FF
 }
 .logo {
     margin: 0;
@@ -38,9 +38,9 @@ a {
     display: block;
 }
 .main-nav a {
-    color: #34495e;
     font-size: .99em;
     font-family: 'Montserrat', sans-serif;
+    color: #C4D1FF
 }
 .main-nav a:hover {
     color: #718daa;
@@ -49,7 +49,7 @@ a {
     padding-top: .5em;
     padding-bottom: .5em;
     border: 1px solid #a2a2a2;
-    background-color: #f4f4f4;
+    background-color: #3E4E85;
 }
 /* end css topbar */
 
@@ -62,7 +62,10 @@ a {
     padding-top: .5em;
     padding-bottom: .5em;
     border: 1px solid #a2a2a2;
-    background-color: #f4f4f4;
+    background-color: #3E4E85;
+}
+.main_footer a{
+    color: #C4D1FF
 }
 .use{
     display:flex;
@@ -74,9 +77,46 @@ a {
 }
 /* end css footer */
 
+/* css bouton accueil*/
+.buttonAccueil a{
+    font-size:1.5em;
+    color: whitesmoke;
+}
+.buttonAccueil{
+    background-image: linear-gradient(to right, #16222A 0%, #3A6073 51%, #16222A 100%);
+    border-radius: 10px;
+    width:300px;
+    height:100px;
+}
+.buttonAccueil:hover {
+    background-position: right center;
+}
+.choixUser{
+    display:flex;
+    justify-content:space-around;
+    align-items: center;
+    background-color:#FFF7E7;
+    width:100%;
+    height: 300px;
+    text-align:center;
+}
+.choix{
+    border: 2px solid grey;
+    border-radius:10px;
+}
+.choixUser h2{
+    font-size:1.2em;
+}
+
+/* end css bouton accueil*/
+
+
+
+
+
 
 /* css formulaire inscription */
-form {
+.formInscription {
     background-color:#FAFAFA;
     padding:10px;
     width:50%;
@@ -91,7 +131,7 @@ label {
 input, textarea, select, option {
     background-color:#FFF3F3;
 }
-.inputcss, textarea{
+.formInscription > .inputcss, textarea{
     padding:3px;
     border:1px solid #F5C5C5;
     border-radius:5px;
@@ -99,10 +139,4 @@ input, textarea, select, option {
     box-shadow:1px 1px 2px #C0C0C0 inset;
 }
 /* end css formulaire inscription */
-
-/* css liste des projets */
-.allproject{
-    display:flex;
-    justify-content:space-around;
-}
 

@@ -32,6 +32,10 @@ elseif(isset($_GET['p']) AND $_GET['p']=="deconnexion"){
             'assets_front' => 'assets/front/',
             'message' => "Et on s'inscrit !!!")); */
 }
+elseif(isset($_GET['p']) AND $_GET['p']=="lesfreelances") {
+    include('controler/userbySkill.php');
+}
+
 #elseif(isset($_GET['p']) AND $_GET['p']=="argh"){
 #   include('model/argh.php');
     #echo $twig->render('create.html',
