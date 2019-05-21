@@ -1,6 +1,32 @@
 <?php
-$formulaire_client = "" ;
-$formulaire_freelance = "" ;
+$formulaire_client = "";
+$formulaire_freelance = "";
+
+
+if (isset($_SESSION['Client'])) {
+
+    $buttonrechercheC='
+    <div class="choix">
+        <h2>Chercher un professionnel pour votre projet web</h2>
+        <button class="buttonAccueil">
+            <a href="/websphereProject/src/?p=lesfreelances"> Trouver un Freelance </a>
+        </button>
+    </div>
+';
+}
+if (isset($_SESSION['Freelance'])) {
+    $buttonrechercheF='
+    <div class="choix">
+				<h2>Vous êtes Freelance ?</h2>
+					<button class="buttonAccueil">
+				<a href="/websphereProject/src/?p=project">Chercher un projet</a>
+					</button>
+			</div>
+';
+
+}
+
+
 if (empty($_POST)) {
     /*
      *  Il n'y a pas de donnes POST, on prepare les champs du formulaire
@@ -45,55 +71,61 @@ if (empty($_POST)) {
             </div>
         ';
     }
-    if (isset($_SESSION['Freelance'])) {
-        $formulaire_freelance = '
-<div class="project">
-        <form role="form" method="POST">
-    <div class="box-body">
-      <div class="form-group">
-        <label for="nom">Chercher un projet ( je suis freelance )</label>
-        <input class="inputcss" type="text" name="nom" class="form-control" id="nom" placeholder="Enter nom" value="{{ nom }}" required>
-      </div>
-    </div>
-    <div class="box-footer">
-      <button type="submit" class="btn btn-primary">Poster le projet</button>
-    </div>
-    <span>{{ message }}</span>
-  </form>
-</div>
-        ';
-    }
-    // new project
-} else {
-    /*
-        *  Il a des donnes POST envoyees par le formulaire precedemment affiche
-         * On recupere les champs du formulaire pour creer l'objet Project
-         * et appeler la methode createProject qui rneverra par une fonction header
-         * sur la page ...
-        */
-    // $cr_title,$cr_content,$cr_start_date,$cr_end_date,$cr_price,$cr_id_project_status
-            if (!empty($_POST['title'])
-                AND !empty($_POST['start_date'])
-                AND !empty($_POST['end_date'])
-                AND !empty($_POST['price'])
-                AND !empty($_POST['content']))
-            {
-                    $crP_title = $_POST['title'];
-                    $crP_start_date = $_POST['start_date'];
-                    $crP_end_date = $_POST['end_date'];
-                    $crP_price = $_POST['price'];
-                    $crP_content = $_POST['content'];
 
-            }
 
-    error_log("model home.php : instanciation objet Project ");
-    $project = new Project($bdd);
-    error_log("model home.php : appel methode createProject de Project ");
-    $result = $project->createProject($crP_title,$crP_content,$crP_start_date,$crP_end_date,$crP_price);
-    error_log("model home.php : Sortie de methode createProject de Project ");
-    error_log("model create.php : SORTIE CONNEXION APRES CREATION PROJET");
-    //$msg = "Tous les champs ne sont pas remplis";
+
+        // new project
+    } else {
+        /*
+            *  Il a des donnes POST envoyees par le formulaire precedemment affiche
+             * On recupere les champs du formulaire pour creer l'objet Project
+             * et appeler la methode createProject qui rneverra par une fonction header
+             * sur la page ...
+            */
+        // $cr_title,$cr_content,$cr_start_date,$cr_end_date,$cr_price,$cr_id_project_status
+        if (!empty($_POST['title'])
+            AND !empty($_POST['start_date'])
+            AND !empty($_POST['end_date'])
+            AND !empty($_POST['price'])
+            AND !empty($_POST['content'])) {
+            $crP_title = $_POST['title'];
+            $crP_start_date = $_POST['start_date'];
+            $crP_end_date = $_POST['end_date'];
+            $crP_price = $_POST['price'];
+            $crP_content = $_POST['content'];
+
+        }
+
+        error_log("model home.php : instanciation objet Project ");
+        $project = new Project($bdd);
+        error_log("model home.php : appel methode createProject de Project ");
+        $result = $project->createProject($crP_title, $crP_content, $crP_start_date, $crP_end_date, $crP_price);
+        error_log("model home.php : Sortie de methode createProject de Project ");
+        error_log("model create.php : SORTIE CONNEXION APRES CREATION PROJET");
+        //$msg = "Tous les champs ne sont pas remplis";
 }
+
+
+if (isset($_SESSION['Freelance'])) {
+        $resultskill = new Skill ($bdd);
+        $skill = $resultskill->getSkills();
+        $formulaire_freelance = "";
+        foreach ($skill as $element) {
+            $formulaire_freelance .= '
+             
+                <input type="checkbox" name="user_skill[]" value=' . $element['id_skill'] . ' />' . $element['name'] . '<br>
+                ';
+        }
+
+        if (!empty($_POST['user_skill'])) {
+            $skills = new Skill($bdd);
+            $user=$_SESSION['id'];
+            $skill=$_POST['id_skill'];
+            $result = $skills->insertSkills($user, $skill);
+        }
+    }
+
+
 /* if(!empty($_POST) AND isset($_POST['delete'])){
     $article = new Article($bdd);
     $article->deleteArticle($_POST['delete']);

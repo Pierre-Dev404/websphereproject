@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block head %}
+{{ parent() }}
+{% endblock %}
+
+{% block topbar %}
+<header class="header">
+    <ul class="main-nav">
+        <li><a href="#">Websphere</a></li>
+        <li><a href="#">Comment ça marche</a></li>
+        <li><a href="/websphereProject/src/?p=deconnexion">Deconnexion de {{ name }} </a></li>
+    </ul>
+    <ul>
+        <li><a href="#">Dashboard client</a></li>
+        <li><a href="#">Dashboard freelance</a></li>
+    </ul>
+</header>
+
+<section>
+    <ul>
+        <li>Mes projets</li>
+        <li>Chercher un freelance</li>
+    </ul>
+</section>
+
+<section>
+
+</section>
+
+
+
+{% block footer %}
+{{ parent() }}
+{% endblock %}

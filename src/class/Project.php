@@ -94,6 +94,29 @@ class Project{
         }
     }
 
+    function acceptProject() {
+        if (isset($_SESSION['Freelance'])) {
+                $acp_id_user = $_SESSION['id'];
+                $acceptprojet = "2";
+                $req = $this->_bdd->prepare('UPDATE project SET (id_project_status) 
+                        VALUES (:id_project_status)');
+                $req->bindParam(':id_project_status', $acceptprojet);
+                $req->execute();
+                //On recupère l'ID du dernier projet inseré
+                $lastId = $_POST['']
+                $id_type_user = $_SESSION['Freelance'];
+                $req = $this->_bdd->prepare('INSERT INTO work (id_user, id_project, id_type) VALUES (:label_id_user, :label_id_project, :label_id_type)');
+                $req->bindParam(':label_id_user', $acp_id_user);
+                $req->bindParam(':label_id_project', $lastId);
+                $req->bindParam(':label_id_type', $id_type_user);
+                $req->execute();
+
+        } else  {
+            // il faut avoir l'attribut Cient pour pouvoir creer un projet
+            echo "Operation reservee aux profils freelance" ;
+        }
+    }
+    
     function saveImgArticle($imgName,$imgError,$imgSize,$imgTmp){
         $pathFile="files/articles/";
         if (isset($imgName) AND $imgError == 0)

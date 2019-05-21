@@ -43,18 +43,18 @@ class User
 
     function userBySkills()
     {
-        foreach ($_POST['skill'] as $type) {
-            $req = $this->_bdd->prepare("SELECT u.name, u.firstname, u.enterprise_name, u.city, s.name
+            foreach ($_POST['user_skill'] as $type) {
+                $req = $this->_bdd->prepare("SELECT u.name, u.firstname, u.enterprise_name, u.city
                                     FROM users u 
                                     JOIN user_skill us on u.id_user = us.id_user
                                     JOIN skill s on s.id_skill = us.id_skill
                                     WHERE us.id_skill=:skill
                                       ");
-            if ($req->execute(array(
-                'skill' => $type,
-            )));
-            $result = $req->fetchAll();
-            return $result ;
+                if ($req->execute(array(
+                    'skill' => $type,
+                ))) ;
+                $result = $req->fetchAll();
+                return $result;
         }
     }
 

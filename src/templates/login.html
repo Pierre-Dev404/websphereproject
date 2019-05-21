@@ -4,30 +4,19 @@
         <title>{{ title }}</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!--===============================================================================================-->	
-        <link rel="icon" type="image/png" href="{{ assets }}images/icons/favicon.ico"/>
-        <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="{{ assets }}vendor/bootstrap/css/bootstrap.min.css">
-        <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="{{ assets }}fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-        <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="{{ assets }}fonts/iconic/css/material-design-iconic-font.min.css">
-        <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="{{ assets }}vendor/animate/animate.css">
-        <!--===============================================================================================-->	
-        <link rel="stylesheet" type="text/css" href="{{ assets }}vendor/css-hamburgers/hamburgers.min.css">
-        <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="{{ assets }}vendor/animsition/css/animsition.min.css">
-        <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="{{ assets }}vendor/select2/select2.min.css">
-        <!--===============================================================================================-->	
-        <link rel="stylesheet" type="text/css" href="{{ assets }}vendor/daterangepicker/daterangepicker.css">
-        <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="{{ assets }}css/util.css">
-        <link rel="stylesheet" type="text/css" href="{{ assets }}css/main.css">
-        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="assets/css/style.css">
     </head>
     <body>
+    <header class="header">
+        <ul class="main-nav">
+            <li><a href="#">Websphere</a></li>
+            <li><a href="#">Je suis Freelance</a></li>
+            <li><a href="/websphereProject/src/?p=pagelogin">Connexion</a></li>
+            <li><a href="/websphereProject/src/?p=inscription">Inscription</a></li>
+            <li><a href="#">Comment ça marche</a></li>
+        </ul>
+    </header>
+    <!--
         <div class="limiter">
                 <div class="container-login100" style="background-image: url('{{ assets }}images/bg-01.jpg');">
                     <div class="wrap-login100">
@@ -71,25 +60,42 @@
                     </div>
                 </div>
             </div>
-            
+-->
+        <div class="container">
+            <form id="contact" action="" method="post">
+                <h3>Inscription Websphere</h3>
+                    <fieldset>
+                    <input placeholder="Your Email Address" type="email" name="mail" tabindex="2" required>
+                    </fieldset>
+                    <fieldset>
+                    <input class="input100" type="password" name="pass" placeholder="Password" required>
+                    </fieldset>
+                    <fieldset>
+                    <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Submit</button>
+                    </fieldset>
+                <p class="copyright">Designed by Colorlib</a></p>
+            </form>
+        </div>
 
-            <div id="dropDownSelect1"></div>
-        <!--===============================================================================================-->
-        <script src="{{ assets }}vendor/jquery/jquery-3.2.1.min.js"></script>
-        <!--===============================================================================================-->
-        <script src="{{ assets }}vendor/animsition/js/animsition.min.js"></script>
-        <!--===============================================================================================-->
-        <script src="{{ assets }}vendor/bootstrap/js/popper.js"></script>
-        <script src="{{ assets }}vendor/bootstrap/js/bootstrap.min.js"></script>
-        <!--===============================================================================================-->
-        <script src="{{ assets }}vendor/select2/select2.min.js"></script>
-        <!--===============================================================================================-->
-        <script src="{{ assets }}vendor/daterangepicker/moment.min.js"></script>
-        <script src="{{ assets }}vendor/daterangepicker/daterangepicker.js"></script>
-        <!--===============================================================================================-->
-        <script src="{{ assets }}vendor/countdowntime/countdowntime.js"></script>
-        <!--===============================================================================================-->
-        <script src="{{ assets }}js/main.js"></script>
+        <section class="main_footer">
+        <div class="contact">
+        <h2>Me contacter</h2>
+        <h3> Meunier Pierre</h3>
+        <p> Mail: pierre.meunier@lapiscine.pro</p>
+        <p> Telephone: 064382717*</p>
+        </div>
+
+        <div class="about">
+        <h2>A propos</h2>
+        <a>A propos de Websphere</a>
+        </div>
+
+        <div class="use">
+        <h2>Utiliser</h2>
+        <a>Créer mon profil freelance</a>
+        <a>Comment ça marche ?</a>
+        </div>
+        </section>
     </body>
 </html>
     

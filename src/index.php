@@ -44,10 +44,12 @@ elseif(isset($_GET['p']) AND $_GET['p']=="lesfreelances") {
        #     'message' => "Et on s'inscrit !!!"));
 #}
 else{
-    include('model/front.php');
+    include('model/accueil.php');
     echo $twig->render('accueil.html',
     array('title' => 'Accueil',
-    'assets_front' => 'assets/front/'
+    'assets_front' => 'assets/front/',
+        'list' =>$listskill,
+        'users' => $usersbyskill
     ));
 }
 

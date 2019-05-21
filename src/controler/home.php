@@ -11,6 +11,8 @@
     'projectNameShort' => "L-P",
     'formulaire_client' => $formulaire_client,
     'formulaire_freelance' => $formulaire_freelance,
+    'buttonC' => $buttonrechercheC,
+    'buttonF' => $buttonrechercheF,
     'deconnexion' => $_url_deconnexion )
     );
 

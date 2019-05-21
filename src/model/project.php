@@ -14,11 +14,14 @@ $row="";
 foreach($result as $element){
     $row .= '
 
+
 <div class="allproject">
         <p>'.$element['title'].'</p>
         <p>'.$element['price'].'</p>
         <p>'.$element['content'].'</p>
+        <button type="submit" name="submit" class="btn btn-primary">Accepter ce projet</button>
 </div>
+
         ';
 }
 

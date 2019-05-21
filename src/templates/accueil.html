@@ -14,7 +14,7 @@
 			<div class="choix">
 				<h2>Chercher un professionnel pour votre projet web</h2>
 					<button class="buttonAccueil">
-				<a href="src/"> Trouver un Freelance </a>
+				<a href="/websphereProject/src/?p=lesfreelances"> Trouver un Freelance </a>
 					</button>
 			</div>
 			<div class="choix">
@@ -28,8 +28,17 @@
 	<section>
 		<h2>Les différents compétences</h2>
 
+		<form role="form" method="POST">
+			<div class="user">
+			{{ list | raw }}
+			<button type="submit" name="submit" class="btn btn-primary">Rechercher</button>
+			</div>
 
+		</form>
 
+		<div class="freelances">
+			{{ users | raw }}
+		</div>
 	</section>
 
 {% endblock %}

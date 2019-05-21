@@ -11,11 +11,24 @@
         <li><a href="#">Comment ça marche</a></li>
         <li><a href="/websphereProject/src/?p=deconnexion">Deconnexion de {{ name }} </a></li>
     </ul>
+    <ul>
+        <li><a href="#">Dashboard client</a></li>
+        <li><a href="#">Dashboard freelance</a></li>
+    </ul>
 </header>
+
 {% endblock %}
 
 {% block content %}
 
+<section class="choixUser">
+    {{ buttonC | raw }}
+    {{ buttonF | raw }}
+</section>
+
+<section>
+    {{ rechercheC | raw }}
+</section>
 <!--
 <div class="content-wrapper">
   <small>{{ projet }}</small>
@@ -33,10 +46,16 @@
         {{ list | raw }}
       </div>
 -->
-<div class="allproject">
+<h2> Créez votre projet</h2>
+<div class="projecttest">
     {{ formulaire_client | raw }}
-
+    <div class="test">
+        <form role="form" method="POST">
     {{ formulaire_freelance | raw }}
+        <button type="submit" class="btn btn-primary">Maj compétences</button>
+        </form>
+
+    </div>
 </div>
 
 

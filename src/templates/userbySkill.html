@@ -12,21 +12,17 @@
 {% block content %}
 
 <section class="main-freelance">
-    <div class="skill">
-        <h2>Trouver votre freelance selon ses compétences:</h2>
-        <form role="form" method="POST">
-            {{ list | raw }}
-            <button type="submit" class="btn btn-primary">Rechercher</button>
-        </form>
 
-    </div>
+        <h2>Trouver votre freelance selon ses compétences:</h2>
+    <form role="form" method="POST">
+        <div class="user">
+            {{ list | raw }}
+        </div>
+        <button type="submit" name="freelance" class="btn btn-primary">Rechercher</button>
+    </form>
 
     <div class="freelances">
-
         {{ users | raw }}
-
-
-
     </div>
 </section>
 
@@ -37,4 +33,5 @@
 
 
 {% block footer %}
+{{ parent() }}
 {% endblock %}
