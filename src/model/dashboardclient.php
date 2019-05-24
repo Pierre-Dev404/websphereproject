@@ -42,7 +42,7 @@ if (isset($_SESSION['Client'])) {
                         </div>
                         <div class="form-group">
                             <label for="enterprise_name">Contenu</label>
-                            <textarea class="inputcss" type="textarea"  rows="5" name="content" class="form-control" id="content"
+                            <textarea class="inputcss" name="content" class="form-control" id="content"
                                    placeholder="Nom entreprise" value="" required> </textarea>
                             </div>
                     </div>
@@ -61,10 +61,24 @@ if (isset($_SESSION['Client'])) {
     foreach($result as $element){
         $mesprojets .= '
 <div class="allproject">
-        <p>' . $element['title'] . '</p>
-        <p>' . $element['price'] . '</p>
-        <p>' . $element['content'] . '</p>
-        <button type="submit">Gérer votre projet</button>
+       
+        <p> TITRE ' . $element['title'] . '</p>
+        <p> DATE DEBUT ' . $element['start_date'] . '</p>
+        <p>DATE FIN ' . $element['end_date'] . '</p>
+        <p>PRIX ' . $element['price'] . '</p>
+        <p>AVANCEMENT ' . $element['status_name'] . '</p>
+        
+        <form role="form" method="post" action="?p=gestionprojetC">
+            <input  type="hidden" name="nm_id_project" value="'. $element['id_project'].'">
+            <input  type="hidden" name="nm_title" value="'. $element['title'].'">
+            <input  type="hidden" name="nm_start_date" value="'. $element['start_date'].'">
+            <input  type="hidden" name="nm_end_date" value="'. $element['end_date'].'">
+            <input  type="hidden" name="nm_price" value="'. $element['price'].'">
+            <input  type="hidden" name="nm_content" value="'. $element['content'].'">
+            <input  type="hidden" name="nm_status_name" value="'. $element['status_name'].'">
+            <input  type="text" name="nm_idProjectStatus" value="'. $element['idProjectStatus'].'">
+            <button type="submit">Gérer votre projet</button>  
+        </form>
 </div>
         ';
 
@@ -81,7 +95,10 @@ if (isset($_SESSION['Client'])) {
 if(!empty($_POST)) {
 
     /*
-        *  Il a des donnes POST envoyees par le formulaire precedemment affiche
+        *  Il a des donnes POST envoyees par un formulaire
+         *  Ces donnees POST proviennent soit du formulaire de cretion de projet (LEFT)
+         * soit d'un formulaire Gerer Projet genere par la lecture des projets utilisateur
+         * On se sert des champs envoyes pour tester la nature des donnees recues
          * On recupere les champs du formulaire pour creer l'objet Project
          * et appeler la methode createProject ...
          *
@@ -98,20 +115,25 @@ if(!empty($_POST)) {
         $crP_price = $_POST['price'];
         $crP_content = $_POST['content'];
 
+
+        error_log("model home.php : instanciation objet Project ");
+        $project = new Project($bdd);
+        error_log("model home.php : appel methode createProject de Project ");
+        $result = $project->createProject($crP_title, $crP_content, $crP_start_date, $crP_end_date, $crP_price);
+        error_log("model home.php : Sortie de methode createProject de Project ");
+        error_log("model create.php : SORTIE CONNEXION APRES CREATION PROJET");
+
+    } else {
+        if (!empty($_POST['nm_id_project'])) {
+            // On gere le projet sur lequel on a clique
+
+
+        }
+
     }
 
-    error_log("model home.php : instanciation objet Project ");
-    $project = new Project($bdd);
-    error_log("model home.php : appel methode createProject de Project ");
-    $result = $project->createProject($crP_title, $crP_content, $crP_start_date, $crP_end_date, $crP_price);
-    error_log("model home.php : Sortie de methode createProject de Project ");
-    error_log("model create.php : SORTIE CONNEXION APRES CREATION PROJET");
     //$msg = "Tous les champs ne sont pas remplis";
 }
-
-
-
-
 
     if (isset($_SESSION['Freelance'])) {
         $menuclientorfreelance .= '

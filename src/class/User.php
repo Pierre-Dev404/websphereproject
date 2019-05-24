@@ -57,6 +57,19 @@ class User
         }
     }
 
+    function getAllFreelance()
+    {
+        // Recupere les utilisateurs par ID type = 1 => Freelance
+
+        $req = $this->_bdd->prepare("SELECT u.name, u.firstname, u.mail, u.enterprise_name
+                                FROM users u 
+                                JOIN user_type ut ON u.id_user = ut.id_user
+                                WHERE ut.id_type = 1");
+        $req->execute();
+        $result = $req->fetchAll();
+        return $result;
+    }
+
 
     function getAllUser()
     {

@@ -44,9 +44,10 @@ class Project{
     //Obtention de la liste de tous les articles
     function geAllProjectsByIdUser($gp_id){
 
-            $req = $this->_bdd->prepare('SELECT title, price, content
+            $req = $this->_bdd->prepare('SELECT p.id_project , p.title, p.start_date, p.end_date, p.price, p.content, p.id_project_status as idProjectStatus, ps.status as status_name
                                         FROM project p 
                                         JOIN work w ON w.id_project = p.id_project
+                                        JOIN project_status ps ON ps.id_project_status = p.id_project_status
                                         WHERE w.id_user = :id_user');
             $req->bindParam(':id_user', $gp_id);
             $req->execute();

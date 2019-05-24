@@ -41,6 +41,9 @@ elseif(isset($_GET['p']) AND $_GET['p']=="dashboardC") {
 elseif(isset($_GET['p']) AND $_GET['p']=="dashboardF") {
     include('controler/dashboardfreelance.php');
 }
+elseif(isset($_GET['p']) AND $_GET['p']=="gestionprojetC") {
+    include('controler/gestionprojetclient.php');
+}
 
 #elseif(isset($_GET['p']) AND $_GET['p']=="argh"){
 #   include('model/argh.php');
