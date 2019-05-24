@@ -11,18 +11,25 @@ $result= $project->getProject();
 // echo '</pre>';
 $row="";
 //for ($i=0; $i < count($result); $i++) {
-foreach($result as $element){
+foreach($result as $element) {
     $row .= '
 
 
 <div class="allproject">
-        <p>'.$element['title'].'</p>
-        <p>'.$element['price'].'</p>
-        <p>'.$element['content'].'</p>
-        <button type="submit" name="submit" class="btn btn-primary">Accepter ce projet</button>
+        <p>' . $element['title'] . '</p>
+        <p>' . $element['price'] . '</p>
+        <p>' . $element['content'] . '</p>
+        <button type="submit" name="project[]" value=' . $element['id_project'] . ' class="btn btn-primary">Accepter ce projet</button>
 </div>
-
         ';
+}
+$user=$_SESSION['id'];
+$project=$_POST['id_project'];
+
+    if (!empty($_POST['project'])){
+        $project = new Project($bdd);
+        $result= $project->acceptProject($user, $project);
+
 }
 
 

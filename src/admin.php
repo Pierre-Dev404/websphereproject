@@ -44,12 +44,16 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
     if (!isset($_GET['p'])) {
       $_GET['p'] = "home";
       $PAGE = $_GET['p'] ;
+    } else {
+      $glop=$_GET['p'];
+      error_log( "admin.php : arguments get $glop" );
     }
     if (file_exists('controler/'.$_GET['p'].'.php')) {
+      error_log("admin.php : Entree dans la page $PAGE, avec le session ID $SSID et attribut $ATTRIBUTS ");
       include('controler/'.$_GET['p'].'.php');
       $SSID=$_SESSION['id'];
 
-      error_log("admin.php : Entree dans la page $PAGE, avec le session ID $SSID et attribut $ATTRIBUTS ");
+
     } else {
       echo "admin.php : cette page n'existe pas";
     }

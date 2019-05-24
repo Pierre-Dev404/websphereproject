@@ -42,19 +42,14 @@ class Project{
     }
 
     //Obtention de la liste de tous les articles
-    function getListArticle(){
+    function geAllProjectsByIdUser($gp_id){
 
-        $req = $this->_bdd->prepare('SELECT article.id, title, content, user.nom, user.prenom, article_status.type, coverImage 
-                        FROM article 
-                        INNER JOIN rel_event_article ON rel_event_article.id_article=article.id 
-                        INNER JOIN user ON user.id = rel_event_article.id
-                        INNER JOIN article_status ON article_status.id = rel_event_article.id_article_status 
-                        AND rel_event_article.id_article_status !=3
-                        AND date = (SELECT MAX(date)
-                                FROM rel_event_article
-                                WHERE rel_event_article.id_article = article.id)
-                        ORDER BY article.id');
-        $req->execute();
+            $req = $this->_bdd->prepare('SELECT title, price, content
+                                        FROM project p 
+                                        JOIN work w ON w.id_project = p.id_project
+                                        WHERE w.id_user = :id_user');
+            $req->bindParam(':id_user', $gp_id);
+            $req->execute();
         return $req->fetchAll();
     }
 
@@ -88,6 +83,8 @@ class Project{
             $req->bindParam(':label_id_project', $lastId);
             $req->bindParam(':label_id_type', $ID_TYPE);
             $req->execute();
+
+            header('location: ?p=dashboardC');
         } else  {
             // il faut avoir l'attribut Cient pour pouvoir creer un projet
             echo "Operation reservee aux profils client" ;
@@ -103,7 +100,7 @@ class Project{
                 $req->bindParam(':id_project_status', $acceptprojet);
                 $req->execute();
                 //On recupère l'ID du dernier projet inseré
-                $lastId = $_POST['']
+                $lastId = $_POST['id_project'];
                 $id_type_user = $_SESSION['Freelance'];
                 $req = $this->_bdd->prepare('INSERT INTO work (id_user, id_project, id_type) VALUES (:label_id_user, :label_id_project, :label_id_type)');
                 $req->bindParam(':label_id_user', $acp_id_user);

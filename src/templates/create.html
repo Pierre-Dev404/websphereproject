@@ -9,66 +9,57 @@
     {% endblock %}
 
 {% block content %}
-            <form class="formInscription" role="form" method="POST">
-              <div class="box-body">
-                    <div class="form-group">
-                            <label for="nom">Nom</label>
-                            <input class="inputcss" type="text" name="nom" class="form-control" id="nom" placeholder="Enter nom" value="{{ nom }}" required>
-                          </div>
-                          <div class="form-group">
+<div class="container">
+    <form id="contact" action="" method="post">
+        <div class="box-body">
+            <h2> Inscription </h2>
+            <div class="form-group">
+                <label for="nom">Nom</label>
+                <input class="inputcss" type="text" name="nom" class="form-control" id="nom" placeholder="Enter nom" value="{{ nom }}" required>
+            </div>
 
-                                <label for="prenom">Prénom</label>
-                              <input class="inputcss" type="text" name="prenom" class="form-control" id="prenom" placeholder="Enter prénom" value="{{ prenom }}" required>
-                              </div>
-                <div class="form-group">
-                  <label for="mail">Email address</label>
-                    <input class="inputcss" type="email" name="mail" class="form-control" id="mail" placeholder="Enter email" value="{{ mail }} "required>
-                </div>
-                <div class="form-group">
-                  <label for="password">Password</label>
-                    <input class="inputcss" type="password" name="password" class="form-control" id="password" placeholder="Password" required>
-                </div>
-                <div class="form-group">
-                        <label for="enterprise_name">Nom de l'entreprise</label>
-                    <input class="inputcss"  type="text" name="enterprise_name" class="form-control" id="enterprise_name" placeholder="Nom entreprise" value="{{ enterprise_name }} "required>
-                </div>
-                  <div class="form-group">
+            <div class="form-group">
+                <label for="prenom">Prénom</label>
+                <input class="inputcss" type="text" name="prenom" class="form-control" id="prenom" placeholder="Enter prénom" value="{{ prenom }}" required>
+            </div>
+            <div class="form-group">
+                <label for="mail">Email address</label>
+                <input class="inputcss" type="email" name="mail" class="form-control" id="mail" placeholder="Enter email" value="{{ mail }} "required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input class="inputcss" type="password" name="password" class="form-control" id="password" placeholder="Password" required>
+            </div>
+            <div class="form-group">
+                <label for="enterprise_name">Nom de l'entreprise</label>
+                <input class="inputcss"  type="text" name="enterprise_name" class="form-control" id="enterprise_name" placeholder="Nom entreprise" value="{{ enterprise_name }} "required>
+            </div>
+            <div class="form-group">
+                {{ list | raw }}
+            </div>
+            <div class="form-group">
+                <label for="siret">Siret</label>
+                <input class="inputcss" type="text" name="siret" class="form-control" id="siret" placeholder="Siret" value="{{ siret }} "required>
+            </div>
+            <div class="form-group">
+                <label for="city">Ville</label>
+                <input class="inputcss" type="text" name="city" class="form-control" id="city" placeholder="Ville" value="{{ city }} "required>
+            </div>
+            <div class="form-group">
+                <label for="iban">Iban</label>
+                <input class="inputcss" type="text" name="iban" class="form-control" id="iban" placeholder="Iban" value="{{ iban }} "required>
+            </div>
+            <div class="form-group">
+                <label for="phone">phone</label>
+                <input class="inputcss" type="text" name="phone" class="form-control" id="phone" placeholder="Telephone" value="{{ phone }} "required>
+            </div>
+        </div>
 
-                      {{ list | raw }}
-                      <!--
-                      {% for type_uti in array_types_uti %}
-                      <input type="checkbox" name="user_type[]" value="{{ type_uti.0}}" />{{ type_uti.1}}<br>
-                      {% endfor %}-->
-                      <!--
-                      <input type="checkbox" name="user_type[]" value="1" />Freelance<br>
-                      <input type="checkbox" name="user_type[]" value="2" />Client<br>
-                      -->
-                  </div>
-                  <div class="form-group">
-                      <label for="siret">Siret</label>
-                      <input class="inputcss" type="text" name="siret" class="form-control" id="siret" placeholder="Siret" value="{{ siret }} "required>
-                  </div>
-                  <div class="form-group">
-                      <label for="city">Ville</label>
-                      <input class="inputcss" type="text" name="city" class="form-control" id="city" placeholder="Ville" value="{{ city }} "required>
-                  </div>
-                  <div class="form-group">
-                      <label for="iban">Iban</label>
-                      <input class="inputcss" type="text" name="iban" class="form-control" id="iban" placeholder="Iban" value="{{ iban }} "required>
-                  </div>
-                  <div class="form-group">
-                      <label for="phone">phone</label>
-                      <input class="inputcss" type="text" name="phone" class="form-control" id="phone" placeholder="Telephone" value="{{ phone }} "required>
-                  </div>
-                </div>
-
-
-              <div class="box-footer">
+            <div class="box-footer">
                 <button type="submit" class="btn btn-primary">Inscription</button>
-              </div>
-              <span>{{ message }}</span>
-            </form>
-  </section>
+            </div>
+    </form>
+</div>
           <!-- /.box -->
           {% endblock %}
 

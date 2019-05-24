@@ -10,7 +10,6 @@ class User
     private $_status;
     private $_civilite;
     private $_avatar;
-
     private $_verifyPass;
     private $_bdd;
 

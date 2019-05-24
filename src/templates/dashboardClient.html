@@ -9,25 +9,37 @@
     <ul class="main-nav">
         <li><a href="#">Websphere</a></li>
         <li><a href="#">Comment ça marche</a></li>
-        <li><a href="/websphereProject/src/?p=deconnexion">Deconnexion de {{ name }} </a></li>
+        <li><a href="/websphereProject/src/?p=deconnexion"> Deconnexion de {{ name }} </a></li>
     </ul>
-    <ul>
-        <li><a href="#">Dashboard client</a></li>
-        <li><a href="#">Dashboard freelance</a></li>
-    </ul>
+
+        {{ menuclientorfreelance | raw }}
+      <!--  <li><a href="#">Dashboard client</a></li>
+        <li><a href="#">Dashboard freelance</a></li> -->
 </header>
+{% endblock %}
 
-<section>
-    <ul>
-        <li>Mes projets</li>
-        <li>Chercher un freelance</li>
-    </ul>
-</section>
+{% block content %}
 
-<section>
+<div class="containerdashC">
+        <section class="sidebarleft">
+                <h2>Créer un projet</h2>
+                {{ formprojet | raw }}
+                <h2>Chercher une freelance</h2>
+        </section>
 
-</section>
+        <section class="sidebarright">
+            <h2>Mes projets</h2>
+            <div class="projet">
+                {{ mesprojets | raw }}
+            </div>
 
+            <h2> Historique de mes projets</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab alias at dignissimos, dolores eligendi, fuga hic illum
+                libero maiores minus molestias porro provident quidem, quisquam rerum tempore voluptate. Corporis, fugiat.</p>
+
+        </section>
+</div>
+{% endblock %}
 
 
 {% block footer %}

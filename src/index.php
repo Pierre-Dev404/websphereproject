@@ -35,6 +35,12 @@ elseif(isset($_GET['p']) AND $_GET['p']=="deconnexion"){
 elseif(isset($_GET['p']) AND $_GET['p']=="lesfreelances") {
     include('controler/userbySkill.php');
 }
+elseif(isset($_GET['p']) AND $_GET['p']=="dashboardC") {
+    include('controler/dashboardclient.php');
+}
+elseif(isset($_GET['p']) AND $_GET['p']=="dashboardF") {
+    include('controler/dashboardfreelance.php');
+}
 
 #elseif(isset($_GET['p']) AND $_GET['p']=="argh"){
 #   include('model/argh.php');

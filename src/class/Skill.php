@@ -31,16 +31,15 @@ class Skill
         return $result;
     }
 
-    function insertSKills()
+    function insertSkills($is_user, $is_skill)
     {
-        $cp_id_user = $_SESSION['id'];
-        foreach ($_POST['user_skill'] as $type) {
+        foreach ($is_skill as $type) {
             error_log("La valeur de type traitee est $type ");
             $req = $this->_bdd->prepare("INSERT INTO user_skill (id_skill, id_user)
                                     VALUES (:id_type, :id_user)");
             if ($req->execute(array(
                 'id_type' => $type,
-                'id_user' =>  $cp_id_user,
+                'id_user' =>  $is_user,
             ))) {
                 echo "Succes";
             } else {

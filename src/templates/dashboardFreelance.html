@@ -1,10 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "layout.html" %}
 
-</body>
-</html>
+{% block head %}
+{{ parent() }}
+{% endblock %}
+
+{% block topbar %}
+<header class="header">
+    <ul class="main-nav">
+        <li><a href="#">Websphere</a></li>
+        <li><a href="#">Comment ça marche</a></li>
+        <li><a href="/websphereProject/src/?p=deconnexion"> Deconnexion de {{ name }} </a></li>
+    </ul>
+
+
+</header>
+{% endblock %}
+
+
+{% block content %}
+<form role="form" method="post">
+{{ comp_freelance | raw }}
+    <button type="submit" class="btn btn-primary">Ajouter des compétences</button>
+</form>
+{% endblock %}
+
+
+{% block footer %}
+{{ parent() }}
+{% endblock %}
