@@ -29,10 +29,10 @@
 <p>CONTENU {{ nm_content | raw }}</p>
 <p>Avancement {{ nm_status_name | raw }}</p>
 
-<form role="form" method="post">
-{{ userbyskill | raw }}
-    <button type="submit"> VALIDER </button>
-</form>
+
+
+{{ nm_menu_contextuel_projet | raw }}
+
 
 {% endblock %}
 

@@ -1,19 +1,25 @@
 <?php
 
 
-    $resultskill = new Skill ($bdd);
-    $skill = $resultskill->getSkills();
-    $listskill = "";
-        foreach ($skill as $element) {
-            $listskill .= '
-                <input class="user" type="checkbox" name="user_skill[]" value='. $element['id_skill'] . ' />' . $element['name'] . '<br>
+$resultskill = new Skill ($bdd);
+$skill = $resultskill->getSkills();
+$listskill = "";
+foreach ($skill as $element) {
+    $listskill .= '
+                <input class="user" type="checkbox" name="user_skill[]" value=' . $element['id_skill'] . ' />' . $element['name'] . '<br>
                 ';
 
 
-    }
+}
 
 $type = new User ($bdd);
-$result = $type->UserBySkills();
+if (isset($_POST['user_skill'])) {
+    $fl_listskill = $_POST['user_skill'];
+} else {
+    $fl_listskill = array() ;
+}
+
+$result = $type->UserBySkills($fl_listskill);
 $usersbyskill = "";
 if (!empty($result)) {
     foreach ($result as $freelance) {

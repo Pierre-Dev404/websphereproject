@@ -31,6 +31,18 @@ class Skill
         return $result;
     }
 
+    function getIdSkills()
+    {
+        $querySearchSkills="SELECT id_skill FROM skill";
+
+        $result=array();
+        foreach  ($this->_bdd->query($querySearchSkills) as $row) {
+            $result= array_merge($result, $row) ;
+        }
+        array_shift($result) ;
+        return $result;
+    }
+
     function insertSkills($is_user, $is_skill)
     {
         foreach ($is_skill as $type) {

@@ -18,7 +18,7 @@ echo $twig->render('gestionprojetclient.html',
         'nm_price' => $nm_price,
         'nm_content' => $nm_content,
         'nm_status_name' => $nm_status_name,
-        'userbyskill' => $userbyskill,
+        'nm_menu_contextuel_projet' => $nm_menu_contextuel_projet,
         'nm_idProjectStatus' => $nm_id_project_status,
         'name' => $_SESSION['surname']." ".$_SESSION['name'],
     ));

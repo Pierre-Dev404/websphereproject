@@ -41,27 +41,51 @@ if (!empty($_POST)) {
         // si le projet est a l'etat
 
 
+
+        if ($nm_id_project_status = 1) {
+            // On recherche les Freelance eligibles
+            $nm_menu_contextuel_projet= new User($bdd) ;
+            $result = $nm_menu_contextuel_projet->getAllFreelance();
+            $nm_menu_contextuel_projet = '' ;
+
+            foreach($result as $element) {
+                $nm_menu_contextuel_projet .= '    
+    
+    <form role="form" method="post">
+            <div class="allproject">
+                    <p>' . $element['name'] . '</p>
+                    <p>' . $element['firstname'] . '</p>
+                    <p>' . $element['mail'] . '</p>
+                    <p>' . $element['enterprise_name'] . '</p>
+                    <input type="checkbox"> Chercher Freelance !!! </input>
+            </div>
+    </form>
+            ';
+            }
+
+
+
+
+        }
+
+
+
     } else {
         // PAS isset($_POST['nm_id_project'])
         error_log("model/gestionprojetclient.php : On est appelle depuis formulaire cherche freelance");
-            if (!isset($nm_id_project)) {
-                error_log("model/gestionprojetclient.php : Aie aie aie on a perdu le nm_id_project");
-            } else {
-                error_log("model/gestionprojetclient.php : Ouf on a bien le nm_id_project $nm_id_project");
-            }
+        if (!isset($nm_id_project)) {
+            error_log("model/gestionprojetclient.php : Aie aie aie on a perdu le nm_id_project");
+        } else {
+            error_log("model/gestionprojetclient.php : Ouf on a bien le nm_id_project $nm_id_project");
+        }
         $user = new User($bdd);
         $result = $user->getAllFreelance();
         $userbyskill = "";
         foreach ($result as $element) {
 
             $userbyskill .= '
-            <div class="allproject">
-                    <p>' . $element['name'] . '</p>
-                    <p>' . $element['firstname'] . '</p>
-                    <p>' . $element['mail'] . '</p>
-                    <p>' . $element['enterprise_name'] . '</p>
-                    <input type="checkbox"> Je te choisi !!! </input>
-            </div>
+
+<
 
         ';
         }

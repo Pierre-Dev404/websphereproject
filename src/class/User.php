@@ -40,21 +40,71 @@ class User
                     return $result;
     }
 
-    function userBySkills()
+    function userBySkills($ubs_listskill)
     {
-            foreach ($_POST['user_skill'] as $type) {
-                $req = $this->_bdd->prepare("SELECT u.name, u.firstname, u.enterprise_name, u.city
+
+
+        $requete_cherche_f =   "SELECT DISTINCT j.id_user, j.name, j.firstname, j.enterprise_name , j.city  FROM 
+                              (
+                                SELECT  u.id_user, u.name, u.firstname, u.enterprise_name, u.city , us.id_skill
+                                FROM users u     
+                                JOIN user_skill us on u.id_user = us.id_user ";
+
+        $whereclause=" " ;
+        if (! empty($ubs_listskill)) {
+            // si la liste des competences passees est vide
+            // On recheche sans critere de competence
+            // Si elle n'est pas vide contruit une requete avec
+            // clauses group by et having en verifiant que le nombre de criteres
+            // renvoyes est le bon
+
+            $whereclause="WHERE " ;
+            foreach ($ubs_listskill as $type) {
+                $whereclause.="us.id_skill = $type OR " ;
+            }
+            $whereclause=substr_replace($whereclause, '', -3, -1) ;
+
+        }
+        $requete_cherche_f .= $whereclause ;
+        $requete_cherche_f .= " ) j " ;
+
+            if (! empty($ubs_listskill)) {
+                $requete_cherche_f .=  "GROUP BY j.id_user " ;
+                $requete_cherche_f .=  "HAVING count(*) = " ;
+                $requete_cherche_f .= count($ubs_listskill) ;
+            }
+
+
+        error_log("User.php, methode userBySkills : requete $requete_cherche_f ");
+        $result=array();
+        foreach  ($this->_bdd->query($requete_cherche_f) as $row) {
+            $result= array_merge($result, array($row) );
+        }
+
+
+
+            return $result;
+    }
+
+    function userBySkillsBAD()
+    {
+        $result=array();
+        foreach ($_POST['user_skill'] as $type) {
+            $req = $this->_bdd->prepare("SELECT u.name, u.firstname, u.enterprise_name, u.city
                                     FROM users u 
                                     JOIN user_skill us on u.id_user = us.id_user
                                     JOIN skill s on s.id_skill = us.id_skill
                                     WHERE us.id_skill=:skill
                                       ");
-                if ($req->execute(array(
-                    'skill' => $type,
-                ))) ;
-                $result = $req->fetchAll();
-                return $result;
+            if ($req->execute(array(
+                'skill' => $type,
+            ))) ;
+            $resultn = $req->fetchAll();
+            $result= array_merge($result, $resultn );
+
         }
+
+        return $result;
     }
 
     function getAllFreelance()
