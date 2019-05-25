@@ -18,7 +18,6 @@ if (isset($_POST['user_skill'])) {
 } else {
     $fl_listskill = array() ;
 }
-
 $result = $type->UserBySkills($fl_listskill);
 $usersbyskill = "";
 if (!empty($result)) {
