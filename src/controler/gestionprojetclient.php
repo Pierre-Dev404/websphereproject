@@ -18,8 +18,13 @@ echo $twig->render('gestionprojetclient.html',
         'nm_price' => $_SESSION['nm_price'],
         'nm_content' => $_SESSION['nm_content'],
         'nm_status_name' => $_SESSION['nm_status_name'],
+
         'list' => $listskill,
-        'userbyskill' => $usersbyskill,
+        /*
+        'userbyskill' => $nm_userbyskill ,
+        'userbyskill' => $_SESSION['nm_userbyskill'],
+        */
+        'userbyskill' => $_SESSION['nm_userbyskill'],
         'nm_idProjectStatus' => $_SESSION['nm_idProjectStatus'],
         'name' => $_SESSION['surname']." ".$_SESSION['name'],
     ));
