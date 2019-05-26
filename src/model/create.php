@@ -53,7 +53,7 @@ if(empty($_POST)){
 
             $retourCreate = $user->createUser($cr_name, $cr_firstname, $cr_mail, $cr_password, $cr_enterprise_name, $cr_siret, $cr_city, $cr_iban, $cr_phone);
             // tester ici s'il y a eu une duplicate entry sur le mail
-            if ($retourCreate == 'DUPLICATEMAIL') {
+            if ($retourCreate == 'DUPLICATE_REC') {
                 echo "<pre>DUPLICATE MAIL</pre>";
                 error_log("model create.php : DUPLICATE MAIL sur appel createUser");
             }

@@ -28,17 +28,10 @@
 	<section>
 		<h2>Les différents compétences</h2>
 
-		<form role="form" method="POST">
 			<div class="user">
 			{{ list | raw }}
-			<button type="submit" name="submit" class="btn btn-primary">Rechercher</button>
 			</div>
 
-		</form>
-
-		<div class="freelances">
-			{{ users | raw }}
-		</div>
 	</section>
 
 {% endblock %}

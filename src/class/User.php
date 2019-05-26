@@ -42,8 +42,6 @@ class User
 
     function userBySkills($ubs_listskill)
     {
-
-
         $requete_cherche_f =   "SELECT DISTINCT j.id_user, j.name, j.firstname, j.enterprise_name , j.city  FROM 
                               (
                                 SELECT  u.id_user, u.name, u.firstname, u.enterprise_name, u.city , us.id_skill
@@ -157,7 +155,7 @@ class User
             if ($erreur_insert['0'] == '23000'){
                // $disp_error=$erreur_insert['2'];
                 //echo "une erreur est survenue lors de l'insertion $disp_error";
-                return "DUPLICATEMAIL";
+                return "DUPLICATE_REC";
             }
 
            print_r($req->errorInfo());

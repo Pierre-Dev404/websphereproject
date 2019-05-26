@@ -58,7 +58,6 @@ else{
     array('title' => 'Accueil',
     'assets_front' => 'assets/front/',
         'list' =>$listskill,
-        'users' => $usersbyskill
     ));
 }
 

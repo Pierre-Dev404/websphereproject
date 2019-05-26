@@ -141,7 +141,6 @@ input, textarea, select, option {
 }
 .free{
     width:30%;
-
     text-align:center;
     border: 1px solid black;
     margin-bottom:10px;
@@ -149,9 +148,6 @@ input, textarea, select, option {
 }
 .free p {
     color:white;
-}
-.user{
-    display:flex;
 }
 form{
     margin-bottom:10px;
@@ -348,5 +344,30 @@ fieldset {
     width:45%;
     text-align:center;
     background-color:lightgrey;
+}
+.projetselect{
+    width:40%;
+    text-align: left;
+}
+.user{
+   display:flex;
+    flex-direction:row;
+}
+.form-checkbox{
+    display:flex;
+    justify-content:space-around;
+    margin-right:50%;
+}
+.free-dash{
+    width:33%;
+    text-align:center;
+    border: 1px solid black;
+    margin-bottom:10px;
+    background-color: #3E4E85;
+}
+.form-dashb{
+    display:flex;
+    justify-content:space-around;
+
 }
 /* end css dashboard client */

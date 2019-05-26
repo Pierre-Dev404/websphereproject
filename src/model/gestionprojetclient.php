@@ -30,14 +30,19 @@ if (!empty($_POST))
 
     if ( $_SESSION['nm_idProjectStatus'] = 1 ) {
         // $nm_id_project_status = 1
+        error_log("model/gestionprojetclient.php : A chaque fois  on cree un formulaire de recherche Freelance");
         error_log("model/gestionprojetclient.php : Le project status est a 1  on cree un formulaire de recherche Freelance");
 
         $resultskill = new Skill ($bdd);
         $skill = $resultskill->getSkills();
-        $listskill = '<form role="form" method="post" action="?p=gestionprojetC">';
+        $listskill = '
+             <h2> Rechercher un freelance</h2>
+            <form role="form" class="form-checkbox" method="post" action="?p=gestionprojetC">';
         foreach ($skill as $element) {
             $listskill .= '
+            <div class="user-checkbox">
                 <input class="user" type="checkbox" name="user_skill[]" value=' . $element['id_skill'] . ' />' . $element['name'] . '<br>
+            </div>
                 ';
 
         }
@@ -56,7 +61,7 @@ if (!empty($_POST))
 
         // DASHBOARD CLIENT
         // isset($_POST['nm_id_project'])
-        error_log("model/gestionprojetclient.php : On est appelle depuis le dashboard client");
+        error_log("model/gestionprojetclient.php : On a du POST nm_id_project , on est appelle depuis le dashboard client");
         // on arrive depuis le dashboard client
         // Les donnees POST ne sont as issues du formulaire en cours
         // On gere comme le empty($_POST) des autres formulaires
@@ -88,13 +93,22 @@ if (!empty($_POST))
             $result = $type->UserBySkills($fl_listskill);
             error_log("model/gestionprojetclient.php : On a recupere la liste des users en fonction de leurs competences");
             error_log("model/gestionprojetclient.php : On genere le formulaire de choix des Freelance");
+
+
+
             $nm_usersbyskill = '<form role="form" method="post"  action="?p=gestionprojetC"> ';
+            $nm_usersbyskill = '<div class="form-dashb"> ';
             if (!empty($result)) {
                 // !empty($result)
+                $project = new Project ($bdd);
+                $id_project= $_SESSION['$nm_id_project'];
+                $alreadyAssignedFreelances = $project->getAllAssignedFreelancesByIdProject($id_project);
+                //var_dump($alreadyAssignedFreelances);
                 foreach ($result as $freelance) {
                     // foreach ($result as $freelance)
-                    $nm_usersbyskill .= '
-                        <div class="free">
+                    if (!in_array($freelance['id_user'],$alreadyAssignedFreelances)) {
+                        $nm_usersbyskill .= '
+                        <div class="free-dash">
                         Choisir <input class="user" type="checkbox" name="freelance_check[]" value=' . $freelance['id_user'] . ' /> <br>
                         <p>' . $freelance['id_user'] . '</p>
                         <p>' . $freelance['name'] . '</p>
@@ -103,7 +117,9 @@ if (!empty($_POST))
                         <p>' . $freelance['city'] . '</p>
                         </div>
                         ';
+                    }
                 }
+                $nm_usersbyskill .= '</div>';
                 $nm_usersbyskill .= '<button type="submit" name="choixF" class="btn btn-primary">Selectionner Freelances</button>';
                 $nm_usersbyskill .= '</form>';
                 $_SESSION['nm_userbyskill'] = $nm_usersbyskill;
@@ -112,9 +128,23 @@ if (!empty($_POST))
             error_log("model/gestionprojetclient.php : On n' est PAS appelle depuis formulaire cherche freelance par user_skill");
             if (isset($_POST['freelance_check'])) {
                 error_log("model/gestionprojetclient.php : On est appelle depuis formulaire CHOIX freelance");
-                $checkboxes = isset($_POST['freelance_check']) ? $_POST['freelance_check'] : array();
-                foreach($_POST['freelance_check'] as $value) {
-                    error_log("model/gestionprojetclient.php : Freelance check $value");
+
+                if (isset($_POST['freelance_check'])) {
+                    $checkboxes = $_POST['freelance_check'];
+                } else {
+                    $checkboxes = array();
+                }
+
+                $project = new Project ($bdd);
+                $id_project= $_SESSION['$nm_id_project'];
+
+                foreach( $checkboxes as $value_id_freelance) {
+                    $id_freelance = $value_id_freelance;
+                    $result = $project->assignProject($id_project, $id_freelance);
+                    //$_SESSION['$nm_id_project']
+                    // TRAITEMENT des Freelances selectionnes
+                    error_log("model/gestionprojetclient.php : Freelance check $value_id_freelance");
+                    error_log("model/gestionprojetclient.php : Freelance  $result");
                 }
             }
         }
