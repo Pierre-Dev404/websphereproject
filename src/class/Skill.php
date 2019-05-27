@@ -47,7 +47,7 @@ class Skill
     {
         foreach ($is_skill as $type) {
             error_log("La valeur de type traitee est $type ");
-            $req = $this->_bdd->prepare("INSERT INTO user_skill (id_skill, id_user)
+            $req = $this->_bdd->prepare("INSERT IGNORE INTO user_skill (id_skill, id_user)
                                     VALUES (:id_type, :id_user)");
             if ($req->execute(array(
                 'id_type' => $type,

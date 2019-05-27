@@ -42,6 +42,21 @@ class Project{
         return $req->fetchAll();
     }
 
+    function getProjectProposeToFreelance($gpt_id_user, $gtp_id_project_status){
+
+        $req = $this->_bdd->prepare('SELECT p.id_project, p.title, p.content, p.price FROM project p 
+                                    JOIN work w ON w.id_project = p.id_project
+                                    WHERE w.id_user=:gtp_id_user AND w.id_type = 1 AND p.id_project_status =:gtp_id_project_status');
+
+        $req->bindParam(':gtp_id_user', $gpt_id_user);
+        $req->bindParam(':gtp_id_project_status', $gtp_id_project_status);
+        $req->execute();
+        return $req->fetchAll();
+
+    }
+
+
+
     //Obtention de la liste de tous les projets par id user
     function geAllProjectsByIdUser($gp_id){
 
@@ -49,10 +64,33 @@ class Project{
                                         FROM project p 
                                         JOIN work w ON w.id_project = p.id_project
                                         JOIN project_status ps ON ps.id_project_status = p.id_project_status
-                                        WHERE w.id_user = :id_user');
+                                        WHERE w.id_user = :id_user AND id_type=2');
             $req->bindParam(':id_user', $gp_id);
             $req->execute();
         return $req->fetchAll();
+    }
+
+    function acceptProjectandDeleteOtherFl($apd_id_user, $apd_id_project){
+        error_log("Classe Project,methode acceptProjectandDeleteOtherFl : le id_user est $apd_id_user");
+        error_log("Classe Project,methode acceptProjectandDeleteOtherFl : le id_project  est $apd_id_project");
+        $DBG_requete="UPDATE project SET id_project_status = 2 WHERE id_project =$apd_id_project";
+        error_log("Classe Project,methode acceptProjectandDeleteOtherFl : premiere requete :  $DBG_requete");
+        $req = $this->_bdd->prepare('UPDATE project SET id_project_status = 2 WHERE id_project =:id_project');
+        $req->bindParam(':id_project', $apd_id_project);
+        $req->execute();
+
+        $DBG_requete="DELETE w
+                                        FROM work w 
+                                        JOIN project p ON p.id_project = w.id_project
+                                        WHERE w.id_user !=$apd_id_user AND w.id_type = 1";
+        error_log("Classe Project,methode acceptProjectandDeleteOtherFl : deuxieme requete :  $DBG_requete");
+        $req = $this->_bdd->prepare("DELETE w
+                                        FROM work w 
+                                        JOIN project p ON p.id_project = w.id_project
+                                        WHERE w.id_user !=:apd_id_user AND w.id_type = 1");
+        $req->bindParam(':apd_id_user', $apd_id_user);
+        $req->execute();
+        error_log("Classe Project,methode acceptProjectandDeleteOtherFl : SORTIE !!");
     }
 
     //creation d'un projet

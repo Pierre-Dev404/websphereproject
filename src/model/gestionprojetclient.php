@@ -96,8 +96,8 @@ if (!empty($_POST))
 
 
 
-            $nm_usersbyskill = '<form role="form" method="post"  action="?p=gestionprojetC"> ';
-            $nm_usersbyskill = '<div class="form-dashb"> ';
+            $nm_usersbyskill = '<form role="form" method="post"> ';
+            $nm_usersbyskill .= '<div class="form-dashb"> ';
             if (!empty($result)) {
                 // !empty($result)
                 $project = new Project ($bdd);
@@ -146,6 +146,7 @@ if (!empty($_POST))
                     error_log("model/gestionprojetclient.php : Freelance check $value_id_freelance");
                     error_log("model/gestionprojetclient.php : Freelance  $result");
                 }
+                header('location: ?p=dashboardC');
             }
         }
     }

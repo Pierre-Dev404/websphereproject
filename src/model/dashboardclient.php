@@ -114,7 +114,7 @@ if(!empty($_POST)) {
         $crP_end_date = $_POST['end_date'];
         $crP_price = $_POST['price'];
         $crP_content = $_POST['content'];
-
+        // On arrive du formulaire de creation de projet
 
         error_log("model home.php : instanciation objet Project ");
         $project = new Project($bdd);
@@ -126,6 +126,7 @@ if(!empty($_POST)) {
     } else {
         if (!empty($_POST['nm_id_project'])) {
             // On gere le projet sur lequel on a clique
+            // rien a faire, on est parti sur la page de gestion du projet
 
 
         }
