@@ -1,4 +1,5 @@
 <?php
+error_log("model home.php : ENTREE");
 $formulaire_client = "";
 $formulaire_creation_projet = "";
 $menuclientorfreelance="";

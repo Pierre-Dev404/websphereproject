@@ -60,6 +60,35 @@ if (isset($_SESSION['Freelance'])) {
     }
 
 
+
+
+    error_log("model dashboardfreelance.php : Appel getProjectProposeToFreelance");
+    $myproject= new Project($bdd);
+    $id_user=$_SESSION['id'];
+    $resultgetprojectaccepted = $myproject->getProjectProposeToFreelance($id_user, '2');
+    // var_dump($resultgetproject);
+    $mesprojetsacceptes="";
+    foreach($resultgetprojectaccepted as $elementprojectaccept){
+        $mesprojetsacceptes .= '
+<div class="allproject">
+        <p> TITRE ' . $elementprojectaccept['title'] . '</p>
+        <p> PRIX ' . $elementprojectaccept['price'] . '</p>
+        <p> IDP ' . $elementprojectaccept['id_project'] . '</p>
+        <p> DATE DEBUT ' . $elementprojectaccept['content'] . '</p>
+        
+        <form role="form" method="post">
+            <input  type="hidden" name="acpt_id_project" value="'. $elementprojectaccept['id_project'].'">
+            <button type="submit">Declarer le projet terminé</button>     
+        </form>
+</div>
+        ';
+
+    }
+
+
+   
+
+
 }
 if(!empty($_POST)) {
     error_log("model dashboardfreelance.php : Le POST n'est pas vide mais c'est peut etre le POST user_skill");

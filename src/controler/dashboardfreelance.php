@@ -8,5 +8,6 @@ echo $twig->render('dashboardFreelance.html',
     array('title' => 'Dashboard Freelance',
         'comp_freelance' => $form_insert_skill,
         'projet_propose' => $mesprojetsproposes,
+        'projet_accept' => $mesprojetsacceptes,
         'name' => $_SESSION['surname']." ".$_SESSION['name'],
     ));

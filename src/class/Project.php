@@ -57,15 +57,30 @@ class Project{
 
 
 
+    function terminateProject($apd_id_user, $apd_id_project)
+    {
+        error_log("Classe Project,methode acceptProjectandDeleteOtherFl : le id_user est $apd_id_user");
+        error_log("Classe Project,methode acceptProjectandDeleteOtherFl : le id_project  est $apd_id_project");
+        $DBG_requete = "UPDATE project SET id_project_status = 2 WHERE id_project =$apd_id_project";
+        error_log("Classe Project,methode acceptProjectandDeleteOtherFl : premiere requete :  $DBG_requete");
+        $req = $this->_bdd->prepare('UPDATE project SET id_project_status = 3 WHERE id_project =:id_project');
+        $req->bindParam(':id_project', $apd_id_project);
+        $req->execute();
+    }
+
+
+
+
     //Obtention de la liste de tous les projets par id user
-    function geAllProjectsByIdUser($gp_id){
+    function geAllProjectsByIdUser($gp_id, $gp_id_type){
 
             $req = $this->_bdd->prepare('SELECT p.id_project , p.title, p.start_date, p.end_date, p.price, p.content, p.id_project_status as idProjectStatus, ps.status as status_name
                                         FROM project p 
                                         JOIN work w ON w.id_project = p.id_project
                                         JOIN project_status ps ON ps.id_project_status = p.id_project_status
-                                        WHERE w.id_user = :id_user AND id_type=2');
+                                        WHERE w.id_user = :id_user AND id_type=:id_type_user');
             $req->bindParam(':id_user', $gp_id);
+        $req->bindParam(':id_type_user', $gp_id_type);
             $req->execute();
         return $req->fetchAll();
     }
@@ -109,7 +124,10 @@ class Project{
             $req->bindParam(':content', $cr_content);
             $req->bindParam(':id_project_status', $status_initial_projet);
 
-            $req->execute();
+            $result_insert_project=$req->execute();
+            $erreur_insert_project=$req->errorInfo() ;
+            error_log("Classe Project,methode createProject : le result_insert_project est $result_insert_project");
+            error_log("Classe Project,methode createProject : le erreur_insert_project est $erreur_insert_project");
             //On recupère l'ID du dernier projet inseré
             $lastId = $this->_bdd->lastInsertId();
             $ID_TYPE=$_SESSION['Client'];

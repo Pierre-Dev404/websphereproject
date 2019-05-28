@@ -8,6 +8,9 @@
 error_log("model/gestionprojetclient.php : Entree script");
 if (!empty($_POST))
 {
+
+
+
     // !empty($_POST)
 
     /*
@@ -25,13 +28,18 @@ if (!empty($_POST))
 
 
     // On construit  le formulaire de recherche de Freelance
-    // si le projet est a l'etat 1
+    // la condition est que  le projet soit a l'etat 1
     // On le fait a chaque fois pas seulement quand on arrive de dashboard client
 
-    if ( $_SESSION['nm_idProjectStatus'] = 1 ) {
+    $listskill = 'vide pas de liste skill'; // Evite erreur dans controleur si valeur non pertinente dans contexte
+    // if (xx $_SESSION xx ['nm_idProjectStatus'] xx = xx 1 ) {   ... 2 erreurs dans cette ligne !!!
+
+    /* MIGRE EN FIN DE PAGE
+    if ( $_SESSION['nm_idProjectStatus'] == 1 ) {
         // $nm_id_project_status = 1
-        error_log("model/gestionprojetclient.php : A chaque fois  on cree un formulaire de recherche Freelance");
-        error_log("model/gestionprojetclient.php : Le project status est a 1  on cree un formulaire de recherche Freelance");
+        var_dump($_POST);
+        error_log("model/gestionprojetclient.php : A chaque fois  on cree un formulaire de recherche Freelance si project status est a 1");
+
 
         $resultskill = new Skill ($bdd);
         $skill = $resultskill->getSkills();
@@ -50,7 +58,8 @@ if (!empty($_POST))
         $listskill .= '</form>' ;
         error_log("model/gestionprojetclient.php : Le project status est a 1  formulaire de recherche Freelance : $listskill");
         // FIN $nm_id_project_status = 1 ( voir plus tard or $nm_id_project_status = 2 )
-    }
+    } else { var_dump($_SESSION) ;}
+    */
 
 
     error_log("model/gestionprojetclient.php : On va tester si on a du POST nm_id_project qui signifie on est appelle depuis le dashboard client");
@@ -63,8 +72,10 @@ if (!empty($_POST))
         // isset($_POST['nm_id_project'])
         error_log("model/gestionprojetclient.php : On a du POST nm_id_project , on est appelle depuis le dashboard client");
         // on arrive depuis le dashboard client
-        // Les donnees POST ne sont as issues du formulaire en cours
+        // Les donnees POST sont issues du DASHBOARD CLIENT
         // On gere comme le empty($_POST) des autres formulaires
+        // On sauvegarde les POST pour reafficher a chaque fois le recapitulatif Projet
+        // Sinon le controler n'aurait plus les donnéess lors des autres appels
         $_SESSION['$nm_id_project'] = $_POST['nm_id_project'];
         $_SESSION['nm_title'] = $_POST['nm_title'];
         $_SESSION['nm_start_date'] = $_POST['nm_start_date'];
@@ -150,9 +161,46 @@ if (!empty($_POST))
             }
         }
     }
-    /* On a des donnees envoyees par le formulaire
-    * de recherche de Freelance
-    */
+
+    /*
+     * MIGRE DEPUIS LE DEBUT DE PAGE
+     * pour que $_SESSION['nm_idProjectStatus'] soit valorise dans if (isset($_POST['nm_id_project']))
+     */
+    if ( $_SESSION['nm_idProjectStatus'] == 1 ) {
+        // $nm_id_project_status = 1
+        //var_dump($_POST);
+        /*
+         * On affiche le formulaire de recherche Freelance a chaue afficahge de la page
+         * si le project status est a 1
+         * ...contrairement aux autres formulaires dont l'affichage depend du contexte d'appel
+         */
+        error_log("model/gestionprojetclient.php : A chaque affichage de la page  on cree un formulaire de recherche Freelance si project status est a 1");
+
+
+        $resultskill = new Skill ($bdd);
+        $skill = $resultskill->getSkills();
+        $listskill = '
+             <h2> Rechercher un freelance</h2>
+            <form role="form" class="form-checkbox" method="post" action="?p=gestionprojetC">';
+        foreach ($skill as $element) {
+            $listskill .= '
+            <div class="user-checkbox">
+                <input class="user" type="checkbox" name="user_skill[]" value=' . $element['id_skill'] . ' />' . $element['name'] . '<br>
+            </div>
+                ';
+
+        }
+        $listskill .= '<button type="submit"> Rechercher </button>' ;
+        $listskill .= '</form>' ;
+        error_log("model/gestionprojetclient.php : Le project status est a 1  formulaire de recherche Freelance : $listskill");
+        // FIN $nm_id_project_status = 1 ( voir plus tard or $nm_id_project_status = 2 )
+    } else {
+        error_log("model/gestionprojetclient.php : project status est different de 1");
+        // Ici on peut traiter un revocation
+    }
+
+
+
 // fin !empty($_POST)
 } else {
     //ALT !empty($_POST)

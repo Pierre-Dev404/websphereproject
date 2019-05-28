@@ -4,12 +4,13 @@
 
 // Les traitements qui suivent sont executes qu'il y ait des donnees POST ou non !!
 
-
+error_log("model dashboardclient.php : ENTREE");
 // Formulaire de création de projet
 // On (re)affiche le formulaire de creation de projet dans tous les cas
 
 $menuclientorfreelance="<ul>";
 if (isset($_SESSION['Client'])) {
+    error_log("model dashboardclient.php : Session client is set");
     $menuclientorfreelance .= '
 
         <li><a href="/websphereProject/src/?p=dashboardC">Dashboard client</a></li>
@@ -37,8 +38,7 @@ if (isset($_SESSION['Client'])) {
                         </div>
                         <div class="form-group">
                             <label>Prix</label>
-                            <input class="inputcss" type="text" name="price" class="form-control" id="price" placeholder=""
-                                   required>
+                            <input class="inputcss" type="text" name="price" class="form-control" id="price" placeholder="" required>
                         </div>
                         <div class="form-group">
                             <label for="enterprise_name">Contenu</label>
@@ -56,7 +56,7 @@ if (isset($_SESSION['Client'])) {
 
     $myproject= new Project($bdd);
     $id=$_SESSION['id'];
-    $result = $myproject->geAllProjectsByIdUser($id);
+    $result = $myproject->geAllProjectsByIdUser($id, '2');
     $mesprojets="";
     foreach($result as $element){
         $mesprojets .= '
@@ -66,7 +66,7 @@ if (isset($_SESSION['Client'])) {
         <p> DATE DEBUT ' . $element['start_date'] . '</p>
         <p>DATE FIN ' . $element['end_date'] . '</p>
         <p>PRIX ' . $element['price'] . '</p>
-        <p>AVANCEMENT ' . $element['status_name'] . '</p>
+        <p>AVANCEMENT ' . $element['status_name'] . ' / ' . $element['idProjectStatus']. '</p>
         
         <form role="form" method="post" action="?p=gestionprojetC">
             <input  type="hidden" name="nm_id_project" value="'. $element['id_project'].'">
@@ -76,7 +76,7 @@ if (isset($_SESSION['Client'])) {
             <input  type="hidden" name="nm_price" value="'. $element['price'].'">
             <input  type="hidden" name="nm_content" value="'. $element['content'].'">
             <input  type="hidden" name="nm_status_name" value="'. $element['status_name'].'">
-            <input  type="text" name="nm_idProjectStatus" value="'. $element['idProjectStatus'].'">
+            <input  type="hidden" name="nm_idProjectStatus" value="'. $element['idProjectStatus'].'">
             <button type="submit">Gérer votre projet</button>  
         </form>
 </div>
@@ -93,6 +93,7 @@ if (isset($_SESSION['Client'])) {
 
 
 if(!empty($_POST)) {
+    error_log("model dashboardclient.php : POST NON VIDE");
 
     /*
         *  Il a des donnes POST envoyees par un formulaire
@@ -116,24 +117,27 @@ if(!empty($_POST)) {
         $crP_content = $_POST['content'];
         // On arrive du formulaire de creation de projet
 
-        error_log("model home.php : instanciation objet Project ");
+        error_log("model dashboardclient.php : instanciation objet Project ");
         $project = new Project($bdd);
-        error_log("model home.php : appel methode createProject de Project ");
+        error_log("model dashboardclient.php : appel methode createProject de Project ");
         $result = $project->createProject($crP_title, $crP_content, $crP_start_date, $crP_end_date, $crP_price);
-        error_log("model home.php : Sortie de methode createProject de Project ");
-        error_log("model create.php : SORTIE CONNEXION APRES CREATION PROJET");
+        error_log("model dashboardclient.php : Sortie de methode createProject de Project ");
+        error_log("model dashboardclient.php : SORTIE CONNEXION APRES CREATION PROJET");
 
     } else {
+        error_log("model dashboardclient.php : TOUS LES CHAMPS N'ONT PAS ETE SAISIS");
         if (!empty($_POST['nm_id_project'])) {
             // On gere le projet sur lequel on a clique
             // rien a faire, on est parti sur la page de gestion du projet
+
 
 
         }
 
     }
 
-    //$msg = "Tous les champs ne sont pas remplis";
+    //
+
 }
 
     if (isset($_SESSION['Freelance'])) {
