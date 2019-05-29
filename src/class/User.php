@@ -13,6 +13,7 @@ class User
     private $_verifyPass;
     private $_bdd;
 
+
     function __construct($bdd, $id = null)
     {
         $this->_bdd = $bdd;
@@ -84,26 +85,56 @@ class User
             return $result;
     }
 
-    function userBySkillsBAD()
+    function getConctactInfoFromClient($ci_id_project)
     {
-        $result=array();
-        foreach ($_POST['user_skill'] as $type) {
-            $req = $this->_bdd->prepare("SELECT u.name, u.firstname, u.enterprise_name, u.city
-                                    FROM users u 
-                                    JOIN user_skill us on u.id_user = us.id_user
-                                    JOIN skill s on s.id_skill = us.id_skill
-                                    WHERE us.id_skill=:skill
+            $req = $this->_bdd->prepare("SELECT u.mail, u.phone, w.id_type FROM work w
+                                        JOIN project p ON w.id_project = p.id_project
+                                        JOIN users u ON u.id_user = w.id_user
+                                        WHERE w.id_project=:ci_id_project and w.id_type = 2
                                       ");
-            if ($req->execute(array(
-                'skill' => $type,
-            ))) ;
-            $resultn = $req->fetchAll();
-            $result= array_merge($result, $resultn );
-
-        }
+           /* $DBG_req="SELECT u.mail, u.phone FROM work w
+                                        JOIN project p ON w.id_project = p.id_project
+                                        JOIN users u ON u.id_user = w.id_user
+                                        WHERE w.id_project=$ci_id_project and w.id_type = 2
+                                      "; */
+        //error_log("User.php, methode getConctactInfoFromFreelance : requete $DBG_req ");
+                    $req->bindParam(':ci_id_project', $ci_id_project);
+                    $req->execute();
+                    $result = $req->fetch();
+        //var_dump($result);
 
         return $result;
+
     }
+
+    function getConctactInfoFromFreelance($ci_id_project)
+    {
+        $req = $this->_bdd->prepare("SELECT u.mail, u.phone, w.id_type FROM work w
+                                        JOIN project p ON w.id_project = p.id_project
+                                        JOIN users u ON u.id_user = w.id_user
+                                        WHERE w.id_project=:ci_id_project and w.id_type = 1
+                                      ");
+        /* $DBG_req="SELECT u.mail, u.phone FROM work w
+                                     JOIN project p ON w.id_project = p.id_project
+                                     JOIN users u ON u.id_user = w.id_user
+                                     WHERE w.id_project=$ci_id_project and w.id_type = 2
+                                   "; */
+        //error_log("User.php, methode getConctactInfoFromFreelance : requete $DBG_req ");
+        $req->bindParam(':ci_id_project', $ci_id_project);
+        $req->execute();
+        $result = $req->fetch();
+        //var_dump($result);
+
+        return $result;
+
+    }
+
+
+
+
+
+
+
 
     function getAllFreelance()
     {
@@ -233,27 +264,6 @@ class User
             }
         }
 
-
-        /*function getAllTypes()
-        {
-            error_log("User.php, methode getAllTypes : entree dans la fonction ");
-            $listeDesTypesUtilisteur=$this->_bdd->query('SELECT id_type, name FROM type');
-            foreach  ($listeDesTypesUtilisteur as $typeExistant) {
-                $nameTypeExistant[]= array($typeExistant['id_type'],$typeExistant['name']);
-                error_log("User.php, methode getAllTypes : Element ajoute");
-
-
-            }
-
-            return($nameTypeExistant) ;
-
-        }
-        */
-
-
-
-
-
         function connexion($mail, $password)
         {
             $req = $this->_bdd->prepare('SELECT id_user, name, firstname, mail, password, enterprise_name, siret, city, iban, phone FROM users WHERE mail= :mail');
@@ -305,16 +315,12 @@ class User
                     #$listUserTypeOfUser = $req->fetchall();
 
 
-
-
-
                     # On recherche tous les types d'utilisateur de l'utilisateur qui vient de se connecter
                     # pour lui attribuer ses types utilisateur (etape qui suit)
                     $req = $this->_bdd->prepare('SELECT t.id_type, t.name FROM type AS t join user_type AS ut ON t.id_type=ut.id_type WHERE ut.id_user= :utilisateur');
                     $req->bindParam(':utilisateur', $checkMail['id_user']);
                     $req->execute();
                     $listUserTypeOfUser = $req->fetchall();
-
 
                     # Puis on positionne pour l'utilisateur les types utilisateur qui lui sont attribues
                     # Freelance, Client (plusieurs types sont autorises pour un meme utilisateur)
@@ -346,20 +352,5 @@ class User
         }
 }
 
-// $user = new User ($bdd);
-// //$user->createUser('yoyo','asticot','yoastico@gmail.com','papayoyo','img.pjg',3,3);
-// //$user->updateUser(8,'name','firstname','mail','avatar',1,2);
-// //$user->deleteUser(7);
-// //$user->passChange(9, 'papayoyo', 'papayoyo');
-// //$test = $user->connexion('yoastico@gmail.com','papayoyo');
-
-// //$result = $user->getUser(9);
-// $result = $user->getAllUser();
-
-// echo '<pre>';
-// //print_r($test);
-// echo '<br>';
-// print_r($result);
-// echo '</pre>';
 
 

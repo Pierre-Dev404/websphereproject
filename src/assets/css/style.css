@@ -239,6 +239,7 @@ fieldset {
 }
 
 #contact input[type="text"],
+#contact input[type="number"],
 #contact input[type="email"],
 #contact input[type="date"],
 #contact input[type="url"],
@@ -255,6 +256,7 @@ fieldset {
 #contact input[type="email"]:hover,
 #contact input[type="date"]:hover,
 #contact input[type="url"]:hover,
+#contact input[type="number"]:hover,
 #contact input[type="password"]:hover,
 #contact textarea:hover {
     -webkit-transition: border-color 0.3s ease-in-out;
@@ -320,7 +322,7 @@ fieldset {
 /* end css formulaire connexion */
 
 
-/* css dashboard client */
+/* css dashboard client et freelance */
 .containerdashC{
     width:100%;
     display:flex;
@@ -368,6 +370,13 @@ fieldset {
 .form-dashb{
     display:flex;
     justify-content:space-around;
-
 }
+input{
+    text-align:left;
+}
+input[type=checkbox] {
+    display:inline-block;
+    width:100%;
+}
+
 /* end css dashboard client */

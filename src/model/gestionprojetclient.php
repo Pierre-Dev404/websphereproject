@@ -6,6 +6,29 @@
  * Time: 15:42
  */
 error_log("model/gestionprojetclient.php : Entree script");
+
+
+$menuclientorfreelance="<ul>";
+if (isset($_SESSION['Freelance'])) {
+    error_log("model dashboardfreelance.php : ON EST BIEN FREELANCE");
+    $menuclientorfreelance .= '
+
+        <li><a href="/websphereProject/src/?p=dashboardC">Dashboard client</a></li>
+    
+       ';
+}
+
+if (isset($_SESSION['Freelance'])) {
+    $menuclientorfreelance .= '
+
+        <li><a href="/websphereProject/src/?p=dashboardF">Dashboard freelance</a></li>
+        ';
+
+}
+
+
+
+
 if (!empty($_POST))
 {
 
@@ -31,7 +54,7 @@ if (!empty($_POST))
     // la condition est que  le projet soit a l'etat 1
     // On le fait a chaque fois pas seulement quand on arrive de dashboard client
 
-    $listskill = 'vide pas de liste skill'; // Evite erreur dans controleur si valeur non pertinente dans contexte
+    $listskill = ''; // Evite erreur dans controleur si valeur non pertinente dans contexte
     // if (xx $_SESSION xx ['nm_idProjectStatus'] xx = xx 1 ) {   ... 2 erreurs dans cette ligne !!!
 
     /* MIGRE EN FIN DE PAGE
@@ -63,7 +86,8 @@ if (!empty($_POST))
 
 
     error_log("model/gestionprojetclient.php : On va tester si on a du POST nm_id_project qui signifie on est appelle depuis le dashboard client");
-    $nm_userbyskill = 'init';
+    $nm_userbyskill = '';
+    $acceptorrefuse='';
     $_SESSION['nm_userbyskill'] = $nm_userbyskill;
     if (isset($_POST['nm_id_project'])) {
         // isset($_POST['nm_id_project'])
@@ -167,6 +191,7 @@ if (!empty($_POST))
      * pour que $_SESSION['nm_idProjectStatus'] soit valorise dans if (isset($_POST['nm_id_project']))
      */
     if ( $_SESSION['nm_idProjectStatus'] == 1 ) {
+        $acceptorrefuse='';
         // $nm_id_project_status = 1
         //var_dump($_POST);
         /*
@@ -194,11 +219,42 @@ if (!empty($_POST))
         $listskill .= '</form>' ;
         error_log("model/gestionprojetclient.php : Le project status est a 1  formulaire de recherche Freelance : $listskill");
         // FIN $nm_id_project_status = 1 ( voir plus tard or $nm_id_project_status = 2 )
-    } else {
-        error_log("model/gestionprojetclient.php : project status est different de 1");
-        // Ici on peut traiter un revocation
-    }
+    } elseif ( $_SESSION['nm_idProjectStatus'] == 3 ) {
+        $nm_userbyskill ='';
+        $listskill='';
 
+
+        $resultskill = new Project ($bdd);
+        $acceptorrefuse = '
+             <h2> Valider le projet ou refuser </h2>
+            <form role="form" class="form-checkbox" method="post" action="?p=gestionprojetC">';
+
+        $acceptorrefuse .= '
+            <div class="user-checkbox">
+                
+                
+                <input class="user" type="radio" name="acpt_refuse_project" value="acpt_project" checked/> Accepter <br>
+                <input class="user" type="radio" name="acpt_refuse_project" value="refuse_project"/> Refuser <br>
+                <button type="submit"> Valider </button>
+            </div>
+                ';
+    }
+    if(isset($_POST['acpt_refuse_project'])) {
+
+        // On vient du formulaire acpt_or_refuse project
+        if ($_POST['acpt_refuse_project'] == 'acpt_project') {
+            $resultacpt_project = new Project ($bdd);
+            $id_project_accepted = $_SESSION['$nm_id_project'];
+            $acpt_project = $resultacpt_project->validateTerminateProject($id_project_accepted);
+
+
+        } else {
+            $resultrefuse_project = new Project ($bdd);
+            $id_project_accepted = $_SESSION['$nm_id_project'];
+            $refuse_project = $resultrefuse_project->refuseDelivery($id_project_accepted);
+        }
+        header('location:?p=dashboardC');
+    }
 
 
 // fin !empty($_POST)

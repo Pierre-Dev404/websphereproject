@@ -12,21 +12,42 @@
         <li><a href="/websphereProject/src/?p=deconnexion"> Deconnexion de {{ name }} </a></li>
     </ul>
 
+   {{ menu_c_or_f | raw }}
 
 </header>
 {% endblock %}
 
 
 {% block content %}
-<form role="form" method="post">
-{{ comp_freelance | raw }}
-    <button type="submit" class="btn btn-primary">Ajouter des compétences</button>
-</form>
 
-{{ projet_propose | raw }}
+<div class="containerdashC">
+    <section class="sidebarleft">
+        <form role="form" id="contact" method="post">
+            {{ comp_freelance | raw }}
+            <button type="submit" class="btn btn-primary">Ajouter des compétences</button>
+        </form>
+    </section>
 
+    <section class="sidebarright">
+        <h2>Projets proposés:</h2>
+        {{ projet_propose | raw }}
 
-{{ projet_accept|raw }}
+       {{ pop_up | raw}}
+
+        <h2>Projets acceptés:</h2>
+        {{ projet_accept | raw }}
+        {{ contact_info | raw }}
+
+        <h2>Projets à valider:</h2>
+        {{ projet_a_valider | raw }}
+
+        <h2>Projets terminés:</h2>
+        {{ projet_termine | raw }}
+
+    </section>
+
+</div>
+
 
 {% endblock %}
 

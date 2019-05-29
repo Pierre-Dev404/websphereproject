@@ -12,9 +12,7 @@
         <li><a href="/websphereProject/src/?p=deconnexion"> Deconnexion de {{ name }} </a></li>
     </ul>
 
-    {{ menuclientorfreelance | raw }}
-    <!--  <li><a href="#">Dashboard client</a></li>
-      <li><a href="#">Dashboard freelance</a></li> -->
+    {{ menu_c_or_f | raw }}
 </header>
 {% endblock %}
 
@@ -24,12 +22,16 @@
 
 <div class="projetselect">
     <h2>Vous gérez le projet : {{ nm_title | raw }} </h2>
-<p> TITRE : {{ nm_title | raw }}</p>
-<p> DATE DEBUT {{ nm_start_date | raw }}</p>
-<p>DATE FIN{{ nm_end_date | raw }}</p>
-<p>PRIX {{ nm_price | raw }}'</p>
-<p>CONTENU {{ nm_content | raw }}</p>
-<p>Avancement {{ nm_status_name | raw }}</p>
+    <p> TITRE : {{ nm_title | raw }}</p>
+    <p> DATE DEBUT {{ nm_start_date | raw }}</p>
+    <p>DATE FIN{{ nm_end_date | raw }}</p>
+    <p>PRIX {{ nm_price | raw }}'</p>
+    <p>CONTENU {{ nm_content | raw }}</p>
+    <p>Avancement {{ nm_status_name | raw }}</p>
+</div>
+
+<div class="acceptorrefuse">
+{{ accept_or_refuse | raw }}
 </div>
 
 <div class="form-check">

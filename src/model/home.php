@@ -4,7 +4,6 @@ $formulaire_client = "";
 $formulaire_creation_projet = "";
 $menuclientorfreelance="";
 
-
 if (empty($_POST)) {
 
 

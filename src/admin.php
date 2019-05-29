@@ -8,7 +8,9 @@ $SSID=$_SESSION['id'];
 error_log( "admin.php : session ID $SSID" );
 */
 session_start();
+
 $SSID=$_SESSION['id'];
+error_log( "admin.php :ENTREE" );
 error_log( "admin.php : Apres session start session ID $SSID" );
 
 /*
@@ -41,12 +43,13 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
       $ATTRIBUTS=$ATTRIBUTS."Client";
     }
     //isset = est-ce que la variable est définie ?
+    // Si non positionnée on se redirige vers une page d'accueil
     if (!isset($_GET['p'])) {
       $_GET['p'] = "home";
       $PAGE = $_GET['p'] ;
     } else {
-      $glop=$_GET['p'];
-      error_log( "admin.php : arguments get $glop" );
+      $getArgs=$_GET['p'];
+      error_log( "admin.php : arguments get $getArgs" );
     }
     if (file_exists('controler/'.$_GET['p'].'.php')) {
       error_log("admin.php : Entree dans la page $PAGE, avec le session ID $SSID et attribut $ATTRIBUTS ");
@@ -55,7 +58,7 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
 
 
     } else {
-      echo "admin.php : cette page n'existe pas";
+      echo "<p>admin.php : cette page n'existe pas</p>";
     }
   } else {
     // Traitement du formulaire de connexion
@@ -70,4 +73,5 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
     'message' => $msg));
   }
 
+error_log( "admin.php : FIN" );
 ?>

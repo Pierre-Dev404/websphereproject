@@ -28,6 +28,7 @@ if(empty($_POST)){
          * et appeler la methode createUser qui renverra par une fonction header
          * sur la page admin
         */
+        var_dump($_POST);
         if (!empty($_POST['nom'])
             AND !empty($_POST['prenom'])
             AND !empty($_POST['mail'])
@@ -37,6 +38,10 @@ if(empty($_POST)){
             AND !empty($_POST['city'])
             AND !empty($_POST['phone'])
             AND !empty($_POST['iban'])) {
+
+if (!empty($_POST['enterprise_name'])) {
+    error_log("model create.php : entreprise name n est pas EMPTY !!!!!!");
+}
             $cr_name = $_POST['nom'];
             $cr_firstname = $_POST['prenom'];
             $cr_mail = $_POST['mail'];
@@ -49,6 +54,8 @@ if(empty($_POST)){
 
             // Voir pour passer le user type en parametre plutot que recuperer les donnets dans objet USER
             error_log("model create.php : instanciation objet User ");
+            error_log(print_r($_POST, true));
+
             $user = new User ($bdd);
 
             $retourCreate = $user->createUser($cr_name, $cr_firstname, $cr_mail, $cr_password, $cr_enterprise_name, $cr_siret, $cr_city, $cr_iban, $cr_phone);
@@ -65,6 +72,7 @@ if(empty($_POST)){
             //$msg = "Tous les champs ne sont pas remplis";
         } else {
             $msg = "Tous les champs ne sont pas remplis";
+            error_log("model create.php : Tous les champs de creation utilisateur ne sont pas remplis");
         }
         //penser à vérifier la présence du cnfirm password
 

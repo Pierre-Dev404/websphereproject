@@ -2,6 +2,8 @@
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 
+error_log( "index.php :ENTREE" );
+
 /* Exemple de pagination pour l'url rewriting */
 require('system/init.php');
 
@@ -61,5 +63,7 @@ else{
     ));
 }
 
+// Ne s'affiche pas redirection
+error_log( "index.php :FIN" );
 
 ?>
