@@ -5,6 +5,8 @@
  * Date: 2019-05-30
  * Time: 16:02
  */
+$menuclientorfreelance="";
+$menuclientorfreelance="";
 error_log("model gestionprofil.php : ENTREE");
 
 $menuclientorfreelance="<ul>";
@@ -21,7 +23,7 @@ if (isset($_SESSION['Client'])) {
 if (isset($_SESSION['Freelance'])) {
 
     error_log("model gestionprofil.php : on est Freelance");
-    $menuclientorfreelance="";
+
     $menuclientorfreelance .= '
 
         <li><a href="/websphereProject/src/?p=dashboardF">Dashboard freelance</a></li>

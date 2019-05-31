@@ -7,8 +7,9 @@
 
 
     echo $twig->render('home.html',
-    array('title' => 'HEY',
+    array('title' => 'Accueil connecté',
     'assets' => 'assets/',
+       'titre_compt' => $titre_comp,
     'name' => $_SESSION['surname']." ".$_SESSION['name'],
     'menuclientorfreelance' => $menuclientorfreelance,
     'buttonF' => $buttonrechercheF,

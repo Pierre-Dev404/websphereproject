@@ -7,8 +7,8 @@
 {% block topbar %}
 <header class="header">
     <ul class="main-nav">
-        <li><a href="#">Websphere</a></li>
-        <li><a href="#">Comment ça marche</a></li>
+        <li><a href="/websphereProject/src/?p=home">Websphere</a></li>
+        <li><a href="/websphereProject/src/?p=gestionprofil">Modifier mon profil</a></li>
         <li><a href="/websphereProject/src/?p=deconnexion">Deconnexion de {{ name }} </a></li>
     </ul>
 
@@ -26,13 +26,21 @@
     {{ buttonF | raw }}
 </section>
 
-<section>
-    {{ rechercheC | raw }}
+<section class="info">
+        <h1> Bienvenue sur le site websphere</h1>
+        <h2> Conseils</h2>
+
+
+        <p> Bonjour, sur notre site vous allez pouvoir rechercher le développeur Freelance qui sarat réaliser au mieux votre projet.</p>
+        <p> Si vous êtes Freelance, nous vous invitons à vous enregistrer comme tel sur notre site.</p>
+        <p> Vous pouvez créer un compte avec à la fois un profil Client et un profil Freelance. </p>
+        <p> En tant que Freelance vous pourrez donc rechercher d'autre profils Freelance afin de sous-traiter un projet</p>
+
 </section>
 
 
-<section>
-
+{{ titre_compt | raw }}
+<section class="list_comp">
 {{ listcomp | raw }}
 </section>
 

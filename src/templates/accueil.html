@@ -9,25 +9,8 @@
 {% endblock %}
 
 {% block content %}
-<!--
-	<section class="choixUser">
-			<div class="choix">
-				<h2>Chercher un professionnel pour votre projet web</h2>
-					<button class="buttonAccueil">
-				<a href="/websphereProject/src/?p=lesfreelances"> Trouver un Freelance </a>
-					</button>
-			</div>
-			<div class="choix">
-				<h2>Vous êtes Freelance ?</h2>
-					<button class="buttonAccueil">
-				<a href=""> Cherche un projet  </a>
-					</button>
-			</div>
-	</section>
 
-	<section>
-	-->
-
+<section class="accueil">
 <h1> Bienvenue sur le site websphere</h1>
 
 <h2> Conseils</h2>
@@ -37,12 +20,14 @@
 <p> Vous pouvez créer un compte avec à la fois un profil Client et un profil Freelance. </p>
 <p> En tant que Freelance vous pourrez donc rechercher d'autre profils Freelance afin de sous-traiter un projet</p>
 
+</section>
 
-		<h2>Les différents compétences disponible sur le site sont les suivantes :</h2>
 
-			<div class="user">
+
+			<section class="list_comp">
+				<h2>Les différents compétences disponible sur le site sont les suivantes :</h2>
 			{{ list | raw }}
-			</div>
+			</section>
 
 <br><br><br> <b><p>Pour pouvoir accéder aux fonctionnalités de ce site, veuillez vous connecter après avoir le cas échéant créé votre profil</p></b>
 

@@ -16,6 +16,7 @@ ul {
 
 h1, h2, h3, h4{
     font-family: 'Lato', sans-serif;
+    color: #C4D1FF;
 }
 
 p, ul, li, label, input, a{
@@ -86,7 +87,7 @@ a, li {
 }
 /* end css footer */
 
-/* css bouton accueil*/
+    /* css bouton accueil connecté */
 .buttonAccueil a{
     font-size:1.5em;
     color: whitesmoke;
@@ -112,8 +113,69 @@ a, li {
     font-size:1.2em;
     color:white;
 }
+    /* end css bouton accueil connecté*/
 
-/* end css bouton accueil*/
+/* Css accueil connecté */
+
+.info p{
+    text-align:left;
+    margin-left:25%;
+    margin-right:25%;
+}
+.info h1{
+    text-align:center;
+}
+.info h2{
+    text-align:center;
+}
+.info{
+    margin-bottom:50px;
+}
+
+.list_comp{
+    width:50%;
+    margin-left:25%;
+}
+.titre_comp{
+    text-align:center;
+    margin-bottom:50px;
+}
+.list_comp li{
+    width:20%;
+    color:black;
+    text-align:center;
+    padding-bottom:10px;
+
+}
+.list_comp > ul{
+    display:flex;
+    justify-content:space-around;
+    flex-wrap:wrap;
+}
+
+
+/* END Css accueil connecté */
+
+/* Css accueil non connecté */
+.accueil{
+    margin-top:50px;
+    margin-bottom:120px;
+    text-align:center;
+
+}
+.list_comp p{
+
+}
+.list_comp li{
+    color:black;
+}
+
+/* END Css accueil non connecté */
+
+
+
+
+
 
 /* css formulaire */
 .formInscription {
@@ -186,6 +248,7 @@ form{
 }
 
 
+
 /* css formulaire connexion */
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,300,600,400italic);
 * {
@@ -202,8 +265,7 @@ form{
 }
 .container {
     max-width: 400px;
-    width: 100%;
-    margin: 0 auto;
+    margin: 11% auto;
     position: relative;
 }
 
@@ -218,9 +280,9 @@ form{
 }
 
 #contact {
-    background: #F9F9F9;
+    background: white;
     padding: 25px;
-    margin: 50px 0;
+    margin: 50px 30px;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
 
@@ -331,6 +393,20 @@ fieldset {
 
 
 /* css dashboard client et freelance */
+
+button[type="submit"] {
+    cursor: pointer;
+    width: 100%;
+    border: none;
+    background: #3E4E85;
+    color: #FFF;
+    margin: 0 0 5px;
+    padding: 10px;
+    font-size: 15px;
+}
+
+
+
 .containerdashC{
     width:100%;
     display:flex;
@@ -349,6 +425,8 @@ fieldset {
     display:flex;
     flex-wrap:wrap;
     justify-content:space-around;
+    margin-bottom:10px;
+    margin-top:10px;
 }
 .allproject{
     width:45%;

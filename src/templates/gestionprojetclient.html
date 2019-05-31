@@ -7,9 +7,10 @@
 {% block topbar %}
 <header class="header">
     <ul class="main-nav">
-        <li><a href="#">Websphere</a></li>
-        <li><a href="#">Comment ça marche</a></li>
+        <li><a href="/websphereProject/src/?p=home">Websphere</a></li>
+        <li><a href="/websphereProject/src/?p=gestionprofil">Modifier mon profil</a></li>
         <li><a href="/websphereProject/src/?p=deconnexion"> Deconnexion de {{ name }} </a></li>
+
     </ul>
 
     {{ menu_c_or_f | raw }}
@@ -22,12 +23,12 @@
 
 <div class="projetselect">
     <h2>Vous gérez le projet : {{ nm_title | raw }} </h2>
-    <p> TITRE : {{ nm_title | raw }}</p>
-    <p> DATE DEBUT {{ nm_start_date | raw }}</p>
-    <p>DATE FIN{{ nm_end_date | raw }}</p>
-    <p>PRIX {{ nm_price | raw }}'</p>
-    <p>CONTENU {{ nm_content | raw }}</p>
-    <p>Avancement {{ nm_status_name | raw }}</p>
+    <p> Titre: {{ nm_title | raw }}</p>
+    <p> Date de début: {{ nm_start_date | raw }}</p>
+    <p>Date de fin: {{ nm_end_date | raw }}</p>
+    <p>Prix: {{ nm_price | raw }}'</p>
+    <p>Contenu: {{ nm_content | raw }}</p>
+    <p>Avancement: {{ nm_status_name | raw }}</p>
 </div>
 
 <div class="acceptorrefuse">

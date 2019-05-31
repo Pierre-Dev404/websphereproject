@@ -7,9 +7,10 @@
 {% block topbar %}
 <header class="header">
     <ul class="main-nav">
-        <li><a href="#">Websphere</a></li>
-        <li><a href="#">Comment ça marche</a></li>
+        <li><a href="/websphereProject/src/?p=home">Websphere</a></li>
+        <li><a href="/websphereProject/src/?p=gestionprofil">Modifier mon profil</a></li>
         <li><a href="/websphereProject/src/?p=deconnexion"> Deconnexion de {{ name }} </a></li>
+
     </ul>
 
         {{ menuclientorfreelance | raw }}
@@ -24,7 +25,6 @@
         <section class="sidebarleft">
                 <h2>Créer un projet</h2>
                 {{ formprojet | raw }}
-                <h2>Chercher une freelance</h2>
         </section>
 
         <section class="sidebarright">

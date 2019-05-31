@@ -25,18 +25,12 @@ elseif(isset($_GET['p']) AND $_GET['p']=="inscription"){
             'assets_front' => 'assets/front/',
             'message' => "Et on s'inscrit !!!")); */
 }
-elseif(isset($_GET['p']) AND $_GET['p']=="project"){
-    include('controler/project.php');
-}
 elseif(isset($_GET['p']) AND $_GET['p']=="deconnexion"){
     include('controler/deconnexion.php');
     /*echo $twig->render('create.html',
         array('title' => 'Page de creation utilisateur',
             'assets_front' => 'assets/front/',
             'message' => "Et on s'inscrit !!!")); */
-}
-elseif(isset($_GET['p']) AND $_GET['p']=="lesfreelances") {
-    include('controler/userbySkill.php');
 }
 elseif(isset($_GET['p']) AND $_GET['p']=="dashboardC") {
     include('controler/dashboardclient.php');

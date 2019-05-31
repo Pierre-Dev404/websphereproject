@@ -52,14 +52,14 @@ if (isset($_SESSION['Freelance'])) {
         $mesprojetsproposes .= '
 
     <div class="allproject">
-            <p> TITRE ' . $elementproject['title'] . '</p>
-            <p> PRIX ' . $elementproject['price'] . '</p>
-            <p> IDP ' . $elementproject['id_project'] . '</p>
-            <p> DATE DEBUT ' . $elementproject['content'] . '</p>
+            <p> Titre: ' . $elementproject['title'] . '</p>
+            <p> Prix: ' . $elementproject['price'] . '</p>
+            <!-- <p> IDP ' . $elementproject['id_project'] . '</p> -->
+            <p> Date de début ' . $elementproject['content'] . '</p>
             
             <form role="form" method="post">
                 <input  type="hidden" name="gpt_id_project" value="'. $elementproject['id_project'].'">
-                <button type="submit">Accepter le projet</button>     
+                <button class="btn btn-primary" type="submit">Accepter le projet</button>     
             </form>
     </div>
         ';
@@ -102,17 +102,17 @@ if (isset($_SESSION['Freelance'])) {
         $mesprojetsacceptes .='
 
 <div class="allproject">
-        <p> TITRE ' . $elementprojectaccept['title'] . '</p>
-        <p> PRIX ' . $elementprojectaccept['price'] . '</p>
-        <p> IDP ' . $elementprojectaccept['id_project'] . '</p>
-        <p> DATE DEBUT ' . $elementprojectaccept['content'] . '</p> <br>
-        <p> Vous venez d\'accepter le projet : ' . $elementprojectaccept['title'] . ', contactez le client: </p>
-        <p> MAIL ' . $resultcontactinfo['mail'] . '</p>
-        <p> PHONE ' . $resultcontactinfo['phone'] . '</p>
+        <p> Titre: ' . $elementprojectaccept['title'] . '</p>
+        <p> Prix: ' . $elementprojectaccept['price'] . '</p>
+       <!-- <p> IDP ' . $elementprojectaccept['id_project'] . '</p> -->
+        <p> Résumé: ' . $elementprojectaccept['content'] . '</p> <br>
+        <p> Vous venez d\'accepter le projet: ' . $elementprojectaccept['title'] . ', contactez le client: </p>
+        <p> Mail: ' . $resultcontactinfo['mail'] . '</p>
+        <p> Téléphone: ' . $resultcontactinfo['phone'] . '</p>
        
         <form role="form" method="post">
             <input  type="hidden" name="acpt_id_project" value="'. $elementprojectaccept['id_project'].'">
-            <button name="popup" type="submit">Declarer le projet terminé</button>     
+            <button  class="btn btn-primary" name="popup" type="submit">Declarer le projet terminé</button>     
         </form>
 </div>
         ';
@@ -136,10 +136,10 @@ if (isset($_SESSION['Freelance'])) {
 
         $mesprojetsavalider .= '
 <div class="allproject">
-        <p> TITRE ' . $elementproject_termine['title'] . '</p>
-        <p> PRIX ' . $elementproject_termine['price'] . '</p>
-        <p> IDP ' . $elementproject_termine['id_project'] . '</p>
-        <p> DATE DEBUT ' . $elementproject_termine['content'] . '</p>
+        <p> Titre: ' . $elementproject_termine['title'] . '</p>
+        <p> Prix: ' . $elementproject_termine['price'] . '</p>
+       <!-- <p> IDP ' . $elementproject_termine['id_project'] . '</p> -->
+        <p> Date de début: ' . $elementproject_termine['content'] . '</p>
 </div>
         ';
 
@@ -165,10 +165,10 @@ if (isset($_SESSION['Freelance'])) {
 
         $mesprojetstermine .= '
 <div class="allproject">
-        <p> TITRE ' . $elementproject_termine['title'] . '</p>
-        <p> PRIX ' . $elementproject_termine['price'] . '</p>
-        <p> IDP ' . $elementproject_termine['id_project'] . '</p>
-        <p> DATE DEBUT ' . $elementproject_termine['content'] . '</p>
+        <p> Titre: ' . $elementproject_termine['title'] . '</p>
+        <p> Prix: ' . $elementproject_termine['price'] . '</p>
+        <!-- <p> IDP ' . $elementproject_termine['id_project'] . '</p> -->
+        <p> Date de début: ' . $elementproject_termine['content'] . '</p>
 </div>
         ';
 

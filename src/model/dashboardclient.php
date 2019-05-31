@@ -69,13 +69,13 @@ if (isset($_SESSION['Client'])) {
         $mesprojets .= '
 <div class="allproject">
        
-        <p> TITRE ' . $element['title'] . '</p>
-        <p> DATE DEBUT ' . $element['start_date'] . '</p>
-        <p>DATE FIN ' . $element['end_date'] . '</p>
-        <p>PRIX ' . $element['price'] . '</p>
-        <p>MAIL ' . $resultcontactinfo['mail'] . '</p>
-        <p>PHONE ' . $resultcontactinfo['phone'] . '</p>
-        <p>AVANCEMENT ' . $element['status_name'] . ' / ' . $element['idProjectStatus'] . '</p>
+        <p> Titre: ' . $element['title'] . '</p>
+        <p> Date de début: ' . $element['start_date'] . '</p>
+        <p>Date de fin: ' . $element['end_date'] . '</p>
+        <p>Prix: ' . $element['price'] . '</p>
+        <p>Mail: ' . $resultcontactinfo['mail'] . '</p>
+        <p>Téléphone: ' . $resultcontactinfo['phone'] . '</p>
+        <p>Avancement: ' . $element['status_name'] . ' / ' . $element['idProjectStatus'] . '</p>
         
         <form role="form" method="post" action="?p=gestionprojetC">
             <input  type="hidden" name="nm_id_project" value="' . $element['id_project'] . '">
@@ -112,16 +112,16 @@ $mesprojetstermines .= '<div class="projet">';
 foreach ($result_projet_terminé as $element) {
     if ($mesprojetstermines == $mesprojets_default_message_terminate) {
         error_log("model dashboardclient.php :  variable mesprojetstermines est a la valeur par défaut, on la vide");
-        $mesprojetstermines = '';
+        $mesprojetstermines ='';
     }
     $mesprojetstermines .= '
 <div class="allproject">
        
-        <p> TITRE ' . $element['title'] . '</p>
-        <p> DATE DEBUT ' . $element['start_date'] . '</p>
-        <p>DATE FIN ' . $element['end_date'] . '</p>
-        <p>PRIX ' . $element['price'] . '</p>
-        <p>AVANCEMENT ' . $element['status_name'] . ' / ' . $element['idProjectStatus'] . '</p>
+        <p> Titre: ' . $element['title'] . '</p>
+        <p> Date de début: ' . $element['start_date'] . '</p>
+        <p>Date de fin: ' . $element['end_date'] . '</p>
+        <p>Prix :' . $element['price'] . '</p>
+        <p>Avancement: ' . $element['status_name'] . ' / ' . $element['idProjectStatus'] . '</p>
 </div>
         ';
     error_log("model dashboardclient.php :  ariable mesprojetstermines valeur en cours de construction : $mesprojetstermines");

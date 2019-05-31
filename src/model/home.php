@@ -21,11 +21,11 @@ $listcomp="";
         $resultskill = new Skill ($bdd);
         $skill = $resultskill->getSkills();
         $listcomp = '<ul>';
-       $listcomp .=' <h2>Les différentes compétences disponible</h2>';
+       $titre_comp =' <h2 class="titre_comp">Les différentes compétences disponible</h2>';
         foreach ($skill as $element) {
             $listcomp .= '
         
-                <li value=' . $element['id_skill'] . ' />' . $element['name'] . '<br>
+                <li value=' . $element['id_skill'] . ' /> '.'-'.' ' . $element['name'] . ' </li>
                ';
         }
         $listcomp .= '</ul>';
