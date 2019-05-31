@@ -11,11 +11,12 @@ if(isset($_GET['p']) AND $_GET['p']=="pageinfo"){
     phpinfo();
 }
 elseif(isset($_GET['p']) AND $_GET['p']=="pagelogin"){
+    $msg='' ; // message login
     include('model/login.php');
     echo $twig->render('login.html',
     array('title' => 'Page de login',
         'assets_front' => 'assets/front/',
-        'message' => "Coucou les amis"));
+        'msg' => $msg));
 }
 elseif(isset($_GET['p']) AND $_GET['p']=="inscription"){
     include('controler/create.php');
@@ -46,6 +47,9 @@ elseif(isset($_GET['p']) AND $_GET['p']=="dashboardF") {
 elseif(isset($_GET['p']) AND $_GET['p']=="gestionprojetC") {
     include('controler/gestionprojetclient.php');
 }
+elseif(isset($_GET['p']) AND $_GET['p']=="gestionprofil") {
+    include('controler/gestionprofil.php');
+}
 
 #elseif(isset($_GET['p']) AND $_GET['p']=="argh"){
 #   include('model/argh.php');
@@ -63,7 +67,7 @@ else{
     ));
 }
 
-// Ne s'affiche pas redirection
+//
 error_log( "index.php :FIN" );
 
 ?>

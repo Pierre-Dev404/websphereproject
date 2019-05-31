@@ -14,12 +14,6 @@ catch(Exception $e)
         die('Erreur : '.$e->getMessage());
 }
 
-function debug($varToDebug){
-    echo '<pre>';
-    print_r($varToDebug);
-    echo '</pre>';
-}
-
 /* On charge toutes les classes PHP */
 require_once 'system/autoload.php';
 

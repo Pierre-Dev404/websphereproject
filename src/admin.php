@@ -28,38 +28,40 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
   $_url_deconnexion = "admin.php?p=deconnexion";
 
   if (!empty($_SESSION)) {
-    /*$projectName = "LaPiscine";
-    $projectNameShort = "LP"; */
-    # variable name utilisee dans home
-    $name = $_SESSION['surname']." ".$_SESSION['name'];
-    error_log("admin.php : Session Name $name") ;
-    $ATTRIBUTS="";
-    if (isset($_SESSION['Freelance'])) {
-      error_log( "admin.php : Utilisateur est Freelance" );
-      $ATTRIBUTS="Freelance";
-    }
-    if  (isset($_SESSION['Client'])) {
-      error_log( "admin.php : Utilisateur est Client" );
-      $ATTRIBUTS=$ATTRIBUTS."Client";
-    }
-    //isset = est-ce que la variable est définie ?
-    // Si non positionnée on se redirige vers une page d'accueil
-    if (!isset($_GET['p'])) {
-      $_GET['p'] = "home";
-      $PAGE = $_GET['p'] ;
-    } else {
-      $getArgs=$_GET['p'];
-      error_log( "admin.php : arguments get $getArgs" );
-    }
-    if (file_exists('controler/'.$_GET['p'].'.php')) {
-      error_log("admin.php : Entree dans la page $PAGE, avec le session ID $SSID et attribut $ATTRIBUTS ");
-      include('controler/'.$_GET['p'].'.php');
-      $SSID=$_SESSION['id'];
+      /*$projectName = "LaPiscine";
+      $projectNameShort = "LP"; */
+      # variable name utilisee dans home
+      $name = $_SESSION['surname']." ".$_SESSION['name'];
+      error_log("admin.php : Session Name $name") ;
+      $ATTRIBUTS="";
+      if (isset($_SESSION['Freelance'])) {
+        error_log( "admin.php : Utilisateur est Freelance" );
+        $ATTRIBUTS="Freelance";
+      }
+      if  (isset($_SESSION['Client'])) {
+        error_log( "admin.php : Utilisateur est Client" );
+        $ATTRIBUTS=$ATTRIBUTS."Client";
+      }
+      //isset = est-ce que la variable est définie ?
+      // Si non positionnée on se redirige vers une page d'accueil
+      if (!isset($_GET['p'])) {
+        $_GET['p'] = "home";
+        $PAGE = $_GET['p'] ;
+      } else {
+        $getArgs=$_GET['p'];
+        error_log( "admin.php : arguments get $getArgs" );
+      }
 
 
-    } else {
-      echo "<p>admin.php : cette page n'existe pas</p>";
-    }
+      if (file_exists('controler/'.$_GET['p'].'.php')) {
+        error_log("admin.php : Entree dans la page $PAGE, avec le session ID $SSID et attribut $ATTRIBUTS ");
+        include('controler/'.$_GET['p'].'.php');
+        $SSID=$_SESSION['id'];
+
+
+      } else {
+        echo "<p>admin.php : cette page n'existe pas</p>";
+      }
   } else {
     // Traitement du formulaire de connexion
     // On créé les sessions ici lorsque le formulaire a été envoyé

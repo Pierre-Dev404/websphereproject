@@ -210,7 +210,7 @@ class Project{
         //var_dump($retAssigned);
         return $retAssigned;
     }
-
+/*
     //Update d'un article
     function uptadeArticle($titre,$content,$img,$id_article){
         $req = $this->_bdd->prepare('UPDATE article SET title=":title",content=":content",coverImage=":img" WHERE id=:id_article;');
@@ -232,6 +232,7 @@ class Project{
         $req->execute();
         return 'true';
     }
+*/
 
 }
 

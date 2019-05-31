@@ -13,6 +13,7 @@ if (empty($_POST)) {
      * client ou freelance de facon non exclusive, un utilisateur peut appartenir aux deux categories
     */
     if (isset($_SESSION['Client'])) {
+        $buttonrechercheF="";
         error_log("Model home.php POST EMPTY On est Client");
         $resultskill = new Skill ($bdd);
         $skill = $resultskill->getSkills();
@@ -32,12 +33,12 @@ if (empty($_POST)) {
         <li><a href="/websphereProject/src/?p=dashboardC">Dashboard client</a></li>
         ';
 
-$buttonrechercheC="";
+
         $buttonrechercheC='
         <div class="choix">
                     <h2>Chercher un professionnel pour votre projet web</h2>
                     <button class="buttonAccueil">
-                        <a href="/websphereProject/src/?p=lesfreelances"> Trouver un Freelance </a>
+                        <a href="/websphereProject/src/?p=dashboardC"> Créer votre projet et trouver un Freelance </a>
                     </button>
                 </div>';
 
@@ -119,11 +120,14 @@ $buttonrechercheC="";
 
 
 if (isset($_SESSION['Freelance'])) {
+    $buttonrechercheC="";
+    $listcomp="";
+
     $buttonrechercheF = '
     <div class="choix">
 				<h2>Vous êtes Freelance ?</h2>
 					<button class="buttonAccueil">
-				<a href="/websphereProject/src/?p=project">Chercher un projet</a>
+				<a href="/websphereProject/src/?p=dashboardF">Mettez à jour vos compétences</a>
 					</button>
 			</div>
 ';
@@ -134,93 +138,3 @@ if (isset($_SESSION['Freelance'])) {
         ';
 
 }
-
-
-/*
-$resultskill = new Skill ($bdd);
-$skill = $resultskill->getSkills();
-$formulaire_freelance = "";
-foreach ($skill as $element) {
-    $formulaire_freelance .= '
-             
-                <input type="checkbox" name="user_skill[]" value=' . $element['id_skill'] . ' />' . $element['name'] . '<br>
-                ';
-}
-
-if (!empty($_POST['user_skill'])) {
-    $skills = new Skill($bdd);
-    $user = $_SESSION['id'];
-    $skill = $_POST['id_skill'];
-    $result = $skills->insertSkills($user, $skill);
-}
-*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* if(!empty($_POST) AND isset($_POST['delete'])){
-    $article = new Article($bdd);
-    $article->deleteArticle($_POST['delete']);
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-$req = $bdd->prepare('SELECT article.id, title, content, user.nom, user.prenom, article_status.type
-                    FROM article
-                    INNER JOIN rel_event_article ON rel_event_article.id_article=article.id
-                    INNER JOIN user ON user.id = rel_event_article.id
-                    INNER JOIN article_status ON article_status.id = rel_event_article.id_article_status
-                    AND rel_event_article.id_article_status !=3
-                    AND date = (SELECT MAX(date)
-                            FROM rel_event_article
-                            WHERE rel_event_article.id_article = article.id)
-                    ORDER BY article.id');
-$req->execute();
-$result=$req->fetchAll();
-//echo '<pre>';
-//print_r($result);
-//echo '</pre>';
-$row="";
-$start=0;
-$lenght=40;
-
-//for ($i=0; $i < count($result); $i++) {
-foreach($result as $element){
-    $row .= '
-    <tr>
-        <td>'.$element['id'].'</td>
-        <td>'.$element['title'].'</td>
-        <td>'.substr($element['content'], $start, $lenght).'...</td>
-        <td>'.$element['nom']." ".$element['prenom'].'</td>
-        <td>'.$element['type'].'</td>
-        <td><a href="?p=editor&id='.$element['id'].'"><i class="fa fa-edit" ></i></a></td>
-        <td><i class="fa fa-trash delete" type="button" data-id="'.$element['id'].'" data-type="suppr" data-toggle="modal" data-target="#modaldelete"></i></td>
-    </tr>
-    ';
-}*/
-

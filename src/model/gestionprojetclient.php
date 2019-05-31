@@ -9,8 +9,8 @@ error_log("model/gestionprojetclient.php : Entree script");
 
 
 $menuclientorfreelance="<ul>";
-if (isset($_SESSION['Freelance'])) {
-    error_log("model dashboardfreelance.php : ON EST BIEN FREELANCE");
+if (isset($_SESSION['Client'])) {
+    error_log("model dashboardfreelance.php : ON EST BIEN client");
     $menuclientorfreelance .= '
 
         <li><a href="/websphereProject/src/?p=dashboardC">Dashboard client</a></li>
