@@ -59,6 +59,7 @@ if (isset($_SESSION['Client'])) {
 
     $getinfo = new User ($bdd);
 
+    $mesprojets.='<div class="projet">';
     foreach($result as $element) {
         if ($mesprojets == $mesprojets_default_message) {
             $mesprojets = '';
@@ -89,10 +90,8 @@ if (isset($_SESSION['Client'])) {
         </form>
 </div>
         ';
-
-
-
     }
+    $mesprojets.='</div>';
 }
 
 
@@ -108,6 +107,8 @@ error_log("model dashboardclient.php : affectation variable mesprojetstermines")
 $mesprojetstermines = $mesprojets_default_message_terminate;
 error_log("model dashboardclient.php :  variable mesprojetstermines affectée initial : $mesprojetstermines");
 
+
+$mesprojetstermines .= '<div class="projet">';
 foreach ($result_projet_terminé as $element) {
     if ($mesprojetstermines == $mesprojets_default_message_terminate) {
         error_log("model dashboardclient.php :  variable mesprojetstermines est a la valeur par défaut, on la vide");
@@ -126,6 +127,7 @@ foreach ($result_projet_terminé as $element) {
     error_log("model dashboardclient.php :  ariable mesprojetstermines valeur en cours de construction : $mesprojetstermines");
 
     }
+$mesprojetstermines.="</div>";
 error_log("model dashboardclient.php :  variable mesprojetstermines affectée valeur finale : $mesprojetstermines");
 
 

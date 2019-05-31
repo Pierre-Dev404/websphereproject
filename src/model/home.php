@@ -3,8 +3,11 @@ error_log("model home.php : ENTREE");
 $formulaire_client = "";
 $formulaire_creation_projet = "";
 $menuclientorfreelance="";
+$buttonrechercheC="";
+$buttonrechercheF= "";
+$listcomp="";
 
-if (empty($_POST)) {
+//if (empty($_POST)) {
 
 
     /*
@@ -13,12 +16,12 @@ if (empty($_POST)) {
      * client ou freelance de facon non exclusive, un utilisateur peut appartenir aux deux categories
     */
     if (isset($_SESSION['Client'])) {
-        $buttonrechercheF="";
+        //$buttonrechercheF = "";
         error_log("Model home.php POST EMPTY On est Client");
         $resultskill = new Skill ($bdd);
         $skill = $resultskill->getSkills();
         $listcomp = '<ul>';
-
+       $listcomp .=' <h2>Les différentes compétences disponible</h2>';
         foreach ($skill as $element) {
             $listcomp .= '
         
@@ -26,15 +29,15 @@ if (empty($_POST)) {
                ';
         }
         $listcomp .= '</ul>';
+        error_log("Model home.php On a renseigne listcom : $listcomp");
 
-
-        $menuclientorfreelance .='
+        $menuclientorfreelance .= '
 
         <li><a href="/websphereProject/src/?p=dashboardC">Dashboard client</a></li>
         ';
 
 
-        $buttonrechercheC='
+        $buttonrechercheC = '
         <div class="choix">
                     <h2>Chercher un professionnel pour votre projet web</h2>
                     <button class="buttonAccueil">
@@ -42,12 +45,12 @@ if (empty($_POST)) {
                     </button>
                 </div>';
 
-
-
+        error_log("Model home.php On a renseigne buttonrechercheC : $buttonrechercheC");
+    }
         /*
          * Formulaire creation projet
          */
-
+/*
         $formulaire_creation_projet = '
             <div class="project">
                 <form role="form" method="POST">
@@ -96,6 +99,7 @@ if (empty($_POST)) {
          * sur la page ...
         */
     // $cr_title,$cr_content,$cr_start_date,$cr_end_date,$cr_price,$cr_id_project_status
+        /*
     if (!empty($_POST['title'])
         AND !empty($_POST['start_date'])
         AND !empty($_POST['end_date'])
@@ -117,11 +121,10 @@ if (empty($_POST)) {
     error_log("model create.php : SORTIE CONNEXION APRES CREATION PROJET");
     //$msg = "Tous les champs ne sont pas remplis";
 }
-
+*/
 
 if (isset($_SESSION['Freelance'])) {
-    $buttonrechercheC="";
-    $listcomp="";
+    //$buttonrechercheC="";
 
     $buttonrechercheF = '
     <div class="choix">

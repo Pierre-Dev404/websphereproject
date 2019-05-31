@@ -278,7 +278,7 @@ class User
         } else {
             error_log("User.php, methode update_user : echec updateuser") ;
             //$erreur_insert=$req->errorInfo() ;
-        };
+        }
         //  Insertion EVENTUELLE d'une nouvelle ligne pour l'utilisateur dans la table user_type
 
             if ($ud_user_type == '1' or $ud_user_type == '2') {

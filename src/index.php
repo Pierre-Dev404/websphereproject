@@ -50,21 +50,28 @@ elseif(isset($_GET['p']) AND $_GET['p']=="gestionprojetC") {
 elseif(isset($_GET['p']) AND $_GET['p']=="gestionprofil") {
     include('controler/gestionprofil.php');
 }
-
-#elseif(isset($_GET['p']) AND $_GET['p']=="argh"){
-#   include('model/argh.php');
-    #echo $twig->render('create.html',
-     #   array('title' => 'Page de creation utilisateur',
-      #      'assets_front' => 'assets/front/',
-       #     'message' => "Et on s'inscrit !!!"));
-#}
 else{
-    include('model/accueil.php');
-    echo $twig->render('accueil.html',
-    array('title' => 'Accueil',
-    'assets_front' => 'assets/front/',
-        'list' =>$listskill,
-    ));
+    error_log("index.php clause else atteinte");
+    //include('model/accueil.php');
+    session_start();
+    if (isset($_SESSION['name'])) {
+        $_GET['p'] = "home";
+        include('controler/home.php');
+
+    } else {
+        include('model/accueil.php');
+        echo $twig->render('accueil.html',
+            array('title' => 'Accueil Non Connecté',
+                'assets_front' => 'assets/front/',
+                'list' =>$listskill,
+            ));
+    }
+
+
+    //error_log("index.php clause else atteinte");
+    //session_start();
+    //$_GET['p'] = "home";
+    //include('controler/home.php');
 }
 
 //

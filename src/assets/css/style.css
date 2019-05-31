@@ -13,6 +13,15 @@ ul {
     padding: 0;
     list-style: none;
 }
+
+h1, h2, h3, h4{
+    font-family: 'Lato', sans-serif;
+}
+
+p, ul, li, label, input, a{
+    font-family: 'Arimo', sans-serif;
+}
+
 /* end css basique */
 
 /* css topbar */
@@ -40,7 +49,6 @@ a, li {
 }
 .main-nav a {
     font-size: .99em;
-    font-family: 'Montserrat', sans-serif;
     color: #C4D1FF
 }
 .main-nav a:hover {
@@ -107,7 +115,7 @@ a, li {
 
 /* end css bouton accueil*/
 
-/* css formulaire inscription */
+/* css formulaire */
 .formInscription {
     background-color:#FAFAFA;
     padding:10px;
@@ -130,7 +138,7 @@ input, textarea, select, option {
     width:200px;
     box-shadow:1px 1px 2px #C0C0C0 inset;
 }
-/* end css formulaire inscription */
+/* end css formulaire */
 
 
 /* css affichage freelance par compétences */

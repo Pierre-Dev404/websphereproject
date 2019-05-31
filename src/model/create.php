@@ -80,31 +80,6 @@ if (!empty($_POST['enterprise_name'])) {
 
     }
 
-            
-   // print_r($_POST);
-       
-
-// else{
-//     $message=""
-//     $mailtemp = $_POST['mail'];
-//     $nomTemp = $_POST['nom'];
-//     $prenomTemp = $_POST['prenom'];
-// }
-
-
-
-
-        // if(!empty($_POST)){
-        //     $req = $bdd->prepare("INSERT INTO user (nom, prenom, mail, password) VALUES($nom, $prenom, $email, $password)");
-        //     $req->bindParam(':mail', $mail);
-        //     $req->bindParam(':password', $password);
-        //     $req->execute();
-        // }
-    
-
-
-// On récupère les $_POST et on en fait des variables
- 
  
 
 

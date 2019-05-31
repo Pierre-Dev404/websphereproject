@@ -21,7 +21,7 @@ if (isset($_SESSION['Freelance'])) {
             $form_insert_skill.="<h2> Ajouter des compétences </h2>";
             foreach ($skill as $element) {
                 $form_insert_skill .= '
-                <input type="checkbox" class="css-checkbox" name="user_skill[]" value=' . $element['id_skill'] . ' />' . $element['name'] . '<br>
+               <label> <input class="c" type="checkbox" class="css-checkbox" name="user_skill[]" value=' . $element['id_skill'] . ' />' . $element['name'] . '<br></label>
                 ';
 
             }
@@ -42,26 +42,30 @@ if (isset($_SESSION['Freelance'])) {
 
     $mesprojets_default_message_proposed = "<p>Vous n'avez aucun projet proposé en cours</p></p>";
     $mesprojetsproposes=$mesprojets_default_message_proposed;
+
+    $mesprojetsproposes .= ' <div class="projet">';
     foreach($resultgetproject as $elementproject){
         if ($mesprojetsproposes == $mesprojets_default_message_proposed) {
             error_log("model dashboardclient.php :  variable mesprojetsproposes est a la valeur par défaut, on la vide");
             $mesprojetsproposes = '';
         }
         $mesprojetsproposes .= '
-<div class="allproject">
-        <p> TITRE ' . $elementproject['title'] . '</p>
-        <p> PRIX ' . $elementproject['price'] . '</p>
-        <p> IDP ' . $elementproject['id_project'] . '</p>
-        <p> DATE DEBUT ' . $elementproject['content'] . '</p>
-        
-        <form role="form" method="post">
-            <input  type="hidden" name="gpt_id_project" value="'. $elementproject['id_project'].'">
-            <button type="submit">Accepter le projet</button>     
-        </form>
-</div>
+
+    <div class="allproject">
+            <p> TITRE ' . $elementproject['title'] . '</p>
+            <p> PRIX ' . $elementproject['price'] . '</p>
+            <p> IDP ' . $elementproject['id_project'] . '</p>
+            <p> DATE DEBUT ' . $elementproject['content'] . '</p>
+            
+            <form role="form" method="post">
+                <input  type="hidden" name="gpt_id_project" value="'. $elementproject['id_project'].'">
+                <button type="submit">Accepter le projet</button>     
+            </form>
+    </div>
         ';
 
     }
+    $mesprojetsproposes .= ' </div>';
 
 
     error_log("model dashboardfreelance.php : Appel getProjectProposeToFreelance");
@@ -79,6 +83,7 @@ if (isset($_SESSION['Freelance'])) {
     $mesprojetsacceptes= $mesprojets_acceptes_default_message;
 
     $getinfo = new User ($bdd);
+    $mesprojetsacceptes .='<div class="projet">';
     foreach($resultgetprojectaccepted as $elementprojectaccept){
 
         if ($mesprojetsacceptes == $mesprojets_acceptes_default_message) {
@@ -94,7 +99,8 @@ if (isset($_SESSION['Freelance'])) {
         $resultcontactinfo = $getinfo->getConctactInfoFromClient($elementprojectaccept['id_project']);
 
 
-        $mesprojetsacceptes .= '
+        $mesprojetsacceptes .='
+
 <div class="allproject">
         <p> TITRE ' . $elementprojectaccept['title'] . '</p>
         <p> PRIX ' . $elementprojectaccept['price'] . '</p>
@@ -111,6 +117,7 @@ if (isset($_SESSION['Freelance'])) {
 </div>
         ';
     }
+    $mesprojetsacceptes .= ' </div>';
 
 
     $myproject= new Project($bdd);
@@ -120,6 +127,7 @@ if (isset($_SESSION['Freelance'])) {
     $mesprojets_a_valider_default_message="<p>Pas de projet en attente de validation</p>";
     $mesprojetsavalider=$mesprojets_a_valider_default_message;
 
+    $mesprojetsavalider .='<div class="projet">';
     foreach($resultgetproject_termine as $elementproject_termine){
         if ($mesprojetsavalider == $mesprojets_a_valider_default_message) {
             error_log("model dashboardclient.php :  variable mesprojetsavalider est a la valeur par défaut, on la vide");
@@ -136,6 +144,7 @@ if (isset($_SESSION['Freelance'])) {
         ';
 
     }
+    $mesprojetsavalider .='</div>';
     if (empty($mesprojetsavalider)){
         error_log("model dashboardfreelance.php : Pas de projets termines");
     }
@@ -147,6 +156,7 @@ if (isset($_SESSION['Freelance'])) {
     $mes_projets_termines_default_message="<p>Pas de projets validés et terminés </p>";
     $mesprojetstermine=$mes_projets_termines_default_message;
 
+    $mesprojetstermine .='<div class="projet">';
     foreach($resultgetproject_termine as $elementproject_termine){
         if ($mesprojetstermine == $mes_projets_termines_default_message) {
             error_log("model dashboardclient.php :  variable mesprojetstermine est a la valeur par défaut, on la vide");
@@ -163,6 +173,7 @@ if (isset($_SESSION['Freelance'])) {
         ';
 
     }
+    $mesprojetstermine .='</div>';
     if (empty($mesprojetstermine)){
         error_log("model dashboardfreelance.php : Pas de projets termines");
     }

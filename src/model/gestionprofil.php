@@ -7,9 +7,8 @@
  */
 error_log("model gestionprofil.php : ENTREE");
 
-
+$menuclientorfreelance="<ul>";
 if (isset($_SESSION['Client'])) {
-    $menuclientorfreelance="";
     error_log("model gestionprofil.php : On est Client");
     $menuclientorfreelance .= '
 
@@ -29,6 +28,7 @@ if (isset($_SESSION['Freelance'])) {
         ';
 
 }
+$menuclientorfreelance.="</ul>";
 
 
 // On instancie un objet de la classe User pour pouvoir appeler la méthode updateUser

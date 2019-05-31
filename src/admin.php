@@ -60,19 +60,25 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
 
 
       } else {
-        echo "<p>admin.php : cette page n'existe pas</p>";
+          $BADPAGE = $_GET['p'] ;
+          error_log("admin.php : cette page n'existe pas $BADPAGE");
+       // echo "<p>admin.php : cette page n'existe pas</p>";
       }
   } else {
-    // Traitement du formulaire de connexion
-    // On créé les sessions ici lorsque le formulaire a été envoyé
-    include('model/login.php');
+    //
+    //
+      error_log("Admin.php clause else atteinte SESSION vide !!!");
+    /*
+     include('model/login.php');
     // HTML
     //include('view/login.php');
+
     echo $twig->render('login.html',
-    array('title' => 'Login',
+    array('title' => '1 er login',
     'assets' => 'assets/',
     'mailTmp' => $mailTmp,
     'message' => $msg));
+      */
   }
 
 error_log( "admin.php : FIN" );
