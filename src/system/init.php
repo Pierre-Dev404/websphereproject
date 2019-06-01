@@ -1,7 +1,14 @@
 <?php
-// On met dans le fichier init.php tous les appels de fonctions, 
-// chargements de librairies et instanciations des classes 
-// communs à toutes les pages
+error_log( "init.php : ENTREE" );
+/* ----------------------------------------------------------------------*/
+/*      On met dans le fichier init.php tous les appels de fonctions,    */
+/*      chargements de librairies et instanciations des classes          */
+/*      communs à toutes les pages                                       */
+/*  -------------------------------------------------------------------- */
+
+
+
+// Initialisation de la base de données
 try
 {
     $bdd = new PDO('mysql:host=localhost;dbname=websphere;charset=utf8', 'root', 'root');
@@ -34,3 +41,5 @@ $loader = new Twig_Loader_Filesystem('templates');
 $twig = new Twig_Environment($loader);
 $_url_deconnexion = "admin.php?p=deconnexion";
 $twig->addGlobal('deconnexion' , $_url_deconnexion);
+
+error_log( "init.php : FIN" );

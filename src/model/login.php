@@ -1,4 +1,10 @@
 <?php
+
+/* ----------------------------------------------------------------------*/
+/*      Appel de la fonction "connexion" de la classe User               */
+/*      Une redirection (header location) sera faite vers                */
+/*      la page admin.php                                                */
+/*  -------------------------------------------------------------------- */
 error_log( "login.php :ENTREE" );
 $user = new User ($bdd);
 

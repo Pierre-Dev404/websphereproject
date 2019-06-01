@@ -6,6 +6,7 @@ $menuclientorfreelance="";
 $buttonrechercheC="";
 $buttonrechercheF= "";
 $listcomp="";
+$titre_comp="";
 
 //if (empty($_POST)) {
 
@@ -21,7 +22,7 @@ $listcomp="";
         $resultskill = new Skill ($bdd);
         $skill = $resultskill->getSkills();
         $listcomp = '<ul>';
-       $titre_comp =' <h2 class="titre_comp">Les différentes compétences disponible</h2>';
+       $titre_comp =' <h2 class="titre_comp">Les différentes compétences disponibles</h2>';
         foreach ($skill as $element) {
             $listcomp .= '
         

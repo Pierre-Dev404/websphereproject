@@ -444,7 +444,10 @@ button[type="submit"] {
 .form-checkbox{
     display:flex;
     justify-content:space-around;
-    margin-right:50%;
+    flex-wrap:wrap;
+}
+.user-checkbox{
+    width:15%;
 }
 .free-dash{
     width:33%;

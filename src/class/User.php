@@ -1,7 +1,13 @@
 <?php
+/* ----------------------------------------------------------------------
+    Classe User :
+    Argument = référence à $bdd de l'init.php passée au constructeur
+
+   -------------------------------------------------------------------- */
 
 class User
 {
+    /*
     private $_id;
     public $_name;
     public $_firstname;
@@ -11,13 +17,17 @@ class User
     private $_civilite;
     private $_avatar;
     private $_verifyPass;
+    */
     private $_bdd;
 
 
-    function __construct($bdd, $id = null)
+    //MODIFIE On ne passe que $bdd function __construct($bdd, $id = null)
+    function __construct($bdd)
     {
         $this->_bdd = $bdd;
-        if($id != NULL){
+        /*
+         * A SUPPRIMER NE SERT PAS
+         * if($id != NULL){
             $user = $this->getUser($id);
             $this->_id = $id;
             $this->_name = $user['nom'];
@@ -28,10 +38,11 @@ class User
             $this->_civilite = $user['id_civilite'];
             $this->_status = $user['id_user_status'];
         }
+        */
     }
 
 
-
+/*  A SUPPRIMER  Fonction intégrée à la méthede updateUser()
     function updateProfil($_id_user, $_type)
     {
 
@@ -48,13 +59,13 @@ class User
             print_r($req->errorInfo());
         }
     }
+*/
 
 
 
 
 
-
-
+/* A SUPPRIMER LC
 
     function getUserLC($id)
     {
@@ -66,7 +77,25 @@ class User
                     $result = $req->fetch();
                     return $result;
     }
+*/
 
+
+// Méthode userBySkills()
+// Prend en argument un array  de liste de compétence renvoyé par le formulaire de recherche Freelance
+// Si on recoit un array vide on cherchera pour n'importe quelles compétences
+// On recherche les infos utilisateur (id_user, name, firstname, enterprise_name, city , id_skill)
+// par une jointure sur la colonne id_user entre la table users et la table users_skill
+// Dans la 'table' renvoyée on récupere les nfos utilisateur
+// avec comme critere (WHERE) la compétence correspond à une des compétences passées en parametre
+// Comme il faut qu'il y ait toutes les compétences
+// On groupe par utilisateur (GROUP BY)
+// Et on regarde si le nombre de compétences de l'utilisatueur qui correspondent aux prérequis
+// sont bien au complet (le nombre de compétences de l'utilisateur correspondant aux compétences requises
+// correspond au nombre total de compétences = il n'en manque pas )
+// Si aucune  compétences n'est  passées :
+// On n'effectue pas la vérification sur le nombre de compétences et on n'ajoute pas kles clauses
+// GROUP_BY / HAVING
+//
     function userBySkills($ubs_listskill)
     {
         $requete_cherche_f =   "SELECT DISTINCT j.id_user, j.name, j.firstname, j.enterprise_name , j.city  FROM 
@@ -100,7 +129,7 @@ class User
             }
 
 
-        error_log("User.php, methode userBySkills : requete $requete_cherche_f ");
+        // error_log("User.php, methode userBySkills : requete $requete_cherche_f ");
         $result=array();
         foreach  ($this->_bdd->query($requete_cherche_f) as $row) {
             $result= array_merge($result, array($row) );
@@ -111,9 +140,15 @@ class User
             return $result;
     }
 
+    /*
+    Appelé depuis le dashboard Freelance
+    Permet de récupérer des information complémentaires sur le client
+    A faire : factoriser avec getConctactInfoFromFreelance
+    Ce sont presque les mêmes fonctions
+    */
     function getConctactInfoFromClient($ci_id_project)
     {
-            $req = $this->_bdd->prepare("SELECT u.mail, u.phone, w.id_type FROM work w
+            $req = $this->_bdd->prepare("SELECT u.name, u.firstname, u.mail, u.phone, w.id_type FROM work w
                                         JOIN project p ON w.id_project = p.id_project
                                         JOIN users u ON u.id_user = w.id_user
                                         WHERE w.id_project=:ci_id_project and w.id_type = 2
@@ -133,9 +168,13 @@ class User
 
     }
 
+    /*
+    Appelé depuis le dashboard Client
+    Permet de récupérer des information complémentaires sur le Freelance
+    */
     function getConctactInfoFromFreelance($ci_id_project)
     {
-        $req = $this->_bdd->prepare("SELECT u.mail, u.phone, w.id_type FROM work w
+        $req = $this->_bdd->prepare("SELECT u.name, u.firstname, u.mail, u.phone, w.id_type FROM work w
                                         JOIN project p ON w.id_project = p.id_project
                                         JOIN users u ON u.id_user = w.id_user
                                         WHERE w.id_project=:ci_id_project and w.id_type = 1
@@ -155,6 +194,31 @@ class User
 
     }
 
+    // On crée deux fois la même function pour récupérer les infos, car dans le cas où l'on veut juste récupérer
+    // un utilisateur ( pour le dashboard client ) on utilise un fetch() mais dans le cas de la gestion de projet
+    // on veut afficher TOUS les utilisateurs à qui on a proposé le projet, on utilise donc fetchAll().
+
+    function getAllConctactInfoFromFreelance($ci_id_project)
+    {
+        $req = $this->_bdd->prepare("SELECT u.name, u.firstname, u.mail, u.phone, w.id_type FROM work w
+                                        JOIN project p ON w.id_project = p.id_project
+                                        JOIN users u ON u.id_user = w.id_user
+                                        WHERE w.id_project=:ci_id_project and w.id_type = 1
+                                      ");
+        /* $DBG_req="SELECT u.mail, u.phone FROM work w
+                                     JOIN project p ON w.id_project = p.id_project
+                                     JOIN users u ON u.id_user = w.id_user
+                                     WHERE w.id_project=$ci_id_project and w.id_type = 2
+                                   "; */
+        //error_log("User.php, methode getConctactInfoFromFreelance : requete $DBG_req ");
+        $req->bindParam(':ci_id_project', $ci_id_project);
+        $req->execute();
+        $result = $req->fetchAll();
+        //var_dump($result);
+
+        return $result;
+
+    }
 
 
 
@@ -162,6 +226,7 @@ class User
 
 
 
+/* A SUPPRIMER, ne sert pas en définitive
     function getAllFreelance()
     {
         // Recupere les utilisateurs par ID type = 1 => Freelance
@@ -174,10 +239,15 @@ class User
         $result = $req->fetchAll();
         return $result;
     }
+*/
 
 
-
-
+/*
+ *  Appelé depuis le create.php
+ * Création d'un utilisateur
+ * Met a jour la table users
+ * et la table user_type en fonction des profils (Client, Freelance) sélectionnés
+ */
     function createUser($cu_name, $cu_firstname, $cu_mail, $cu_password, $cu_enterprise_name, $cu_siret, $cu_city, $cu_iban, $cu_phone)
     {
 
@@ -246,6 +316,13 @@ class User
 
 
 
+/*
+    Méthode appelée depuis le gestionprofil
+    Permet de mettre à jour les infos utilisateurs sauf le mail qui ser à se connecter
+    et le mot de passe.
+    Si la requete en base est ok, met a jour les variables superglobales
+    $_SESSION['name'] et $_SESSION['surname'] ainsi que les variables  $_SESSION['Client/freelance']
+*/
 
 
     function updateUser($id_user, $ud_name, $ud_firstname, $ud_enterprise_name, $ud_siret, $ud_city, $ud_iban, $ud_phone,$ud_user_type)

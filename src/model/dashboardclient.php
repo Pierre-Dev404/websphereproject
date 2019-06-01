@@ -53,16 +53,16 @@ if (isset($_SESSION['Client'])) {
     $id=$_SESSION['id'];
     error_log("model dashboardclient.php : Test si des projets sont crees = getAllProjectsByIdUserAndStatus($id, '2', '1,2,3')");
     $result = $myproject->getAllProjectsByIdUserAndStatus($id, '2', '1,2,3');
-    $mesprojets_default_message="<p>Vous n'avez encore créé aucun projet</p>";
+    $mesprojets_default_message="<div class='projet'> <p>Vous n'avez encore créé aucun projet</p>";
     $mesprojets=$mesprojets_default_message;
 
 
     $getinfo = new User ($bdd);
 
-    $mesprojets.='<div class="projet">';
+    // $mesprojets.='<div class="projet">';
     foreach($result as $element) {
         if ($mesprojets == $mesprojets_default_message) {
-            $mesprojets = '';
+            $mesprojets = '<div class="projet">';
         }
 
         $resultcontactinfo = $getinfo->getConctactInfoFromFreelance($element['id_project']);
@@ -72,9 +72,15 @@ if (isset($_SESSION['Client'])) {
         <p> Titre: ' . $element['title'] . '</p>
         <p> Date de début: ' . $element['start_date'] . '</p>
         <p>Date de fin: ' . $element['end_date'] . '</p>
-        <p>Prix: ' . $element['price'] . '</p>
+        <p>Prix: ' . $element['price'] . '</p> <br>';
+
+        if($element['idProjectStatus'] != 1){
+        $mesprojets .= '
+        <p> Contacter le freelance </p>
         <p>Mail: ' . $resultcontactinfo['mail'] . '</p>
-        <p>Téléphone: ' . $resultcontactinfo['phone'] . '</p>
+        <p>Téléphone: ' . $resultcontactinfo['phone'] . '</p>';
+        }
+        $mesprojets .= '
         <p>Avancement: ' . $element['status_name'] . ' / ' . $element['idProjectStatus'] . '</p>
         
         <form role="form" method="post" action="?p=gestionprojetC">
@@ -108,11 +114,11 @@ $mesprojetstermines = $mesprojets_default_message_terminate;
 error_log("model dashboardclient.php :  variable mesprojetstermines affectée initial : $mesprojetstermines");
 
 
-$mesprojetstermines .= '<div class="projet">';
+//$mesprojetstermines .= '<div class="projet">';
 foreach ($result_projet_terminé as $element) {
     if ($mesprojetstermines == $mesprojets_default_message_terminate) {
         error_log("model dashboardclient.php :  variable mesprojetstermines est a la valeur par défaut, on la vide");
-        $mesprojetstermines ='';
+        $mesprojetstermines ='<div class="projet">';
     }
     $mesprojetstermines .= '
 <div class="allproject">
@@ -127,7 +133,7 @@ foreach ($result_projet_terminé as $element) {
     error_log("model dashboardclient.php :  ariable mesprojetstermines valeur en cours de construction : $mesprojetstermines");
 
     }
-$mesprojetstermines.="</div>";
+$mesprojetstermines.="</div> <!-- coucou fin div projet -->";
 error_log("model dashboardclient.php :  variable mesprojetstermines affectée valeur finale : $mesprojetstermines");
 
 

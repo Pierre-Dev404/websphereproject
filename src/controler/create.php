@@ -13,7 +13,9 @@ error_log("controler create.php : sortie modele et appel rendu twig");
 //error_log("controler create.php : valeur recupere du modele  listeDesTypesUtilisateur $listeDesTypesUtilisateur");
 echo $twig->render('create.html', 
 array('title' => 'Inscription',
-'list' => $rowtype
+    'list' => $rowtype,
+    'msg' => $msgcreate
+
 //'array_types_uti' => $listeDesTypesUtilisateur
 
 /*'assets' => 'assets/',

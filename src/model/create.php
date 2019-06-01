@@ -6,9 +6,9 @@ $nomTmp="";
 $prenomTmp="";
 $msg="";
 */
+$msgcreate="";
 
-
-if(empty($_POST)){
+// if(empty($_POST)){
     /*
      *  Il n'y a pas de donnes POST, on prepare les champs du formulaire (checkbox crees dynamiquement
      */
@@ -20,15 +20,16 @@ if(empty($_POST)){
             <input type="checkbox" name="user_type[]" value='.$element['id_type'].' />'.$element['name'].'<br>
             ';
         }
-    }
-    else {
+
+   // else {
+if(!empty($_POST)){
         /*
         *  Il a des donnes POST envoyees par le formulaire precedemment affiche
          * On recupere les champs du formulaire pour creer l'objet USER
          * et appeler la methode createUser qui renverra par une fonction header
          * sur la page admin
         */
-        var_dump($_POST);
+        //var_dump($_POST);
         if (!empty($_POST['nom'])
             AND !empty($_POST['prenom'])
             AND !empty($_POST['mail'])
@@ -61,7 +62,7 @@ if (!empty($_POST['enterprise_name'])) {
             $retourCreate = $user->createUser($cr_name, $cr_firstname, $cr_mail, $cr_password, $cr_enterprise_name, $cr_siret, $cr_city, $cr_iban, $cr_phone);
             // tester ici s'il y a eu une duplicate entry sur le mail
             if ($retourCreate == 'DUPLICATE_REC') {
-                echo "<pre>DUPLICATE MAIL</pre>";
+                $msgcreate="Mail déjà existant";
                 error_log("model create.php : DUPLICATE MAIL sur appel createUser");
             }
             $login = $user->connexion($cr_mail, $cr_password);
