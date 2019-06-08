@@ -2,82 +2,22 @@
 /* ----------------------------------------------------------------------
     Classe User :
     Argument = référence à $bdd de l'init.php passée au constructeur
-
    -------------------------------------------------------------------- */
 
 class User
 {
-    /*
-    private $_id;
-    public $_name;
-    public $_firstname;
     public $_mail;
     private $_password;
-    private $_status;
-    private $_civilite;
-    private $_avatar;
-    private $_verifyPass;
-    */
     private $_bdd;
 
 
-    //MODIFIE On ne passe que $bdd function __construct($bdd, $id = null)
     function __construct($bdd)
     {
         $this->_bdd = $bdd;
-        /*
-         * A SUPPRIMER NE SERT PAS
-         * if($id != NULL){
-            $user = $this->getUser($id);
-            $this->_id = $id;
-            $this->_name = $user['nom'];
-            $this->_firstname = $user['prenom'];
-            $this->_mail = $user['mail'];
-            $this->_password = $user['password'];
-            $this->_avatar = $user['avatar'];
-            $this->_civilite = $user['id_civilite'];
-            $this->_status = $user['id_user_status'];
-        }
-        */
     }
 
 
-/*  A SUPPRIMER  Fonction intégrée à la méthede updateUser()
-    function updateProfil($_id_user, $_type)
-    {
 
-        error_log("La valeur de type traitee est $_type ");
-        $req = $this->_bdd->prepare("INSERT INTO user_type (id_type, id_user)
-                                    VALUES (:id_type, :id_user)");
-        if ($req->execute(array(
-            'id_type' => $_type,
-            'id_user' => $_id_user
-        ))) {
-            echo "Succes";
-        } else {
-            echo "une erreur est survenue lors de l'insertion dans usertype";
-            print_r($req->errorInfo());
-        }
-    }
-*/
-
-
-
-
-
-/* A SUPPRIMER LC
-
-    function getUserLC($id)
-    {
-        $req = $this->_bdd->prepare("SELECT nom, prenom, mail, password, avatar, id_civilite, id_user_status 
-                                FROM user
-                                WHERE id=:id");
-                    $req->bindParam(':id', $id);
-                    $req->execute();
-                    $result = $req->fetch();
-                    return $result;
-    }
-*/
 
 
 // Méthode userBySkills()
@@ -96,6 +36,9 @@ class User
 // On n'effectue pas la vérification sur le nombre de compétences et on n'ajoute pas kles clauses
 // GROUP_BY / HAVING
 //
+
+
+
     function userBySkills($ubs_listskill)
     {
         $requete_cherche_f =   "SELECT DISTINCT j.id_user, j.name, j.firstname, j.enterprise_name , j.city  FROM 
@@ -131,12 +74,12 @@ class User
 
         // error_log("User.php, methode userBySkills : requete $requete_cherche_f ");
         $result=array();
+            // on ajoute chaque utilisateur ayant toutes les compétences
+        // dans un tableau result qu'on va renvoyer
+        // On renvoie un tableau des utilisateurs ayant toute les competences selectionnes
         foreach  ($this->_bdd->query($requete_cherche_f) as $row) {
             $result= array_merge($result, array($row) );
         }
-
-
-
             return $result;
     }
 
@@ -220,28 +163,6 @@ class User
 
     }
 
-
-
-
-
-
-
-/* A SUPPRIMER, ne sert pas en définitive
-    function getAllFreelance()
-    {
-        // Recupere les utilisateurs par ID type = 1 => Freelance
-
-        $req = $this->_bdd->prepare("SELECT u.name, u.firstname, u.mail, u.enterprise_name
-                                FROM users u 
-                                JOIN user_type ut ON u.id_user = ut.id_user
-                                WHERE ut.id_type = 1");
-        $req->execute();
-        $result = $req->fetchAll();
-        return $result;
-    }
-*/
-
-
 /*
  *  Appelé depuis le create.php
  * Création d'un utilisateur
@@ -255,17 +176,20 @@ class User
         $this->_password = password_hash($cu_password, PASSWORD_DEFAULT);
         $req = $this->_bdd->prepare("INSERT INTO users (name, firstname, mail, password, enterprise_name, siret, city, iban, phone)
                                     VALUES (:name, :firstname, :mail, :password, :enterprise_name, :siret, :city, :iban, :phone)");
-        if ($req->execute(array(
-            'name' => $cu_name,
-            'firstname' => $cu_firstname,
-            'mail' => $cu_mail,
-            'password' => $this->_password,
-            'enterprise_name' => $cu_enterprise_name,
-            'siret' => $cu_siret,
-            'city' => $cu_city,
-            'iban' => $cu_iban,
-            'phone' => $cu_phone
-        ))) {
+
+
+
+        $req->bindParam(':name', $cu_name);
+        $req->bindParam(':firstname', $cu_firstname);
+        $req->bindParam(':mail', $cu_mail);
+        $req->bindParam(':password', $this->_password);
+        $req->bindParam(':enterprise_name', $cu_enterprise_name);
+        $req->bindParam(':siret', $cu_siret);
+        $req->bindParam(':city', $cu_city);
+        $req->bindParam(':iban', $cu_iban);
+        $req->bindParam(':phone', $cu_phone);
+
+        if ($req->execute()) {
             echo "Succes\n";
             //$user_last_id = mysqli_insert_id();
             $user_last_id = $this->_bdd->lastInsertId();
@@ -296,10 +220,10 @@ class User
             error_log("La valeur de type traitee est $type ");
             $req = $this->_bdd->prepare("INSERT INTO user_type (id_type, id_user)
                                     VALUES (:id_type, :id_user)");
-            if ($req->execute(array(
-                'id_type' => $type,
-                'id_user' => $user_last_id
-            ))) {
+
+            $req->bindParam(':id_type', $type);
+            $req->bindParam(':id_user', $user_last_id);
+            if ($req->execute()) {
                 error_log("insertion OK  $type / $user_last_id");
             } else {
                 error_log("une erreur est survenue lors de l'insertion dans usertype ");
@@ -327,27 +251,23 @@ class User
 
     function updateUser($id_user, $ud_name, $ud_firstname, $ud_enterprise_name, $ud_siret, $ud_city, $ud_iban, $ud_phone,$ud_user_type)
     {
-
-        $DBG_req="UPDATE users
-                        SET name=$ud_name, firstname=$ud_firstname, enterprise_name=$ud_enterprise_name,
-                        siret=$ud_siret, city=$ud_city, iban=$ud_iban, phone=$ud_phone
-                        WHERE id_user=$id_user" ;
-
-        error_log("User.php, methode update_user : La requete  est $DBG_req ");
         $req = $this->_bdd->prepare("UPDATE users
                                     SET name=:name, firstname=:firstname, enterprise_name=:enterprise_name,
                                     siret=:siret, city=:city, iban=:iban, phone=:phone
                                     WHERE id_user=:id_user");
-        if ($req->execute(array(
-            'id_user' => $id_user,
-            'name' => $ud_name,
-            'firstname' => $ud_firstname,
-            'enterprise_name' => $ud_enterprise_name,
-            'siret' => $ud_siret,
-            'city' => $ud_city,
-            'iban' => $ud_iban,
-            'phone' => $ud_phone
-        ))) {
+
+
+        $req->bindParam(':id_user', $id_user);
+        $req->bindParam(':name', $ud_name);
+        $req->bindParam(':firstname', $ud_firstname);
+        $req->bindParam(':enterprise_name', $ud_enterprise_name);
+        $req->bindParam(':siret', $ud_siret);
+        $req->bindParam(':city', $ud_city);
+        $req->bindParam(':iban', $ud_iban);
+        $req->bindParam(':phone', $ud_phone);
+
+
+        if ($req->execute()) {
             error_log("User.php, methode update_user : succès updateuser") ;
             // Mise à jour des variables de session
             $_SESSION['name'] = $ud_name;
@@ -362,10 +282,11 @@ class User
                 error_log("User.php, methode update_user : La valeur de type traitee est $ud_user_type ");
                 $req = $this->_bdd->prepare("INSERT IGNORE INTO user_type (id_type, id_user)
                                     VALUES (:id_type, :id_user)");
-                if ($req->execute(array(
-                    'id_type' => $ud_user_type,
-                    'id_user' => $id_user
-                ))) {
+
+                $req->bindParam(':id_type', $ud_user_type);
+                $req->bindParam(':id_user', $id_user);
+
+                if ($req->execute()) {
                     error_log("User.php, methode update_user : succès updateusertype") ;
 
                     // On va chercher dans la table type le libelle du type traité
@@ -396,9 +317,6 @@ class User
         header('location: ?p=gestionprofil');
     }
 
-
-
-
     function getUserInfo($gui_id_user){
         $req = $this->_bdd->prepare('SELECT id_user, name, firstname,  enterprise_name, siret, city, iban, phone FROM users WHERE id_user= :id_user');
         $req->bindParam(':id_user', $gui_id_user);
@@ -407,15 +325,14 @@ class User
         return $result_user_info ;
     }
 
-
-
-
-
-
-
-
-
-
+ /*
+  * Fonction de connexion au site,
+  * Appelé par login.php, on select l'id user et toute ses informations en recherchant en bdd, sur le mail utilisateur, on vérifie
+  * les données POST entrée dans le formulaire avec celle en base de données
+  * On vérifie que le hash du password saisi correspond bien au hash du password en bdd
+  * On renseigne les variables de session pour l'utilisateur en cours (id_user, name, surname, mail) qui seront utilisés sur le site
+  * le temps de la connexion
+  */
 
 
         function connexion($mail, $password)
@@ -432,7 +349,8 @@ class User
                     session_start();
                     #session_unset() ;
                     #session_destroy() ;
-                    # Lignes suivantes pour DEBUG
+                    # Lignes suivantes pour debug
+                    /*
                     if(isset($_SESSION['id'])) {
                         if($_SESSION['id'] == $checkMail['id_user']) {
                             error_log("User.php, methode connexion : utilisateur est deja connecte") ;
@@ -442,7 +360,7 @@ class User
                     }
                     else {
                         error_log("User.php, methode connexion : Pas de variable de session pour la session en cours") ;
-                    }
+                    } */
                     # Fin lignes DEBUG
 
                     #if(session_status() == PHP_SESSION_ACTIVE) error_log("Session deja active");
@@ -457,7 +375,10 @@ class User
                     # positionnes par l'utilisateur precedent pour ne pas recuperer ses valeurs
 
                     # Recherche de tous les types d'utilisateur configures dans la base type
+                    # en l'état il y a 1=freelance, 2=client.
                     $listeDesTypesUtilisteur=$this->_bdd->query('SELECT name FROM type');
+                    # On reinitialise toutes les variables d'environnement indiquant les types du user
+                    # On gère un accés à la page de connexion sans qu'il y ait eu de deco préalable
                     foreach  ($listeDesTypesUtilisteur as $typeExistant) {
                         $nameTypeExistant=$typeExistant['name'];
                         error_log("User.php, methode connexion : suppression si positionne de  $nameTypeExistant") ;
@@ -478,14 +399,17 @@ class User
 
                     # Puis on positionne pour l'utilisateur les types utilisateur qui lui sont attribues
                     # Freelance, Client (plusieurs types sont autorises pour un meme utilisateur)
+                    # les variables ont étés préalablement mises à zero
                     foreach($listUserTypeOfUser as $userType){
                         $typeUtilisateur=$userType['name'] ;
                         $idTypeUtilisateur=$userType['id_type'] ;
                         error_log("User.php, methode connexion : type utilisateur $typeUtilisateur") ;
+                    # Pour un freelance, la ligne suivante correspond à faire
+            # exemple : $_SESSION['Freelance']    =           1
                         $_SESSION[$typeUtilisateur] = $idTypeUtilisateur;
                         }
 
-                    # DEBUG
+                    # DEBUG lignes suivantes servent à vérifier le bon fonctionnement de la connexion
                     $id_debug=$checkMail['id_user'];
                     $surname_debug=$checkMail['firstname'] ;
                     error_log("User.php, methode connexion : Connexion avec ID $id_debug et SESSION surname  $surname_debug") ;
@@ -495,12 +419,15 @@ class User
                     header('location: admin.php');
                     return "Vous êtes connecté";
                 } else {
-                    $this->_mail = $mail;
+                    # Comme on est dans la condition du checkpass, le mail est dejà vérifié
+                    # la vérification du password a échoué (checkpass= password_verify),
+                    # on renvoie Mot de passe incorrect.
                     error_log( "User.php, methode connexion : Mot de passe incorrect" );
                     //header('location:admin.php'); // AJOUT
                     return "Mot de passe incorrect";
                 }
             } else {
+                # Sinon l'adresse mail n'est pas connue dans la bdd.
                 error_log( "User.php, methode connexion : Adresse mail inconnue" );
                 //header('location:admin.php'); // AJOUT
                 return "Adresse mail inconnue";
@@ -508,49 +435,3 @@ class User
         }
 }
 
-
-/*
-        function deleteUserLC($id)
-        {
-            $req = $this->_bdd->prepare("DELETE FROM user WHERE id=:id");
-            $req->execute(array('id' => $id));
-            return true;
-        }
-
-        function passChangeLC($id, $oldPassword, $newPassword)
-        {
-            $req = $this->_bdd->prepare("SELECT password FROM user WHERE id=:id");
-            $req->bindParam(':id', $id);
-            $req->execute();
-            $result = $req->fetch();
-            $this->_verifyPass = $result['password'];
-            if (password_verify($oldPassword, $this->_verifyPass)) {
-                $this->_password = password_hash($newPassword, PASSWORD_DEFAULT);
-                $req = $this->_bdd->prepare("UPDATE user
-                                        SET password=:newPassword
-                                        WHERE id=:id");
-                $req->execute(array('id' => $id, 'newPassword' => $this->_password));
-                return true;
-            } else {
-                return 'Le mot de passe ne correspond pas.';
-            }
-        }
-
- function updateUserLilian($id, $name, $firstname, $mail, $avatar, $civilite, $status)
-        {
-            $req = $this->_bdd->prepare("UPDATE user
-                                    SET nom=:nom, prenom=:prenom, mail=:mail, avatar=:avatar,
-                                        id_civilite=:idcivilite, id_user_status=:idstatus
-                                    WHERE id=:id");
-            $req->execute(array(
-                'id' => $id,
-                'nom' => $name,
-                'prenom' => $firstname,
-                'mail' => $mail,
-                'avatar' => $avatar,
-                'idcivilite' => $civilite,
-                'idstatus' => $status
-            ));
-            return true;
-        }
-*/

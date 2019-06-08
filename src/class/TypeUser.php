@@ -1,9 +1,10 @@
 <?php
 class TypeUser {
     private $_bdd;
-    private $_id_type;
-    private $_name;
-    /* 
+
+
+
+   /*
     Si on oublie de passer un argument à une méthode et que celui-ci est attendu, 
     PHP va renvoyer une erreur
     Si cet argument est facultatif on lui attribue une valeur par défaut dans la méthode
@@ -17,24 +18,13 @@ class TypeUser {
         $result= $var->maMethode()
         $mavariable dans la méthode vaut "LaPiscine"        
     */
-    function __construct($bdd, $idTypeUser = null)
+
+
+
+    function __construct($bdd)
     {
         $this->_bdd = $bdd;
-        if($idTypeUser != NULL){
-            $project = $this->getTypeUser($idTypeUser);
-            $this->_id_type = $idTypeUser;
-            $this->_name = $project['name'];
-        }
-    }
-    function getType($id_type)
-    {
-        $req = $this->_bdd->prepare("SELECT id_type, name
-                                FROM type 
-                                WHERE id=:id");
-        $req->bindParam(':id', $id_type);
-        $req->execute();
-        $result = $req->fetch();
-        return $result;
+
     }
 
     function getAllTypes()
@@ -47,96 +37,8 @@ class TypeUser {
         return $result ;
     }
 
-    /*
-    function getAllTypes()
-    {
-        error_log("User.php, methode getAllTypes : entree dans la fonction ");
-        $listeDesTypesUtilisteur=$this->_bdd->query('SELECT id_type, name FROM type');
-        foreach  ($listeDesTypesUtilisteur as $typeExistant) {
-            $nameTypeExistant[]= array($typeExistant['id_type'],$typeExistant['name']);
-            error_log("User.php, methode getAllTypes : Element ajoute");
 
 
-        }*/
-
-
-
-
-
-
-
-    function create($type) {
-        $this->_type = $type;
-        $req = $this->_bdd->prepare('INSERT INTO '.$this->_adress.' (type) VALUES (:type)');
-        $req->execute(array(
-            ':type' => $this->_type
-        ));
-        return true;
-    }
-
-    function read($idcategorie) {
-        $this->_id = $idcategorie;
-        $req = $this->_bdd->prepare('SELECT * FROM '.$this->_adress.' WHERE id=:id'); 
-        $req->bindParam(':id', $this->_id);
-        $req->execute();
-        $this->_verify = $req->fetch();
-        if(!empty($this->_verify)) {
-            return $this->_verify;
-        } else {
-            return 0;
-        }
-    }
-    function lilian($i){
-        if($i==1)
-            return 2;
-        else
-            return false;
-    }
-    function getAll() {
-        $req = $this->_bdd->prepare('SELECT * FROM '.$this->_adress);
-        $req->execute();
-        return $req->fetchAll();
-    }
-
-    function update($idcategorie, $type) {
-        $this->_id = $idcategorie;
-        $this->_type = $type;
-        if($this->idVerify()) {
-            $req = $this->_bdd->prepare('UPDATE '.$this->_adress.' SET type=:type WHERE id=:id');
-            $req->execute(array(
-            ':id' => $this->_id,
-            ':type' => $this->_type
-            ));
-            return true;
-        } else {
-            return 0;
-        }
-    }
-
-    function delete($idcategorie) {
-        $this->_id = $idcategorie;
-        if($this->idVerify()) {
-            $req = $this->_bdd->prepare('DELETE FROM '.$this->_adress.' WHERE id=:id');
-            $req->execute(array(
-                ':id' => $this->_id
-            ));
-            return true;
-        } else {
-            return 0;
-        }
-    }
-
-    private function idVerify() {
-        $req = $this->_bdd->prepare('SELECT * FROM '.$this->_adress.' WHERE id=:id'); 
-        $req->bindParam(':id', $this->_id);
-        $req->execute();
-        $this->_verify = $req->fetch();
-        if(!empty($this->_verify)) {
-            return 1;
-        } else {
-            return 0;
-        }
-    }
 }
 
 

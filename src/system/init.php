@@ -12,7 +12,7 @@ error_log( "init.php : ENTREE" );
 try
 {
     $bdd = new PDO('mysql:host=localhost;dbname=websphere;charset=utf8', 'root', 'root');
-    #GG
+
     #$bdd = new PDO('mysql:host=localhost;port=8889;dbname=blog_e_commerce;charset=utf8', 'root', 'root');
     # $GLOBALS['DB']=$bdd;
 }

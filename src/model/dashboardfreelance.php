@@ -2,17 +2,23 @@
 // Les traitements qui suivent sont executes qu'il y ait des donnees POST ou non !!
 
 
-// Formulaire de création de projet
-// On (re)affiche le formulaire de creation de projet dans tous les cas
-error_log("model dashboardfreelance.php : ENTREE MODELE");
+
 $menuclientorfreelance="<ul>";
-if (isset($_SESSION['Freelance'])) {
-    error_log("model dashboardfreelance.php : ON EST BIEN FREELANCE");
+if (isset($_SESSION['Client'])) {
     $menuclientorfreelance .= '
 
         <li><a href="/websphereProject/src/?p=dashboardC">Dashboard client</a></li>
     
        ';
+
+}
+
+// Formulaire de création de projet
+// On (re)affiche le formulaire de creation de projet dans tous les cas
+error_log("model dashboardfreelance.php : ENTREE MODELE");
+
+if (isset($_SESSION['Freelance'])) {
+    error_log("model dashboardfreelance.php : ON EST BIEN FREELANCE");
 
     $resultskill = new Skill ($bdd);
     $skill = $resultskill->getSkills();
@@ -25,7 +31,6 @@ if (isset($_SESSION['Freelance'])) {
                 ';
 
             }
-
     if (!empty($_POST['user_skill'])) {
         // On a ajoute des compétences avec le formulaire ...  Ajouter des compétences
         $skills = new Skill($bdd);
@@ -43,7 +48,6 @@ if (isset($_SESSION['Freelance'])) {
     $mesprojets_default_message_proposed = "<div class='projet'> <p>Vous n'avez aucun projet proposé en cours</p>";
     $mesprojetsproposes=$mesprojets_default_message_proposed;
 
-
     foreach($resultgetproject as $elementproject){
         if ($mesprojetsproposes == $mesprojets_default_message_proposed) {
             error_log("model dashboardclient.php :  variable mesprojetsproposes est a la valeur par défaut, on la vide $mesprojets_default_message_proposed");
@@ -55,17 +59,21 @@ if (isset($_SESSION['Freelance'])) {
     <div class="allproject">
             <p> Titre: ' . $elementproject['title'] . '</p>
             <p> Prix: ' . $elementproject['price'] . '</p>
-            <!-- <p> IDP ' . $elementproject['id_project'] . '</p> -->
-            <p> Contenu: ' . $elementproject['content'] . '</p>
+            <p> Date de début :' . $elementproject['start_date'] . ' </p>
+            <p> Date de début :' . $elementproject['end_date'] . ' </p>
+            <p> Contenu: <br>' . $elementproject['content'] . '</p>
             
             <form role="form" method="post">
                 <input  type="hidden" name="gpt_id_project" value="'. $elementproject['id_project'].'">
-                <button class="btn btn-primary" type="submit">Accepter le projet</button>     
+                <input class="user" type="radio" name="acpt_refuse_project_client" value="acpt_project_client" checked/> Accepter <br>
+                <input class="user" type="radio" name="acpt_refuse_project_client" value="refuse_project_client"/> Refuser <br>
+                <button type="submit"> Valider </button>
             </form>
     </div>
         ';
 
     }
+
     $mesprojetsproposes .= ' </div>';
 
 
@@ -106,18 +114,19 @@ if (isset($_SESSION['Freelance'])) {
         <p> Titre: ' . $elementprojectaccept['title'] . '</p>
         <p> Prix: ' . $elementprojectaccept['price'] . '</p>
        <!-- <p> IDP ' . $elementprojectaccept['id_project'] . '</p> -->
-        <p> Résumé: ' . $elementprojectaccept['content'] . '</p> <br>
+        <p> Résumé: <br> ' . $elementprojectaccept['content'] . '</p> <br>
         <p> Vous venez d\'accepter le projet: ' . $elementprojectaccept['title'] . ', contactez le client: </p>
         <p> Mail: ' . $resultcontactinfo['mail'] . '</p>
         <p> Téléphone: ' . $resultcontactinfo['phone'] . '</p>
        
         <form role="form" method="post">
             <input  type="hidden" name="acpt_id_project" value="'. $elementprojectaccept['id_project'].'">
-            <button  class="btn btn-primary" name="popup" type="submit">Declarer le projet terminé</button>     
+            <button  class="btn btn-primary"  type="submit">Declarer le projet terminé</button>     
         </form>
 </div>
         ';
     }
+
     $mesprojetsacceptes .= ' </div>';
 
 
@@ -140,7 +149,7 @@ if (isset($_SESSION['Freelance'])) {
         <p> Titre: ' . $elementproject_termine['title'] . '</p>
         <p> Prix: ' . $elementproject_termine['price'] . '</p>
        <!-- <p> IDP ' . $elementproject_termine['id_project'] . '</p> -->
-        <p> Date de début: ' . $elementproject_termine['content'] . '</p>
+        <p> Contenu: <br> ' . $elementproject_termine['content'] . '</p>
 </div>
         ';
 
@@ -168,8 +177,6 @@ if (isset($_SESSION['Freelance'])) {
 <div class="allproject">
         <p> Titre: ' . $elementproject_termine['title'] . '</p>
         <p> Prix: ' . $elementproject_termine['price'] . '</p>
-        <!-- <p> IDP ' . $elementproject_termine['id_project'] . '</p> -->
-        <p> Date de début: ' . $elementproject_termine['content'] . '</p>
 </div>
         ';
 
@@ -178,52 +185,42 @@ if (isset($_SESSION['Freelance'])) {
     if (empty($mesprojetstermine)){
         error_log("model dashboardfreelance.php : Pas de projets termines");
     }
-
-
-
-
-
-
-
-
-
-
-
 }
 
-if(!empty($_POST)) {
-
-    error_log("model dashboardfreelance.php : Le POST n'est pas vide mais c'est peut etre le POST user_skill");
-    if (!empty($_POST['gpt_id_project'])){
+if(isset($_POST['acpt_refuse_project_client'])) {
+    if ($_POST['acpt_refuse_project_client'] == 'acpt_project_client') {
         error_log("model dashboardfreelance.php : Le POST n'est pas vide et on vient d'un formulaire acceptation");
-        $gpt_id_project = $_POST['gpt_id_project'];
+        $id_user = $_SESSION['id'];
+        $acpt_id_project = $_POST['gpt_id_project'];
         $project = new Project($bdd);
-        error_log("model dashboardfreelance.php : appel methode acceptProjectandDeleteOtherF de Project ");
-        $result = $project->acceptProjectandDeleteOtherFl($id_user, $gpt_id_project);
-        error_log("model dashboardfreelance.php : Sortie de methode acceptProjectandDeleteOtherF de Project ");
-        error_log("model dashboardfreelance.php : SORTIE APRES ASSIGNATION PROJET");
+        $result = $project->acceptProjectandDeleteOtherFl($id_user, $acpt_id_project);
+        header('location:?p=dashboardF');
+
+    } else {
+        $id_user = $_SESSION['id'];
+        $acpt_id_project = $_POST['gpt_id_project'];
+        print_r($acpt_id_project);
+        print_r($id_user);
+        $project = new Project($bdd);
+        $refuse_project_client = $project->deleteProject($id_user, $acpt_id_project);
+        header('location:?p=dashboardF');
 
     }
-    header('location:?p=dashboardF');
-
+}
 
 
     if (!empty($_POST['acpt_id_project'])){
         error_log("model dashboardfreelance.php : Le POST n'est pas vide et on vient d'un formulaire declarer projet termine");
         error_log("model dashboardfreelance.php : ON EST SUR LE RETOUR POST");
-        $acpt_id_project = $_POST['acpt_id_project'];
+        $acpt_id_project_propose = $_POST['acpt_id_project'];
+        $id_user_acpt=$_SESSION['id'];
         $project = new Project($bdd);
         error_log("model dashboardfreelance.php : appel methode setToValidateProjectByClient de Project ");
-        $result = $project->setToValidateProjectByClient($id_user, $acpt_id_project);
+        $result = $project->setToValidateProjectByClient($id_user_acpt, $acpt_id_project_propose);
         error_log("model dashboardfreelance.php : Sortie de methode setToValidateProjectByClient de Project ");
         error_log("model dashboardfreelance.php : SORTIE APRES setToValidateProjectByClient");
-
-
-
-
-
-
         header('location:?p=dashboardF');
+
 
 
 
@@ -232,8 +229,7 @@ if(!empty($_POST)) {
 
     }
 
-    //$msg = "Tous les champs ne sont pas remplis";
-}
+
 
     if (isset($_SESSION['Freelance'])) {
         $menuclientorfreelance .= '

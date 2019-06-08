@@ -1,14 +1,10 @@
 <?php
-    
-    $pageTitle="Accueil";
-
     // Appel du modele
     include('model/home.php');
 
-
+error_log("controler home.php ENTREE");
     echo $twig->render('home.html',
     array('title' => 'Accueil connecté',
-    'assets' => 'assets/',
     'titre_compt' => $titre_comp,
     'name' => $_SESSION['surname']." ".$_SESSION['name'],
     'menuclientorfreelance' => $menuclientorfreelance,

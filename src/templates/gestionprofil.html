@@ -1,71 +1,90 @@
 {% extends "layout.html" %}
 
-{% block head %}
-{{ parent() }}
-{% endblock %}
+    {% block head %}
+        {{ parent() }}
+    {% endblock %}
 
-{% block topbar %}
-<header class="header">
-    <ul class="main-nav">
-        <li><a href="/websphereProject/src/?p=home">Websphere</a></li>
-        <li><a href="/websphereProject/src/?p=gestionprofil">Modifier mon profil</a></li>
-        <li><a href="/websphereProject/src/?p=deconnexion"> Deconnexion de {{ name }} </a></li>
-    </ul>
-    {{ menu_c_or_f | raw }}
-</header>
-{% endblock %}
+    {% block topbar %}
+        <header class="header">
+            <ul class="main-nav">
+                <a href="/websphereProject/src/?p=home"><img src="/websphereProject/src/assets/images/logo_websphere.png" alt="logo_websphere"></a>
+                <p><a href="#pop-up" rel="modal:open">Comment ça marche ?</a></p>
+                <li><a href="/websphereProject/src/?p=gestionprofil">Modifier mon profil</a></li>
+                <li><a href="/websphereProject/src/?p=deconnexion"> Deconnexion de {{ name }} </a></li>
+            </ul>
+            {{ menu_c_or_f | raw }}
+        </header>
 
+        <div id="pop-up" class="modal">
+            <h3>Client :</h3>
+            <p> Vous êtes client est souhaité faire réaliser un de vos projets web ?<br>
+                Quelque étapes à suivre : <br>
+                1- Allé sur votre dashboard client, créé un projet en remplissant les champs indiqués et posté le.<br>
+                2- Après création, cliquer sur "gérer votre projet" depuis cette page, vous pourrez choisir un ou plusieurs freelance selon <br>
+                les compétences souhaitées à la réalisation. <br>
+                3- Attendez qu'un freelance accepte votre projet pour pouvoir vous mettre en relation.
+            </p>
 
-{% block content %}
-<div class="container">
-    <form id="contact" method="post">
-        <div class="box-body">
-            <h2> Modification de vos informations </h2>
-
-                <input class="inputcss" type="hidden" name="name" value="{{ updt_id_user }}" class="form-control" id="updt_id_user"   required>
-
-            <div class="form-group">
-                <label for="nom">Nom</label>
-                <input class="inputcss" type="text" name="name" value="{{ updt_name }}" class="form-control" id="name"   required>
-            </div>
-
-            <div class="form-group">
-                <label for="prenom">Prénom</label>
-                <input class="inputcss" type="text" name="firstname" value="{{ updt_firstname }}" class="form-control" id="firstname"  required>
-            </div>
-            <div class="form-group">
-                <label for="enterprise_name">Nom de l'entreprise</label>
-                <input class="inputcss"  type="text" name="enterprise_name" value="{{ updt_enterprise_name }}" class="form-control" id="enterprise_name" required>
-            </div>
-            <div class="form-group">
-                {{ updt_list_type | raw }}
-            </div>
-            <div class="form-group">
-                <label for="siret">Siret</label>
-                <input class="inputcss" type="text" name="siret" value="{{ updt_siret }}" class="form-control" id="siret"  required>
-            </div>
-            <div class="form-group">
-                <label for="city">Ville</label>
-                <input class="inputcss" type="text" name="city" value="{{ updt_city }}" class="form-control" id="city"   required>
-            </div>
-            <div class="form-group">
-                <label for="iban">Iban</label>
-                <input class="inputcss" type="text" name="iban" value="{{ updt_iban}}" class="form-control" id="iban"  required>
-            </div>
-            <div class="form-group">
-                <label for="phone">phone</label>
-                <input class="inputcss" type="text" name="phone" value="{{ updt_phone }}" class="form-control" id="phone"   required>
-            </div>
+            <h3>Freelance :</h3>
+            <p> Si vous êtes freelance, consulté votre dashboard régulièrement pour voir si vous avez des projets proposés <br>
+                afin de les accepter.
+                Le cas échéant, vous pourrez accédé aux informations de la personne qui vous a proposé ce projet.
+            </p>
+            <a href="#" rel="modal:close">Close</a>
         </div>
+    {% endblock %}
 
-        <div class="box-footer">
-            <button type="submit" class="btn btn-primary">Valider modification du profil</button>
+
+    {% block content %}
+        <div class="container">
+            <form id="contact" method="post">
+                <div class="box-body">
+                    <h2> Modification de vos informations </h2>
+
+                        <input class="inputcss" type="hidden" name="name" value="{{ updt_id_user }}" class="form-control" id="updt_id_user"   required>
+
+                    <div class="form-group">
+                        <label for="name">Nom</label>
+                        <input class="inputcss" type="text" name="name" value="{{ updt_name }}" class="form-control" id="name"   required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="firstname">Prénom</label>
+                        <input class="inputcss" type="text" name="firstname" value="{{ updt_firstname }}" class="form-control" id="firstname"  required>
+                    </div>
+                    <div class="form-group">
+                        <label for="enterprise_name">Nom de l'entreprise</label>
+                        <input class="inputcss"  type="text" name="enterprise_name" value="{{ updt_enterprise_name }}" class="form-control" id="enterprise_name" required>
+                    </div>
+                    <div class="form-group">
+                        {{ updt_list_type | raw }}
+                    </div>
+                    <div class="form-group">
+                        <label for="siret">Siret</label>
+                        <input class="inputcss" type="text" name="siret" value="{{ updt_siret }}" class="form-control" id="siret"  required>
+                    </div>
+                    <div class="form-group">
+                        <label for="city">Ville</label>
+                        <input class="inputcss" type="text" name="city" value="{{ updt_city }}" class="form-control" id="city"   required>
+                    </div>
+                    <div class="form-group">
+                        <label for="iban">Iban</label>
+                        <input class="inputcss" type="text" name="iban" value="{{ updt_iban}}" class="form-control" id="iban"  required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">phone</label>
+                        <input class="inputcss" type="text" name="phone" value="{{ updt_phone }}" class="form-control" id="phone"   required>
+                    </div>
+                </div>
+
+                <div class="box-footer">
+                    <button type="submit" class="btn btn-primary">Valider modification du profil</button>
+                </div>
+            </form>
         </div>
-    </form>
-</div>
-{% endblock %}
+    {% endblock %}
 
 
-{% block footer %}
-{{ parent() }}
-{% endblock %}
+    {% block footer %}
+        {{ parent() }}
+    {% endblock %}

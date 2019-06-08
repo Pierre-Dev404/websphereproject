@@ -2,28 +2,11 @@
 
 class Project{
 
-    private $_id_project;
-    private $_title;
-    private $_start_date;
-    private $_end_date;
-    private $_price;
-    private $_content;
-    private $_id_project_status;
     private $_bdd;
 
-    function __construct($bdd, $idProject = null){
+    function __construct($bdd){
         $this->_bdd=$bdd;
-        if($idProject !== NULL){
-            $projet = $this->getProject($idProject);
-            $this->_id_project=$idProject;
-            $this->_id_project_status=$projet['id_project_status'];
-            $this->_title=$projet['title'];
-            $this->_start_date=$projet['start_date'];
-            $this->_end_date=$projet['end_date'];
-            $this->_price=$projet['price'];
-            $this->_content=$projet['content'];
 
-        }
         //la variable $bdd n'est pas accessible depuis l'interieur de la classe vers l'exterieur de la classe
         //donc on passe a l'instanciation de la classe article l'objet BDD
         //la variable bdd recu a l'interieur du _consarticlet n'est pas accessible des autres méthodes
@@ -33,18 +16,24 @@ class Project{
 
     //Obtention des infos concernant 1 article en spécifiant sont ID dans la méthode
 
-    function getProject(){
 
-        $req = $this->_bdd->prepare('SELECT * 
-                                        FROM project
-                                        WHERE id_project_status = 1');
+    function deleteProject($dp_id_user, $dp_id_project){
+
+        error_log('DELETE FROM work w WHERE w.id_user=:$dp_id_user AND w.id_type = 1 AND w.id_project =:$dp_id_project');
+        $req = $this->_bdd->prepare('DELETE FROM work 
+                                            WHERE id_user=:dp_id_user 
+                                            AND id_type = 1 
+                                            AND id_project =:dp_id_project ');
+
+        $req->bindParam(':dp_id_user', $dp_id_user);
+        $req->bindParam(':dp_id_project', $dp_id_project);
         $req->execute();
-        return $req->fetchAll();
     }
+
 
     function getProjectProposeToFreelance($gpt_id_user, $gtp_id_project_status){
 
-        $req = $this->_bdd->prepare('SELECT p.id_project, p.title, p.content, p.price FROM project p 
+        $req = $this->_bdd->prepare('SELECT p.id_project, p.title, p.content, p.price, p.start_date, p.end_date FROM project p 
                                     JOIN work w ON w.id_project = p.id_project
                                     WHERE w.id_user=:gtp_id_user AND w.id_type = 1 AND p.id_project_status =:gtp_id_project_status');
 
@@ -102,17 +91,10 @@ class Project{
     function acceptProjectandDeleteOtherFl($apd_id_user, $apd_id_project){
         error_log("Classe Project,methode acceptProjectandDeleteOtherFl : le id_user est $apd_id_user");
         error_log("Classe Project,methode acceptProjectandDeleteOtherFl : le id_project  est $apd_id_project");
-        $DBG_requete="UPDATE project SET id_project_status = 2 WHERE id_project =$apd_id_project";
-        error_log("Classe Project,methode acceptProjectandDeleteOtherFl : premiere requete :  $DBG_requete");
         $req = $this->_bdd->prepare('UPDATE project SET id_project_status = 2 WHERE id_project =:id_project');
         $req->bindParam(':id_project', $apd_id_project);
         $req->execute();
 
-        $DBG_requete="DELETE w
-                                        FROM work w 
-                                        JOIN project p ON p.id_project = w.id_project
-                                        WHERE w.id_user !=$apd_id_user AND w.id_type = 1";
-        error_log("Classe Project,methode acceptProjectandDeleteOtherFl : deuxieme requete :  $DBG_requete");
         $req = $this->_bdd->prepare("DELETE w
                                         FROM work w 
                                         JOIN project p ON p.id_project = w.id_project
@@ -137,22 +119,16 @@ class Project{
             $req->bindParam(':price', $cr_price);
             $req->bindParam(':content', $cr_content);
             $req->bindParam(':id_project_status', $status_initial_projet);
-
-            $result_insert_project=$req->execute();
+            $req->execute();
             $erreur_insert_project=$req->errorInfo() ;
             $erreur_insert_project_code=$erreur_insert_project['0'] ;
-
-            error_log("Classe Project,methode createProject : le result_insert_project est $result_insert_project");
-
-            error_log("Classe Project,methode createProject : le erreur_insert_project est $erreur_insert_project_code");
             //On recupère l'ID du dernier projet inseré
             $lastId = $this->_bdd->lastInsertId();
             $ID_TYPE=$_SESSION['Client'];
             error_log("Classe Project,methode createProject : le id_user est $cp_id_user");
             error_log("Classe Project,methode createProject : le lastId recupere de insertion dans project est $lastId");
             error_log("Classe Project,methode createProject : le id_type  est $ID_TYPE");
-            //On injecte ensuite la catégorie et l'ID de l'article dans la table 'rel_article_category'
-            error_log("INSERT INTO work (id_user, id_project, id_type) VALUES ($cp_id_user, $lastId , $ID_TYPE)");
+
             $req = $this->_bdd->prepare('INSERT INTO work (id_user, id_project, id_type) VALUES (:label_id_user, :label_id_project, :label_id_type)');
             $req->bindParam(':label_id_user', $cp_id_user);
             $req->bindParam(':label_id_project', $lastId);
@@ -210,65 +186,6 @@ class Project{
         //var_dump($retAssigned);
         return $retAssigned;
     }
-/*
-    //Update d'un article
-    function uptadeArticle($titre,$content,$img,$id_article){
-        $req = $this->_bdd->prepare('UPDATE article SET title=":title",content=":content",coverImage=":img" WHERE id=:id_article;');
-        $req->bindParam (':titre', $titre);
-        $req->bindParam (':content', $content);
-        $req->bindParam (':coverImage', $img);
-        $req->bindParam (':id_article', $id_article);
-        $req->execute();
-        return 'true';
-    }
-
-    //Update d'un article
-    function uptadeStatus($id_user,$id_article,$status,$date){
-        $req = $this->_bdd->prepare('INSERT INTO rel_event_article(id,id_article, id_article_status, date) 
-            VALUES (:id_user , :id_article , :status, NOW())');
-        $req->bindParam (':id_user', $id_user);
-        $req->bindParam (':id_article', $id_article);
-        $req->bindParam (':status', $status);
-        $req->execute();
-        return 'true';
-    }
-*/
 
 }
 
-//TEST//
-
-//$article=new Article($bdd);
-
-//Obtention de la liste de tous les articles
-//$test= $article->getListArticle();
-/*echo '<pre>';
-print_r($test);
-echo '</pre>';*/
-
-//Obtention des infos concernant 1 article en spécifiant sont ID dans la méthode
-//$test2=$article->getArticle(1);
-
-//creation d'un article
-//$test3=$article->createArticle($_POST['titre'],$_POST['content'],$_POST['coverImage']);
-
-//Update d'un article
-//$test4=$article->uptadeArticle($_POST['titre'],$_POST['content'],$_POST['coverImage'],$_POST['id_article']);
-
-//Update du status
-//$test5=$article->uptadeStatus($_POST['id_user'],$_POST['id_article'],$_POST['status'],$_POST['date']);
-
-//Suppresion d'un article
-//$test6=$article->deleteArticle($_POST['id_user'], $_POST['id_article'],$_POST['status'],$_POST['date']);
-
-//liste des commentaires
-//$test7=$article->listComment($_POST['id_article']);
-
-//echo '<pre>';
-//print_r($result2);
-//echo '</pre>';
-
-//$article->createArticle($_POST['titre'],$_POST['content'],$_POST['img']);
-
-
-//$article=new Article($bdd,2);

@@ -4,6 +4,8 @@
 // include 'src/class/TypeUserser.php/ include 'src/class/User.php';
 
 /* V2 */
+
+
 $directory="class/";
 $listClass = scandir(getcwd()."/".$directory);
 foreach($listClass as $class){

@@ -4,41 +4,54 @@
 {{ parent() }}
 {% endblock %}
 
-{% block topbar %}
-<header class="header">
-    <ul class="main-nav">
-        <li><a href="/websphereProject/src/?p=home">Websphere</a></li>
-        <li><a href="/websphereProject/src/?p=gestionprofil">Modifier mon profil</a></li>
-        <li><a href="/websphereProject/src/?p=deconnexion"> Deconnexion de {{ name }} </a></li>
+    {% block topbar %}
+        <header class="header">
+            <ul class="main-nav">
+                <a href="/websphereProject/src/?p=home"><img src="/websphereProject/src/assets/images/logo_websphere.png" alt="logo_websphere"></a>
+                <p><a href="#pop-up" rel="modal:open">Comment ça marche ?</a></p>
+                <li><a href="/websphereProject/src/?p=gestionprofil">Modifier mon profil</a></li>
+                <li><a href="/websphereProject/src/?p=deconnexion"> Deconnexion de {{ name }} </a></li>
+            </ul>
+                {{ menuclientorfreelance | raw }}
 
-    </ul>
+            <div id="pop-up" class="modal">
+                <h3>Client :</h3>
+                <p> Vous êtes client est souhaité faire réaliser un de vos projets web ?<br>
+                    Quelque étapes à suivre : <br>
+                    1- Allé sur votre dashboard client, créé un projet en remplissant les champs indiqués et posté le.<br>
+                    2- Après création, cliquer sur "gérer votre projet" depuis cette page, vous pourrez choisir un ou plusieurs freelance selon <br>
+                    les compétences souhaitées à la réalisation. <br>
+                    3- Attendez qu'un freelance accepte votre projet pour pouvoir vous mettre en relation.
+                </p>
 
-        {{ menuclientorfreelance | raw }}
-      <!--  <li><a href="#">Dashboard client</a></li>
-        <li><a href="#">Dashboard freelance</a></li> -->
-</header>
-{% endblock %}
+                <h3>Freelance :</h3>
+                <p> Si vous êtes freelance, consulté votre dashboard régulièrement pour voir si vous avez des projets proposés <br>
+                    afin de les accepter.
+                    Le cas échéant, vous pourrez accédé aux informations de la personne qui vous a proposé ce projet.
+                </p>
+                <a href="#" rel="modal:close">Close</a>
+            </div>
 
-{% block content %}
+        </header>
+    {% endblock %}
 
-<div class="containerdashC">
-        <section class="sidebarleft">
-                <h2>Créer un projet</h2>
-                {{ formprojet | raw }}
-        </section>
+    {% block content %}
+        <div class="containerdashC">
+                <section class="sidebarleft">
+                        <h2>Créer un projet</h2>
+                        {{ formprojet | raw }}
+                </section>
 
-        <section class="sidebarright">
-            <h2>Mes projets</h2>
-
-                {{ mesprojets | raw }}
-
-            <h2> Historique de mes projets</h2>
-            {{ mesprojetstermines | raw }}
-        </section>
-</div>
-{% endblock %}
+                <section class="sidebarright">
+                    <h2>Mes projets</h2>
+                        {{ mesprojets | raw }}
+                    <h2> Historique de mes projets</h2>
+                    {{ mesprojetstermines | raw }}
+                </section>
+        </div>
+    {% endblock %}
 
 
-{% block footer %}
-{{ parent() }}
-{% endblock %}
+    {% block footer %}
+        {{ parent() }}
+    {% endblock %}

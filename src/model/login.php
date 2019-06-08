@@ -8,7 +8,7 @@
 error_log( "login.php :ENTREE" );
 $user = new User ($bdd);
 
-$mailTmp="";
+// Nty $mailTmp="";
 $msg = "";
 $login='';
 if(!empty($_POST)){

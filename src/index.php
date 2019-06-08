@@ -17,26 +17,15 @@ if(isset($_GET['p']) AND $_GET['p']=="pageinfo"){                   /* Afficher 
     phpinfo();
 }
 elseif(isset($_GET['p']) AND $_GET['p']=="pagelogin"){              /* Page de connexion */
-    $msg='' ; // message login                                      /* On appelle directement le modele */
-    include('model/login.php');
-    echo $twig->render('login.html',
-    array('title' => 'Page de login',
-        'assets_front' => 'assets/front/',
-        'msg' => $msg));
+                                                                    /* On appelle directement le modele */
+    include('controler/login.php');
 }
 elseif(isset($_GET['p']) AND $_GET['p']=="inscription"){            /* Inscription sur le site */
     include('controler/create.php');
-    /*echo $twig->render('create.html',
-        array('title' => 'Page de creation utilisateur',
-            'assets_front' => 'assets/front/',
-            'message' => "Et on s'inscrit !!!")); */
 }
 elseif(isset($_GET['p']) AND $_GET['p']=="deconnexion"){            /* Deconnexion utilisateur */
     include('controler/deconnexion.php');
-    /*echo $twig->render('create.html',
-        array('title' => 'Page de creation utilisateur',
-            'assets_front' => 'assets/front/',
-            'message' => "Et on s'inscrit !!!")); */
+
 }
 elseif(isset($_GET['p']) AND $_GET['p']=="dashboardC") {            /* Acces au Dashboard Client */
     include('controler/dashboardclient.php');

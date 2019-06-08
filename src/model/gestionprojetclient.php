@@ -17,7 +17,6 @@ if (isset($_SESSION['Client'])) {
     
        ';
 }
-
 if (isset($_SESSION['Freelance'])) {
     $menuclientorfreelance .= '
 
@@ -116,11 +115,10 @@ if (!empty($_POST)) {
                         $nm_usersbyskill .= '
                         <div class="free-dash">
                         Choisir <input class="user" type="checkbox" name="freelance_check[]" value=' . $freelance['id_user'] . ' /> <br>
-                        <p>' . $freelance['id_user'] . '</p>
-                        <p>' . $freelance['name'] . '</p>
-                        <p>' . $freelance['firstname'] . '</p>
-                        <p>' . $freelance['enterprise_name'] . '</p>
-                        <p>' . $freelance['city'] . '</p>
+                        <p>Nom: ' . $freelance['name'] . '</p>
+                        <p>Prénom: ' . $freelance['firstname'] . '</p>
+                        <p>Entreprise: ' . $freelance['enterprise_name'] . '</p>
+                        <p>Ville: ' . $freelance['city'] . '</p>
                         </div>
                         ';
                     }
@@ -209,7 +207,7 @@ if (!empty($_POST)) {
         $listskill = '
              <h2> Rechercher un freelance</h2>
             <form role="form" class="form-checkbox" method="post" action="?p=gestionprojetC">
-            <input  type="hidden" name="skill_form">'; // permet d'avoir du POST même si aucune case est cochée et de teser appel depui formulaire
+            <input  type="hidden" name="skill_form">'; // permet d'avoir du POST même si aucune case est cochée et de tester appel depui formulaire
         foreach ($skill as $element) {
             $listskill .= '
             <div class="user-checkbox">

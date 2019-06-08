@@ -1,12 +1,14 @@
 /* css basique */
 * {
     box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
 }
 body {
     line-height: 1.6;
     margin: 0;
-    min-height: 100vh;
-    background-color:darkgrey;
+    padding:0;
+    background-color:#7f8ea5;
+    background: radial-gradient(circle, darkgrey, #7f8ea5);
 }
 ul {
     margin: 0;
@@ -25,41 +27,47 @@ p, ul, li, label, input, a{
 
 /* end css basique */
 
+
+/* css affichage pop-up */
+#pop-up{
+    margin-top:100px;
+}
+
+/* end css affichage pop-up */
+
+
 /* css topbar */
-a, li {
-    text-decoration: none;
-    color: #C4D1FF
-}
-.logo {
-    margin: 0;
-    font-size: 1.45em;
-}
 .main-nav{
     display:flex;
     justify-content: space-around;
-}
-.main-nav {
-    margin-top: 5px;
-}
-.logo a,
-.main-nav a {
-    padding: 10px 15px;
-    text-transform: uppercase;
-    text-align: center;
-    display: block;
-}
-.main-nav a {
-    font-size: .99em;
-    color: #C4D1FF
-}
-.main-nav a:hover {
-    color: #718daa;
 }
 .header {
     padding-top: .5em;
     padding-bottom: .5em;
     border: 1px solid #a2a2a2;
     background-color: #3E4E85;
+    position: fixed;
+    margin:auto;
+    width:100%;
+    top: 0;
+    z-index:100;
+}
+a, li {
+    text-decoration: none;
+    color: #C4D1FF
+}
+a:hover {
+    color: #718daa;
+}
+img{
+    height:70px;
+    border-radius: 50%;
+}
+.main-nav a {
+    text-align: center;
+    display: block;
+    font-size: .99em;
+    color: #C4D1FF;
 }
 /* end css topbar */
 
@@ -67,12 +75,10 @@ a, li {
 .main_footer{
     display:flex;
     justify-content: space-around;
-}
-.main_footer{
-    padding-top: .5em;
-    padding-bottom: .5em;
     border: 1px solid #a2a2a2;
     background-color: #3E4E85;
+    margin:0;
+
 }
 .main_footer a{
     color: #C4D1FF
@@ -90,16 +96,21 @@ a, li {
     /* css bouton accueil connecté */
 .buttonAccueil a{
     font-size:1.5em;
-    color: whitesmoke;
 }
 .buttonAccueil{
-    background-image: linear-gradient(to right, #16222A 0%, #3A6073 51%, #16222A 100%);
+    background-image: linear-gradient(#3E4E85, #718daa , #3E4E85);
     border-radius: 10px;
     width:300px;
     height:100px;
 }
+.buttonAccueil p{
+    text-align: center;
+    padding-top:40px;
+}
 .buttonAccueil:hover {
-    background-position: right center;
+    opacity:0.80;
+    color:black;
+
 }
 .choixUser{
     display:flex;
@@ -111,7 +122,6 @@ a, li {
 }
 .choixUser h2{
     font-size:1.2em;
-    color:white;
 }
     /* end css bouton accueil connecté*/
 
@@ -158,7 +168,7 @@ a, li {
 
 /* Css accueil non connecté */
 .accueil{
-    margin-top:50px;
+    margin-top:150px;
     margin-bottom:120px;
     text-align:center;
 
@@ -169,11 +179,10 @@ a, li {
 .list_comp li{
     color:black;
 }
-
+.contact, .about, .use{
+    color: #C4D1FF;
+}
 /* END Css accueil non connecté */
-
-
-
 
 
 
@@ -225,6 +234,12 @@ form{
 
 /* end affichage freelance par compétences */
 
+/* css gestion profil */
+.recap_projet{
+    margin-top:200px;
+}
+
+/* end css gestion profil */
 
 .projecttest{
     display:flex;
@@ -237,7 +252,8 @@ form{
     justify-content:space-around;
 }
 .allproject{
-    border: 1px solid black;
+    border: 1px solid #C4D1FF;
+    border-radius: 5%;
     width:30%;
     margin-top:10px;
 
@@ -249,24 +265,17 @@ form{
 
 
 
-/* css formulaire connexion */
+/* css formulaire connexion et button submit */
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,300,600,400italic);
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-font-smoothing: antialiased;
-    -moz-font-smoothing: antialiased;
-    -o-font-smoothing: antialiased;
-    font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
+
 }
 .container {
     max-width: 400px;
     margin: 11% auto;
-    position: relative;
 }
 
 #contact input[type="text"],
@@ -343,53 +352,20 @@ fieldset {
 
 #contact button[type="submit"] {
     cursor: pointer;
-    width: 100%;
-    border: none;
-    background: #3E4E85;
-    color: #FFF;
-    margin: 0 0 5px;
-    padding: 10px;
     font-size: 15px;
 }
 
 #contact button[type="submit"]:hover {
     background: #3E4E85;
-    -webkit-transition: background 0.3s ease-in-out;
-    -moz-transition: background 0.3s ease-in-out;
-    transition: background-color 0.3s ease-in-out;
+    opacity:0.80;
+}
+button[type="submit"]:hover {
+    background: #3E4E85;
+    opacity:0.80;
 }
 
-#contact button[type="submit"]:active {
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
-}
 
-.copyright {
-    text-align: center;
-}
-
-#contact input:focus,
-#contact textarea:focus {
-    outline: 0;
-    border: 1px solid #aaa;
-}
-
-::-webkit-input-placeholder {
-    color: #888;
-}
-
-:-moz-placeholder {
-    color: #888;
-}
-
-::-moz-placeholder {
-    color: #888;
-}
-
-:-ms-input-placeholder {
-    color: #888;
-}
-
-/* end css formulaire connexion */
+/* end css formulaire connexion  et button submit*/
 
 
 /* css dashboard client et freelance */
@@ -404,8 +380,6 @@ button[type="submit"] {
     padding: 10px;
     font-size: 15px;
 }
-
-
 
 .containerdashC{
     width:100%;
@@ -431,7 +405,7 @@ button[type="submit"] {
 .allproject{
     width:45%;
     text-align:center;
-    background-color:lightgrey;
+    background-color:white;
 }
 .projetselect{
     width:40%;
@@ -459,6 +433,7 @@ button[type="submit"] {
 .form-dashb{
     display:flex;
     justify-content:space-around;
+    flex-wrap:wrap;
 }
 input{
     text-align:left;
@@ -468,4 +443,11 @@ input[type=checkbox] {
     width:100%;
 }
 
-/* end css dashboard client */
+.choixUser{
+    margin-top:150px;
+}
+.containerdashC{
+    margin-top:160px;
+}
+
+/* end css dashboard client et freelance */

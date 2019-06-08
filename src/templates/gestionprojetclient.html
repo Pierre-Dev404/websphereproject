@@ -1,57 +1,71 @@
 {% extends "layout.html" %}
 
-{% block head %}
-{{ parent() }}
-{% endblock %}
+    {% block head %}
+        {{ parent() }}
+    {% endblock %}
 
-{% block topbar %}
-<header class="header">
-    <ul class="main-nav">
-        <li><a href="/websphereProject/src/?p=home">Websphere</a></li>
-        <li><a href="/websphereProject/src/?p=gestionprofil">Modifier mon profil</a></li>
-        <li><a href="/websphereProject/src/?p=deconnexion"> Deconnexion de {{ name }} </a></li>
+    {% block topbar %}
+        <header class="header">
+            <ul class="main-nav">
+                <a href="/websphereProject/src/?p=home"><img src="/websphereProject/src/assets/images/logo_websphere.png" alt="logo_websphere"></a>
+                <p><a href="#pop-up" rel="modal:open">Comment ça marche ?</a></p>
+                <li><a href="/websphereProject/src/?p=gestionprofil">Modifier mon profil</a></li>
+                <li><a href="/websphereProject/src/?p=deconnexion"> Deconnexion de {{ name }} </a></li>
+            </ul>
+            {{ menu_c_or_f | raw }}
+            <div id="pop-up" class="modal">
+                <h3>Client :</h3>
+                <p> Vous êtes client est souhaité faire réaliser un de vos projets web ?<br>
+                    Quelque étapes à suivre : <br>
+                    1- Allé sur votre dashboard client, créé un projet en remplissant les champs indiqués et posté le.<br>
+                    2- Après création, cliquer sur "gérer votre projet" depuis cette page, vous pourrez choisir un ou plusieurs freelance selon <br>
+                    les compétences souhaitées à la réalisation. <br>
+                    3- Attendez qu'un freelance accepte votre projet pour pouvoir vous mettre en relation.
+                </p>
 
-    </ul>
+                <h3>Freelance :</h3>
+                <p> Si vous êtes freelance, consulté votre dashboard régulièrement pour voir si vous avez des projets proposés <br>
+                    afin de les accepter.
+                    Le cas échéant, vous pourrez accédé aux informations de la personne qui vous a proposé ce projet.
+                </p>
+                <a href="#" rel="modal:close">Close</a>
+            </div>
+        </header>
+    {% endblock %}
 
-    {{ menu_c_or_f | raw }}
-</header>
-{% endblock %}
+    {% block content %}
+        <section class="recap_projet">
+            {{ recapprojet | raw }}
+        </section>
 
-{% block content %}
+        <div class="projetselect">
+            <h2>Vous gérez le projet : {{ nm_title | raw }}</h2>
+            <h2> Titre: </h2>  <p>{{ nm_title | raw }}</p>
+            <h2> Date de début: </h2>  <p>{{ nm_start_date | raw }}</p>
+            <h2>Date de fin:</h2>  <p>{{ nm_end_date | raw }}</p>
+            <h2>Prix:</h2>  <p>{{ nm_price | raw }}</p>
+            <h2>Contenu:</h2> <p>{{ nm_content | raw }}</p>
+            <h2>Avancement:</h2> <p>{{ nm_status_name | raw }}</p>
+        </div>
 
-{{ recapprojet | raw }}
+        {{ projet_propose_to_freelance | raw }}
 
-<div class="projetselect">
-    <h2>Vous gérez le projet : {{ nm_title | raw }} </h2>
-    <p> Titre: {{ nm_title | raw }}</p>
-    <p> Date de début: {{ nm_start_date | raw }}</p>
-    <p>Date de fin: {{ nm_end_date | raw }}</p>
-    <p>Prix: {{ nm_price | raw }}'</p>
-    <p>Contenu: {{ nm_content | raw }}</p>
-    <p>Avancement: {{ nm_status_name | raw }}</p>
-</div>
+        <div class="acceptorrefuse">
+            {{ accept_or_refuse | raw }}
+        </div>
 
-{{ projet_propose_to_freelance | raw }}
+        <div class="form-check">
+            {{ list | raw }}
+        </div>
 
-
-
-<div class="acceptorrefuse">
-{{ accept_or_refuse | raw }}
-</div>
-
-<div class="form-check">
-{{ list | raw }}
-</div>
-
-
-<div class="glob-free">
- {{ userbyskill | raw }}
-</div>
+        <div class="glob-free">
+         {{ userbyskill | raw }}
+        </div>
 
 
-{% endblock %}
+    {% endblock %}
 
 
-{% block footer %}
-{{ parent() }}
-{% endblock %}
+    {% block footer %}
+        {{ parent() }}
+    {% endblock %}

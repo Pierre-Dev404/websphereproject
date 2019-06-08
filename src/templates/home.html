@@ -1,48 +1,61 @@
 {% extends "layout.html" %}
 
-{% block head %}
-{{ parent() }}
-{% endblock %}
+    {% block head %}
+        {{ parent() }}
+    {% endblock %}
 
-{% block topbar %}
-<header class="header">
-    <ul class="main-nav">
-        <li><a href="/websphereProject/src/?p=home">Websphere</a></li>
-        <li><a href="/websphereProject/src/?p=gestionprofil">Modifier mon profil</a></li>
-        <li><a href="/websphereProject/src/?p=deconnexion">Deconnexion de {{ name }} </a></li>
-    </ul>
+    {% block topbar %}
+        <header class="header">
+            <ul class="main-nav">
+                <a href="/websphereProject/src/?p=home"><img src="/websphereProject/src/assets/images/logo_websphere.png" alt="logo_websphere"></a>
+                <p><a href="#pop-up" rel="modal:open">Comment ça marche ?</a></p>
+                <li><a href="/websphereProject/src/?p=gestionprofil">Modifier mon profil</a></li>
+                <li><a href="/websphereProject/src/?p=deconnexion">Deconnexion de {{ name }} </a></li>
+            </ul>
+            <ul>
+                {{ menuclientorfreelance | raw }}
+            </ul>
+            <!--   Text de la pop-up    -->
+            <div id="pop-up" class="modal">
+                <h3>Client :</h3>
+                <p> Vous êtes client est souhaité faire réaliser un de vos projets web ?<br>
+                    Quelque étapes à suivre : <br>
+                    1- Allé sur votre dashboard client, créé un projet en remplissant les champs indiqués et posté le.<br>
+                    2- Après création, cliquer sur "gérer votre projet" depuis cette page, vous pourrez choisir un ou plusieurs freelance selon <br>
+                    les compétences souhaitées à la réalisation. <br>
+                    3- Attendez qu'un freelance accepte votre projet pour pouvoir vous mettre en relation.
+                </p>
 
-<ul>
-    {{ menuclientorfreelance | raw }}
-</ul>
-</header>
+                <h3>Freelance :</h3>
+                <p> Si vous êtes freelance, consulté votre dashboard régulièrement pour voir si vous avez des projets proposés <br>
+                    afin de les accepter.
+                    Le cas échéant, vous pourrez accédé aux informations de la personne qui vous a proposé ce projet.
+                </p>
+                <a href="#" rel="modal:close">Close</a>
+            </div>
+            <!--   Text de la pop-up    -->
+        </header>
+    {% endblock %}
 
-{% endblock %}
+    {% block content %}
+        <section class="choixUser">
+            {{ buttonC | raw }}
+            {{ buttonF | raw }}
+        </section>
 
-{% block content %}
+        <section class="info">
+                <h1> Bienvenue sur le site websphere</h1>
+                <h2> Conseils</h2>
+                <p> Bonjour, sur notre site vous allez pouvoir rechercher le développeur Freelance qui saura réaliser au mieux votre projet.</p>
+                <p> Si vous êtes Freelance, nous vous invitons à vous enregistrer comme tel sur notre site.</p>
+                <p> Vous pouvez créer un compte avec à la fois un profil Client et un profil Freelance. </p>
+                <p> En tant que Freelance vous pourrez donc rechercher d'autre profils Freelance afin de sous-traiter un projet.</p>
+        </section>
 
-<section class="choixUser">
-    {{ buttonC | raw }}
-    {{ buttonF | raw }}
-</section>
-
-<section class="info">
-        <h1> Bienvenue sur le site websphere</h1>
-        <h2> Conseils</h2>
-
-
-        <p> Bonjour, sur notre site vous allez pouvoir rechercher le développeur Freelance qui sarat réaliser au mieux votre projet.</p>
-        <p> Si vous êtes Freelance, nous vous invitons à vous enregistrer comme tel sur notre site.</p>
-        <p> Vous pouvez créer un compte avec à la fois un profil Client et un profil Freelance. </p>
-        <p> En tant que Freelance vous pourrez donc rechercher d'autre profils Freelance afin de sous-traiter un projet</p>
-
-</section>
-
-
-{{ titre_compt | raw }}
-<section class="list_comp">
-{{ listcomp | raw }}
-</section>
+    {{ titre_compt | raw }}
+    <section class="list_comp">
+     {{ listcomp | raw }}
+    </section>
 
 {% endblock %}
 

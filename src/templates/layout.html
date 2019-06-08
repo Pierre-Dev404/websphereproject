@@ -2,27 +2,53 @@
 <html>
     <head>
         {% block head %}
-        <title>{{ title }}</title>
-        <meta charset="utf-8">
-        <link rel="stylesheet" href="assets/css/style.css">
-        <link href="https://fonts.googleapis.com/css?family=Arimo|Lato&display=swap" rel="stylesheet">
+            <title>{{ title }}</title>
+            <meta charset="utf-8">
+            <link rel="stylesheet" href="assets/css/style.css">
+            <link href="https://fonts.googleapis.com/css?family=Arimo|Lato&display=swap" rel="stylesheet">
+            <!-- Remember to include jQuery :) -->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+
+            <!-- jQuery Modal -->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
         {% endblock %}        
     </head>
+
     <body>
-            {% block topbar %}
+        {% block topbar %}
             <header class="header">
                 <ul class="main-nav">
-                    <li><a href="#">Websphere</a></li>
+                   <a href="/websphereProject/src/?p=pagelogin"></a> <img src="/websphereProject/src/assets/images/logo_websphere.png" alt="logo_websphere">
+                    <p><a href="#pop-up" rel="modal:open">Comment ça marche ?</a></p>
                     <li><a href="/websphereProject/src/?p=pagelogin">Connexion</a></li>
                     <li><a href="/websphereProject/src/?p=inscription">Inscription</a></li>
                 </ul>
+
+                <div id="pop-up" class="modal">
+                    <h3>Client :</h3>
+                    <p> Vous êtes client est souhaité faire réaliser un projet web ?<br>
+                        Quelques étapes à suivre : <br>
+                        1- Allé sur votre dashboard client, créer un projet en remplissant les champs indiqués et posté le.<br>
+                        2- Après création, cliquer sur "gérer votre projet" depuis cette page, vous pourrez choisir un ou plusieurs freelance selon <br>
+                        les compétences souhaitées à la réalisation. <br>
+                        3- Attendez qu'un freelance accepte votre projet pour pouvoir vous mettre en relation.
+                    </p>
+
+                    <h3>Freelance :</h3>
+                    <p> Si vous êtes freelance, consulté votre dashboard régulièrement pour voir si vous avez des projets proposés <br>
+                        afin de les accepter.
+                        Le cas échéant, vous pourrez accédé aux informations de la personne qui vous a proposé ce projet.
+                    </p>
+                    <a href="#" rel="modal:close">Close</a>
+                </div>
             </header>
-            {% endblock %}      
+        {% endblock %}
 
-            {% block content %}
-            {% endblock %}
+        {% block content %}
+        {% endblock %}
 
-            {% block footer %}
+        {% block footer %}
             <section class="main_footer">
                 <div class="contact">
                     <h2>Me contacter</h2>
@@ -44,7 +70,7 @@
                     </p>
                 </div>
             </section>
-            {% endblock %}
+        {% endblock %}
     </body>
 </html>
 
