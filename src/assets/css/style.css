@@ -5,15 +5,14 @@
 }
 body {
     line-height: 1.6;
-    margin: 0;
-    padding:0;
     background-color:#7f8ea5;
     background: radial-gradient(circle, darkgrey, #7f8ea5);
 }
-ul {
+ul, li, a {
     margin: 0;
     padding: 0;
-    list-style: none;
+    list-style: none !important;
+    text-decoration: none !important;
 }
 
 h1, h2, h3, h4{
@@ -27,61 +26,77 @@ p, ul, li, label, input, a{
 
 /* end css basique */
 
-
-/* css affichage pop-up */
-#pop-up{
-    margin-top:100px;
-}
-
-/* end css affichage pop-up */
-
-
 /* css topbar */
-.main-nav{
-    display:flex;
-    justify-content: space-around;
-}
-.header {
-    padding-top: .5em;
-    padding-bottom: .5em;
-    border: 1px solid #a2a2a2;
-    background-color: #3E4E85;
-    position: fixed;
-    margin:auto;
-    width:100%;
-    top: 0;
-    z-index:100;
-}
-a, li {
-    text-decoration: none;
-    color: #C4D1FF
-}
-a:hover {
-    color: #718daa;
-}
 img{
     height:70px;
     border-radius: 50%;
 }
-.main-nav a {
-    text-align: center;
-    display: block;
-    font-size: .99em;
-    color: #C4D1FF;
+.navbar{
+    background-color: #3E4E85 !important;
+    z-index:100;
+}
+a{
+    color:#C4D1FF !important;
+}
+a:hover{
+    color:black !important;
+}
+.dropdown-menu{
+    background-color: #3E4E85 !important;
+}
+.containerdashC{
+    padding-top:150px;
 }
 /* end css topbar */
 
 /* css footer */
 .main_footer{
-    display:flex;
-    justify-content: space-around;
-    border: 1px solid #a2a2a2;
     background-color: #3E4E85;
-    margin:0;
-
 }
 .main_footer a{
-    color: #C4D1FF
+    color: #C4D1FF;
+}
+.contact p {
+    margin:0 !important;
+}
+/* end css footer */
+
+/* css bouton accueil connecté */
+
+
+/* css pop-up */
+#pop-up{
+    max-height:500px !important;
+}
+.modal a.close-modal {
+    position: absolute;
+    top: -1.5px !important;
+    right: -1.7px !important;
+}
+/* end css pop-up */
+
+/* Css accueil non connecté */
+.accueil{
+    text-align:center;
+    padding-top:150px;
+    margin-bottom:50px;
+}
+.list_comp li{
+    color:black;
+}
+.contact, .about, .use{
+    color: #C4D1FF;
+}
+/* END Css accueil non connecté */
+
+/* css footer */
+.main_footer{
+    display:flex;
+    justify-content: space-around;
+    background-color: #3E4E85;
+}
+.main_footer a{
+    color: #C4D1FF;
 }
 .use{
     display:flex;
@@ -91,41 +106,37 @@ img{
     display:flex;
     flex-direction: column;
 }
+.contact p {
+    margin:0 !important;
+}
 /* end css footer */
 
     /* css bouton accueil connecté */
-.buttonAccueil a{
-    font-size:1.5em;
-}
-.buttonAccueil{
+.btn{
     background-image: linear-gradient(#3E4E85, #718daa , #3E4E85);
-    border-radius: 10px;
     width:300px;
-    height:100px;
 }
-.buttonAccueil p{
-    text-align: center;
-    padding-top:40px;
-}
-.buttonAccueil:hover {
-    opacity:0.80;
-    color:black;
 
+button p{
+    color: #C4D1FF;
+    margin-bottom:0 !important;
 }
-.choixUser{
-    display:flex;
-    justify-content:space-around;
-    align-items: center;
-    width:100%;
-    height: 300px;
-    text-align:center;
+button:hover {
+    opacity:0.80;
 }
-.choixUser h2{
-    font-size:1.2em;
+button p:hover{
+    color:black !important;
 }
+
     /* end css bouton accueil connecté*/
 
 /* Css accueil connecté */
+.skill_dispo{
+    margin-top:50px;
+}
+.info{
+    padding-top:150px;
+}
 
 .info p{
     text-align:left;
@@ -162,81 +173,21 @@ img{
     justify-content:space-around;
     flex-wrap:wrap;
 }
-
+.choixUser{
+    display:flex;
+    justify-content:space-around;
+    align-items: center;
+    width:100%;
+    height: 300px;
+    text-align:center;
+}
 
 /* END Css accueil connecté */
 
-/* Css accueil non connecté */
-.accueil{
-    margin-top:150px;
-    margin-bottom:120px;
-    text-align:center;
-
-}
-.list_comp p{
-
-}
-.list_comp li{
-    color:black;
-}
-.contact, .about, .use{
-    color: #C4D1FF;
-}
-/* END Css accueil non connecté */
-
-
-
-/* css formulaire */
-.formInscription {
-    background-color:#FAFAFA;
-    padding:10px;
-    width:50%;
-    text-align:center;
-    margin-left:25%;
-}
-label {
-    margin-top:10px;
-    display:block;
-}
-
-input, textarea, select, option {
-    background-color:#FFF3F3;
-}
-.formInscription > .inputcss, textarea{
-    padding:3px;
-    border:1px solid #F5C5C5;
-    border-radius:5px;
-    width:200px;
-    box-shadow:1px 1px 2px #C0C0C0 inset;
-}
-/* end css formulaire */
-
-
-/* css affichage freelance par compétences */
-.freelances{
-    display:flex;
-    justify-content:space-around;
-    flex-wrap:wrap;
-}
-.free{
-    width:30%;
-    text-align:center;
-    border: 1px solid black;
-    margin-bottom:10px;
-    background-color: #3E4E85;
-}
-.free p {
-    color:white;
-}
-form{
-    margin-bottom:10px;
-}
-
-/* end affichage freelance par compétences */
 
 /* css gestion profil */
 .recap_projet{
-    margin-top:200px;
+    padding-top:150px;
 }
 
 /* end css gestion profil */
@@ -264,7 +215,6 @@ form{
 }
 
 
-
 /* css formulaire connexion et button submit */
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,300,600,400italic);
 * {
@@ -273,9 +223,13 @@ form{
     box-sizing: border-box;
 
 }
-.container {
-    max-width: 400px;
-    margin: 11% auto;
+.login {
+    max-width: 50% !important;
+    padding-top:200px;
+    margin-right:25%;
+    margin-left:25%;
+    margin-bottom:200px;
+
 }
 
 #contact input[type="text"],
@@ -291,7 +245,7 @@ form{
 #contact {
     background: white;
     padding: 25px;
-    margin: 50px 30px;
+    margin: 0px 30px;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
 
@@ -364,6 +318,29 @@ button[type="submit"]:hover {
     opacity:0.80;
 }
 
+.formInscription {
+    background-color:#FAFAFA;
+    padding:10px;
+    width:50%;
+    text-align:center;
+    margin-left:25%;
+}
+label {
+    margin-top:10px;
+    display:block !important;
+}
+
+input, textarea, select, option {
+    background-color:#FFF3F3;
+}
+.formInscription > .inputcss, textarea{
+    padding:3px;
+    border:1px solid #F5C5C5;
+    border-radius:5px;
+    width:200px;
+    box-shadow:1px 1px 2px #C0C0C0 inset;
+}
+
 
 /* end css formulaire connexion  et button submit*/
 
@@ -390,6 +367,7 @@ button[type="submit"] {
     width:30%;
     border-right:1px solid black;
     text-align:center;
+    margin-bottom:25px;
 }
 .sidebarright{
     width:70%;
@@ -412,8 +390,11 @@ button[type="submit"] {
     text-align: left;
 }
 .user{
-   display:flex;
+    display:flex;
     flex-direction:row;
+}
+.form-check{
+    padding:0 !important;
 }
 .form-checkbox{
     display:flex;
@@ -424,11 +405,13 @@ button[type="submit"] {
     width:15%;
 }
 .free-dash{
-    width:33%;
+    width:30%;
     text-align:center;
-    border: 1px solid black;
-    margin-bottom:10px;
-    background-color: #3E4E85;
+    margin-top:50px;
+    margin-bottom:50px;
+    background-color: #C4D1FF;
+    border-radius: 10px;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
 .form-dashb{
     display:flex;
@@ -444,10 +427,9 @@ input[type=checkbox] {
 }
 
 .choixUser{
-    margin-top:150px;
+    margin-top:50px;
+    margin-bottom:50px;
+    width:60%;
+    margin-left:20%;
 }
-.containerdashC{
-    margin-top:160px;
-}
-
 /* end css dashboard client et freelance */

@@ -5,33 +5,32 @@
     {% endblock %}
 
     {% block topbar %}
-        <header class="header">
-            <ul class="main-nav">
+        <nav class="navbar navbar-expand-lg navbar-light d-flex justify-content-around position-fixed w-100">
+            <div>
                 <a href="/websphereProject/src/?p=home"><img src="/websphereProject/src/assets/images/logo_websphere.png" alt="logo_websphere"></a>
-                <p><a href="#pop-up" rel="modal:open">Comment ça marche ?</a></p>
-                <li><a href="/websphereProject/src/?p=gestionprofil">Modifier mon profil</a></li>
-                <li><a href="/websphereProject/src/?p=deconnexion"> Deconnexion de {{ name }} </a></li>
-            </ul>
-           {{ menu_c_or_f | raw }}
-
-            <div id="pop-up" class="modal">
-                <h3>Client :</h3>
-                <p> Vous êtes client est souhaité faire réaliser un de vos projets web ?<br>
-                    Quelque étapes à suivre : <br>
-                    1- Allé sur votre dashboard client, créé un projet en remplissant les champs indiqués et posté le.<br>
-                    2- Après création, cliquer sur "gérer votre projet" depuis cette page, vous pourrez choisir un ou plusieurs freelance selon <br>
-                    les compétences souhaitées à la réalisation. <br>
-                    3- Attendez qu'un freelance accepte votre projet pour pouvoir vous mettre en relation.
-                </p>
-
-                <h3>Freelance :</h3>
-                <p> Si vous êtes freelance, consulté votre dashboard régulièrement pour voir si vous avez des projets proposés <br>
-                    afin de les accepter.
-                    Le cas échéant, vous pourrez accédé aux informations de la personne qui vous a proposé ce projet.
-                </p>
-                <a href="#" rel="modal:close">Close</a>
             </div>
-        </header>
+            <li class="nav-item active">
+                <a href="#pop-up" rel="modal:open">Comment ça marche ?</a>
+            </li>
+            <div class="nav-item">
+                <a href="/websphereProject/src/?p=gestionprofil">Modifier mon profil</a>
+            </div>
+            <div class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Dashboard
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    {{ menu_c_or_f | raw }}
+                </div>
+            </div>
+
+            <div class="nav-item">
+                <a href="/websphereProject/src/?p=deconnexion"> Deconnexion de {{ name }} </a>
+            </div>
+        </nav>
+
+            {{ msg_pop_up | raw }}
+
     {% endblock %}
 
     {% block content %}

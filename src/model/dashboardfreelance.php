@@ -1,13 +1,32 @@
 <?php
 // Les traitements qui suivent sont executes qu'il y ait des donnees POST ou non !!
 
+$message_pop_up='<div id="pop-up" class="modal">
+            <h3>Client :</h3>
+            <p> Vous êtes client et souhaitez faire réaliser un projet web ?<br>
+                Quelques étapes à suivre : <br>
+                1- Allez sur votre dashboard client, créez un projet en remplissant les champs indiqués et postez le.<br>
+                2- Après création, cliquez sur \"gérer votre projet\" depuis cette page, vous pourrez choisir un ou plusieurs freelances selon <br>
+                les compétences souhaitées à la réalisation. <br>
+                3- Attendez qu\'un freelance accepte votre projet pour pouvoir vous mettre en relation.
+            </p>
+
+            <h3>Freelance :</h3>
+            <p> Si vous êtes freelance, consultez votre dashboard régulièrement pour voir si vous avez des projets proposés <br>
+                afin de les accepter.
+                Le cas échéant, vous pourrez accéder aux coordonnées de votre interlocuteur.
+            </p>
+            <a href="#" rel="modal:close">Close</a>
+        </div>';
 
 
-$menuclientorfreelance="<ul>";
+
+
+$menuclientorfreelance="";
 if (isset($_SESSION['Client'])) {
-    $menuclientorfreelance .= '
+    $menuclientorfreelance = '
 
-        <li><a href="/websphereProject/src/?p=dashboardC">Dashboard client</a></li>
+       <a href="/websphereProject/src/?p=dashboardC">Dashboard client</a>
     
        ';
 
@@ -18,8 +37,6 @@ if (isset($_SESSION['Client'])) {
 error_log("model dashboardfreelance.php : ENTREE MODELE");
 
 if (isset($_SESSION['Freelance'])) {
-    error_log("model dashboardfreelance.php : ON EST BIEN FREELANCE");
-
     $resultskill = new Skill ($bdd);
     $skill = $resultskill->getSkills();
     $form_insert_skill = "";
@@ -27,9 +44,8 @@ if (isset($_SESSION['Freelance'])) {
             $form_insert_skill.="<h2> Ajouter des compétences </h2>";
             foreach ($skill as $element) {
                 $form_insert_skill .= '
-               <label> <input class="c" type="checkbox" class="css-checkbox" name="user_skill[]" value=' . $element['id_skill'] . ' />' . $element['name'] . '<br></label>
+<label> <input class="c" type="checkbox" class="css-checkbox" name="user_skill[]" value=' . $element['id_skill'] . ' />' . $element['name'] . '<br></label>
                 ';
-
             }
     if (!empty($_POST['user_skill'])) {
         // On a ajoute des compétences avec le formulaire ...  Ajouter des compétences
@@ -41,26 +57,23 @@ if (isset($_SESSION['Freelance'])) {
 
 
     error_log("model dashboardfreelance.php : Appel getProjectProposeToFreelance");
+
     $myproject= new Project($bdd);
     $id_user=$_SESSION['id'];
     $resultgetproject = $myproject->getProjectProposeToFreelance($id_user, '1');
-
     $mesprojets_default_message_proposed = "<div class='projet'> <p>Vous n'avez aucun projet proposé en cours</p>";
     $mesprojetsproposes=$mesprojets_default_message_proposed;
 
     foreach($resultgetproject as $elementproject){
         if ($mesprojetsproposes == $mesprojets_default_message_proposed) {
-            error_log("model dashboardclient.php :  variable mesprojetsproposes est a la valeur par défaut, on la vide $mesprojets_default_message_proposed");
             $mesprojetsproposes = ' <div class="projet">';
-
         }
         $mesprojetsproposes .= '
-
     <div class="allproject">
             <p> Titre: ' . $elementproject['title'] . '</p>
-            <p> Prix: ' . $elementproject['price'] . '</p>
+            <p> Prix: ' . (float)$elementproject['price'] . '</p>
             <p> Date de début :' . $elementproject['start_date'] . ' </p>
-            <p> Date de début :' . $elementproject['end_date'] . ' </p>
+            <p> Date de fin :' . $elementproject['end_date'] . ' </p>
             <p> Contenu: <br>' . $elementproject['content'] . '</p>
             
             <form role="form" method="post">
@@ -112,7 +125,7 @@ if (isset($_SESSION['Freelance'])) {
 
 <div class="allproject">
         <p> Titre: ' . $elementprojectaccept['title'] . '</p>
-        <p> Prix: ' . $elementprojectaccept['price'] . '</p>
+        <p> Prix: ' . (float)$elementprojectaccept['price'] . '</p>
        <!-- <p> IDP ' . $elementprojectaccept['id_project'] . '</p> -->
         <p> Résumé: <br> ' . $elementprojectaccept['content'] . '</p> <br>
         <p> Vous venez d\'accepter le projet: ' . $elementprojectaccept['title'] . ', contactez le client: </p>
@@ -147,7 +160,7 @@ if (isset($_SESSION['Freelance'])) {
         $mesprojetsavalider .= '
 <div class="allproject">
         <p> Titre: ' . $elementproject_termine['title'] . '</p>
-        <p> Prix: ' . $elementproject_termine['price'] . '</p>
+        <p> Prix: ' . (float)$elementproject_termine['price'] . '</p>
        <!-- <p> IDP ' . $elementproject_termine['id_project'] . '</p> -->
         <p> Contenu: <br> ' . $elementproject_termine['content'] . '</p>
 </div>
@@ -176,15 +189,12 @@ if (isset($_SESSION['Freelance'])) {
         $mesprojetstermine .= '
 <div class="allproject">
         <p> Titre: ' . $elementproject_termine['title'] . '</p>
-        <p> Prix: ' . $elementproject_termine['price'] . '</p>
+        <p> Prix:  ' . (float)$elementproject_termine['price'] . '</p>
 </div>
         ';
 
     }
     $mesprojetstermine .='</div>';
-    if (empty($mesprojetstermine)){
-        error_log("model dashboardfreelance.php : Pas de projets termines");
-    }
 }
 
 if(isset($_POST['acpt_refuse_project_client'])) {
@@ -234,8 +244,8 @@ if(isset($_POST['acpt_refuse_project_client'])) {
     if (isset($_SESSION['Freelance'])) {
         $menuclientorfreelance .= '
 
-        <li><a href="/websphereProject/src/?p=dashboardF">Dashboard freelance</a></li>
+       <a href="/websphereProject/src/?p=dashboardF">Dashboard freelance</a>
         ';
 
     }
-    $menuclientorfreelance.="</ul>";
+

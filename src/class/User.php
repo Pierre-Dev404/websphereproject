@@ -6,10 +6,8 @@
 
 class User
 {
-    public $_mail;
     private $_password;
     private $_bdd;
-
 
     function __construct($bdd)
     {
@@ -65,14 +63,12 @@ class User
         $requete_cherche_f .= $whereclause ;
         $requete_cherche_f .= " ) j " ;
 
-            if (! empty($ubs_listskill)) {
+            if (!empty($ubs_listskill)) {
                 $requete_cherche_f .=  "GROUP BY j.id_user " ;
                 $requete_cherche_f .=  "HAVING count(*) = " ;
                 $requete_cherche_f .= count($ubs_listskill) ;
             }
 
-
-        // error_log("User.php, methode userBySkills : requete $requete_cherche_f ");
         $result=array();
             // on ajoute chaque utilisateur ayant toutes les compétences
         // dans un tableau result qu'on va renvoyer
@@ -82,6 +78,7 @@ class User
         }
             return $result;
     }
+
 
     /*
     Appelé depuis le dashboard Freelance
@@ -96,12 +93,7 @@ class User
                                         JOIN users u ON u.id_user = w.id_user
                                         WHERE w.id_project=:ci_id_project and w.id_type = 2
                                       ");
-           /* $DBG_req="SELECT u.mail, u.phone FROM work w
-                                        JOIN project p ON w.id_project = p.id_project
-                                        JOIN users u ON u.id_user = w.id_user
-                                        WHERE w.id_project=$ci_id_project and w.id_type = 2
-                                      "; */
-        //error_log("User.php, methode getConctactInfoFromFreelance : requete $DBG_req ");
+
                     $req->bindParam(':ci_id_project', $ci_id_project);
                     $req->execute();
                     $result = $req->fetch();
@@ -122,12 +114,7 @@ class User
                                         JOIN users u ON u.id_user = w.id_user
                                         WHERE w.id_project=:ci_id_project and w.id_type = 1
                                       ");
-        /* $DBG_req="SELECT u.mail, u.phone FROM work w
-                                     JOIN project p ON w.id_project = p.id_project
-                                     JOIN users u ON u.id_user = w.id_user
-                                     WHERE w.id_project=$ci_id_project and w.id_type = 2
-                                   "; */
-        //error_log("User.php, methode getConctactInfoFromFreelance : requete $DBG_req ");
+
         $req->bindParam(':ci_id_project', $ci_id_project);
         $req->execute();
         $result = $req->fetch();
@@ -148,12 +135,6 @@ class User
                                         JOIN users u ON u.id_user = w.id_user
                                         WHERE w.id_project=:ci_id_project and w.id_type = 1
                                       ");
-        /* $DBG_req="SELECT u.mail, u.phone FROM work w
-                                     JOIN project p ON w.id_project = p.id_project
-                                     JOIN users u ON u.id_user = w.id_user
-                                     WHERE w.id_project=$ci_id_project and w.id_type = 2
-                                   "; */
-        //error_log("User.php, methode getConctactInfoFromFreelance : requete $DBG_req ");
         $req->bindParam(':ci_id_project', $ci_id_project);
         $req->execute();
         $result = $req->fetchAll();
@@ -164,21 +145,15 @@ class User
     }
 
 /*
- *  Appelé depuis le create.php
  * Création d'un utilisateur
  * Met a jour la table users
  * et la table user_type en fonction des profils (Client, Freelance) sélectionnés
  */
     function createUser($cu_name, $cu_firstname, $cu_mail, $cu_password, $cu_enterprise_name, $cu_siret, $cu_city, $cu_iban, $cu_phone)
     {
-
-        error_log("User.php, methode createUser : entree methode ");
         $this->_password = password_hash($cu_password, PASSWORD_DEFAULT);
         $req = $this->_bdd->prepare("INSERT INTO users (name, firstname, mail, password, enterprise_name, siret, city, iban, phone)
                                     VALUES (:name, :firstname, :mail, :password, :enterprise_name, :siret, :city, :iban, :phone)");
-
-
-
         $req->bindParam(':name', $cu_name);
         $req->bindParam(':firstname', $cu_firstname);
         $req->bindParam(':mail', $cu_mail);
@@ -188,48 +163,29 @@ class User
         $req->bindParam(':city', $cu_city);
         $req->bindParam(':iban', $cu_iban);
         $req->bindParam(':phone', $cu_phone);
-
         if ($req->execute()) {
-            echo "Succes\n";
-            //$user_last_id = mysqli_insert_id();
+            echo "Succes";
             $user_last_id = $this->_bdd->lastInsertId();
-            error_log("User.php, methode Last Id insertion User est  erreur : $user_last_id ");
-            // echo($user_last_id);
         } else {
             $erreur_insert=$req->errorInfo() ;
             if ($erreur_insert['0'] == '23000'){
-               $disp_error=$erreur_insert['2'];
-                error_log("User.php, methode createUser erreur : $disp_error ");
-                //echo "une erreur est survenue lors de l'insertion $disp_error";
                 return "DUPLICATE_REC";
             }
-
-           print_r($req->errorInfo());
         };
-        // Il y a au moins un etat actif, on ne peut pas etre ni client ni freelance, defaut= client
         if (empty($_POST['user_type'])) {
-            // On affecte un array car on attend un *TABLEAU* de competences
             $_POST['user_type']=array(2);
         }
-        #print_r($_POST['user_type']) ;
-        /*foreach($_POST['user_type'] as $valeur)
-            {
-                echo "<pre>La checkbox $valeur a été cochée<br></pre>";
-            }*/
         foreach ($_POST['user_type'] as $type) {
-            error_log("La valeur de type traitee est $type ");
             $req = $this->_bdd->prepare("INSERT INTO user_type (id_type, id_user)
                                     VALUES (:id_type, :id_user)");
 
             $req->bindParam(':id_type', $type);
             $req->bindParam(':id_user', $user_last_id);
             if ($req->execute()) {
-                error_log("insertion OK  $type / $user_last_id");
-            } else {
-                error_log("une erreur est survenue lors de l'insertion dans usertype ");
-                error_log( print_r( $req->errorInfo() ) );
 
+                return "succés";
             }
+
 
 
             #return true;
@@ -307,7 +263,6 @@ class User
 
                 } else {
                     error_log("User.php, methode update_user : echec updateusertype") ;
-                    error_log(print_r($req->errorInfo())) ;
                 }
             } else {
                 error_log("User.php, methode update_user : pas de updateusertype demandé") ;
@@ -347,22 +302,6 @@ class User
 
                 if ($checkPass) {
                     session_start();
-                    #session_unset() ;
-                    #session_destroy() ;
-                    # Lignes suivantes pour debug
-                    /*
-                    if(isset($_SESSION['id'])) {
-                        if($_SESSION['id'] == $checkMail['id_user']) {
-                            error_log("User.php, methode connexion : utilisateur est deja connecte") ;
-                        } else {
-                            error_log("User.php, methode connexion : un nouvel utilisateur se connecte") ;
-                        }
-                    }
-                    else {
-                        error_log("User.php, methode connexion : Pas de variable de session pour la session en cours") ;
-                    } */
-                    # Fin lignes DEBUG
-
                     #if(session_status() == PHP_SESSION_ACTIVE) error_log("Session deja active");
                     $_SESSION['id'] = $checkMail['id_user'];
                     $_SESSION['name'] = $checkMail['name'];
@@ -408,11 +347,6 @@ class User
             # exemple : $_SESSION['Freelance']    =           1
                         $_SESSION[$typeUtilisateur] = $idTypeUtilisateur;
                         }
-
-                    # DEBUG lignes suivantes servent à vérifier le bon fonctionnement de la connexion
-                    $id_debug=$checkMail['id_user'];
-                    $surname_debug=$checkMail['firstname'] ;
-                    error_log("User.php, methode connexion : Connexion avec ID $id_debug et SESSION surname  $surname_debug") ;
                     /* Redirection vers la page admin.php
                     Il de doit y avoir aucun echo avant cette commande sinon la redirection ne fonctionnera pas.
                     */

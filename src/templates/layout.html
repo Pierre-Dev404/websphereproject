@@ -4,10 +4,15 @@
         {% block head %}
             <title>{{ title }}</title>
             <meta charset="utf-8">
+            <link rel="stylesheet" href="assets/css/reset.css">
             <link rel="stylesheet" href="assets/css/style.css">
             <link href="https://fonts.googleapis.com/css?family=Arimo|Lato&display=swap" rel="stylesheet">
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
             <!-- Remember to include jQuery :) -->
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
             <!-- jQuery Modal -->
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
@@ -17,39 +22,51 @@
 
     <body>
         {% block topbar %}
-            <header class="header">
-                <ul class="main-nav">
-                   <a href="/websphereProject/src/?p=pagelogin"></a> <img src="/websphereProject/src/assets/images/logo_websphere.png" alt="logo_websphere">
-                    <p><a href="#pop-up" rel="modal:open">Comment ça marche ?</a></p>
-                    <li><a href="/websphereProject/src/?p=pagelogin">Connexion</a></li>
-                    <li><a href="/websphereProject/src/?p=inscription">Inscription</a></li>
-                </ul>
-
-                <div id="pop-up" class="modal">
-                    <h3>Client :</h3>
-                    <p> Vous êtes client est souhaité faire réaliser un projet web ?<br>
-                        Quelques étapes à suivre : <br>
-                        1- Allé sur votre dashboard client, créer un projet en remplissant les champs indiqués et posté le.<br>
-                        2- Après création, cliquer sur "gérer votre projet" depuis cette page, vous pourrez choisir un ou plusieurs freelance selon <br>
-                        les compétences souhaitées à la réalisation. <br>
-                        3- Attendez qu'un freelance accepte votre projet pour pouvoir vous mettre en relation.
-                    </p>
-
-                    <h3>Freelance :</h3>
-                    <p> Si vous êtes freelance, consulté votre dashboard régulièrement pour voir si vous avez des projets proposés <br>
-                        afin de les accepter.
-                        Le cas échéant, vous pourrez accédé aux informations de la personne qui vous a proposé ce projet.
-                    </p>
-                    <a href="#" rel="modal:close">Close</a>
+            <nav class="navbar navbar-expand-lg navbar-light position-fixed mb-5 w-100 d-flex justify-content-around">
+                <div>
+                    <li><a href="/websphereProject/src/index.php"><img src="/websphereProject/src/assets/images/logo_websphere.png" alt="logo_websphere"></a></li>
                 </div>
-            </header>
+                <div>
+                    <li class="nav-item active">
+                        <a href="#pop-up" rel="modal:open">Comment ça marche ?</a>
+                    </li>
+                </div>
+                <div>
+                    <li class="nav-item">
+                        <a href="/websphereProject/src/?p=pagelogin">Connexion</a>
+                    </li>
+                </div>
+                <div>
+                    <li class="nav-item">
+                        <a href="/websphereProject/src/?p=inscription">Inscription</a>
+                    </li>
+                </div>
+            </nav>
+
+            <div id="pop-up" class="modal">
+                <h3>Client :</h3>
+                <p> Vous êtes client et souhaitez faire réaliser un projet web ?<br>
+                    Quelques étapes à suivre : <br>
+                    1- Allez sur votre dashboard client, créez un projet en remplissant les champs indiqués et postez le.<br>
+                    2- Après création, cliquez sur "gérer votre projet" depuis cette page, vous pourrez choisir un ou plusieurs freelances selon <br>
+                    les compétences souhaitées à la réalisation. <br>
+                    3- Attendez qu'un freelance accepte votre projet pour pouvoir vous mettre en relation.
+                </p>
+
+                <h3>Freelance :</h3>
+                <p> Si vous êtes freelance, consultez votre dashboard régulièrement pour voir si vous avez des projets proposés <br>
+                    afin de les accepter.
+                    Le cas échéant, vous pourrez accéder aux coordonnées de votre interlocuteur.
+                </p>
+                <a href="#" rel="modal:close">Close</a>
+            </div>
         {% endblock %}
 
         {% block content %}
         {% endblock %}
 
         {% block footer %}
-            <section class="main_footer">
+            <section class="main_footer d-flex justify-content-around">
                 <div class="contact">
                     <h2>Me contacter</h2>
                     <h3> Meunier Pierre</h3>
@@ -58,12 +75,12 @@
                     <a href="http://pierre-meunier.fr">CV en ligne : http://pierre-meunier.fr</a>
                 </div>
 
-                <div class="about">
+                <div class="about d-flex flex-column">
                     <h2>A propos</h2>
                     <p>Site web visant à mettre en relation <br> professionels du web et clients potentiels</p>
                 </div>
 
-                <div class="use">
+                <div class="use d-flex flex-column">
                     <h2>Contexte :</h2>
                     <p> Création d'un site web dans le cadre de<br> mon examen final à La Piscine.
                     <br>Développé sous PHP/MySql, HTML5/CSS3.

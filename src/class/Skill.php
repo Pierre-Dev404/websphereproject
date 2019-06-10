@@ -29,7 +29,6 @@ class Skill
         $result = $req->fetchAll();
         return $result;
     }
-
     # Permet pour un utilisateur Freelance, d'ajouter une compétences
     # L'insert ignore permet de ne pas afficher d'erreur si on insert la même compétences.
     function insertSkills($is_user, $is_skill)
@@ -42,7 +41,7 @@ class Skill
             $req->bindParam(':id_user', $is_user);
             $req->bindParam(':id_type', $type);
             if ($req->execute()) {
-                echo "Succes";
+                return "Succes";
             } else {
                 echo "une erreur est survenue lors de l'insertion dans userskill";
             }

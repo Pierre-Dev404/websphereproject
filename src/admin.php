@@ -65,20 +65,9 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
        // echo "<p>admin.php : cette page n'existe pas</p>";
       }
   } else {
-    //
-    //
+      //
+      //
       error_log("Admin.php clause else atteinte SESSION vide !!!");
-    /*
-     include('model/login.php');
-    // HTML
-    //include('view/login.php');
-
-    echo $twig->render('login.html',
-    array('title' => '1 er login',
-    'assets' => 'assets/',
-    'mailTmp' => $mailTmp,
-    'message' => $msg));
-      */
   }
 
 error_log( "admin.php : FIN" );

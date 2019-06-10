@@ -12,6 +12,7 @@ echo $twig->render('gestionprofil.html',
         'name' => $_SESSION['surname']." ".$_SESSION['name'],
         'updt_id_user' => $usrid,
         'menu_c_or_f' => $menuclientorfreelance,
+        'msg_pop_up' => $message_pop_up,
         'updt_name' => $attribUser['name'],
         'updt_firstname' => $attribUser['firstname'],
         'updt_enterprise_name' => $attribUser['enterprise_name'],
@@ -20,7 +21,6 @@ echo $twig->render('gestionprofil.html',
         'updt_city' => $attribUser['city'],
         'updt_iban' => $attribUser['iban'],
         'updt_phone' => $attribUser['phone'],
-        //'updt_firstname' => $_SESSION['firstname'],
         'deconnexion' => $_url_deconnexion )
 );
 

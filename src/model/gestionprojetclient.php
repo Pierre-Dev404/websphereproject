@@ -7,20 +7,38 @@
  */
 error_log("model/gestionprojetclient.php : Entree script");
 
+$message_pop_up='<div id="pop-up" class="modal">
+            <h3>Client :</h3>
+            <p> Vous êtes client et souhaitez faire réaliser un projet web ?<br>
+                Quelques étapes à suivre : <br>
+                1- Allez sur votre dashboard client, créez un projet en remplissant les champs indiqués et postez le.<br>
+                2- Après création, cliquez sur \"gérer votre projet\" depuis cette page, vous pourrez choisir un ou plusieurs freelances selon <br>
+                les compétences souhaitées à la réalisation. <br>
+                3- Attendez qu\'un freelance accepte votre projet pour pouvoir vous mettre en relation.
+            </p>
 
-$menuclientorfreelance = "<ul>";
+            <h3>Freelance :</h3>
+            <p> Si vous êtes freelance, consultez votre dashboard régulièrement pour voir si vous avez des projets proposés <br>
+                afin de les accepter.
+                Le cas échéant, vous pourrez accéder aux coordonnées de votre interlocuteur.
+            </p>
+            <a href="#" rel="modal:close">Close</a>
+        </div>';
+
+
+
 if (isset($_SESSION['Client'])) {
     error_log("model dashboardfreelance.php : ON EST BIEN client");
-    $menuclientorfreelance .= '
+    $menuclientorfreelance = '
 
-        <li><a href="/websphereProject/src/?p=dashboardC">Dashboard client</a></li>
+        <a href="/websphereProject/src/?p=dashboardC">Dashboard client</a>
     
        ';
 }
 if (isset($_SESSION['Freelance'])) {
     $menuclientorfreelance .= '
 
-        <li><a href="/websphereProject/src/?p=dashboardF">Dashboard freelance</a></li>
+       <a href="/websphereProject/src/?p=dashboardF">Dashboard freelance</a>
         ';
 
 }
@@ -40,7 +58,6 @@ if (!empty($_POST)) {
     * et appeler la methode createProject ...
     *
     */
-    // $cr_title,$cr_content,$cr_start_date,$cr_end_date,$cr_price,$cr_id_project_status
     error_log("model/gestionprojetclient.php : Il ya du Post...normal !!!");
 
 
@@ -49,8 +66,6 @@ if (!empty($_POST)) {
     // On le fait a chaque fois pas seulement quand on arrive de dashboard client
 
     $listskill = ''; // Evite erreur dans controleur si valeur non pertinente dans contexte
-
-    // if (xx $_SESSION xx ['nm_idProjectStatus'] xx = xx 1 ) {   ... 2 erreurs dans cette ligne !!!
 
 
     error_log("model/gestionprojetclient.php : On va tester si on a du POST nm_id_project qui signifie on est appelle depuis le dashboard client");
@@ -94,13 +109,8 @@ if (!empty($_POST)) {
                 $fl_listskill = array();
             }
             $result = $type->UserBySkills($fl_listskill);
-            error_log("model/gestionprojetclient.php : On a recupere la liste des users en fonction de leurs competences");
-            error_log("model/gestionprojetclient.php : On genere le formulaire de choix des Freelance ");
-            // error_log(print_r($result));
 
 
-            //$nm_usersbyskill = '<form role="form" method="post"> ';
-            //$nm_usersbyskill .= '<div class="form-dashb"> ';
             if (!empty($result)) {
                 // !empty($result)
                 $nm_usersbyskill = '<form role="form" method="post"> ';
@@ -111,7 +121,7 @@ if (!empty($_POST)) {
                 //var_dump($alreadyAssignedFreelances);
                 foreach ($result as $freelance) {
                     // foreach ($result as $freelance)
-                    if (  ! in_array($freelance['id_user'], $alreadyAssignedFreelances)   ) {
+                    if (  !in_array($freelance['id_user'], $alreadyAssignedFreelances)   ) {
                         $nm_usersbyskill .= '
                         <div class="free-dash">
                         Choisir <input class="user" type="checkbox" name="freelance_check[]" value=' . $freelance['id_user'] . ' /> <br>
@@ -216,7 +226,7 @@ if (!empty($_POST)) {
                 ';
 
         }
-        $listskill .= '<button type="submit"> Rechercher </button>';
+        $listskill .= '<button type="submit" class="btn btn-primary"> Rechercher </button>';
         $listskill .= '</form>';
         error_log("model/gestionprojetclient.php : Le project status est a 1  formulaire de recherche Freelance : $listskill");
         // FIN $nm_id_project_status = 1 ( voir plus tard or $nm_id_project_status = 2 )

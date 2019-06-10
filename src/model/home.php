@@ -8,13 +8,26 @@ $buttonrechercheF= "";
 $listcomp="";
 $titre_comp="";
 
-//if (empty($_POST)) {
 
-    /*
-     *  Il n'y a pas de donnes POST, on prepare les champs du formulaire
-     * en fonction du type d'utilisateur
-     * client ou freelance de facon non exclusive, un utilisateur peut appartenir aux deux categories
-    */
+$message_pop_up='<div id="pop-up" class="modal">
+            <h3>Client :</h3>
+            <p> Vous êtes client et souhaitez faire réaliser un projet web ?<br>
+                Quelques étapes à suivre : <br>
+                1- Allez sur votre dashboard client, créez un projet en remplissant les champs indiqués et postez le.<br>
+                2- Après création, cliquez sur \"gérer votre projet\" depuis cette page, vous pourrez choisir un ou plusieurs freelances selon <br>
+                les compétences souhaitées à la réalisation. <br>
+                3- Attendez qu\'un freelance accepte votre projet pour pouvoir vous mettre en relation.
+            </p>
+
+            <h3>Freelance :</h3>
+            <p> Si vous êtes freelance, consultez votre dashboard régulièrement pour voir si vous avez des projets proposés <br>
+                afin de les accepter.
+                Le cas échéant, vous pourrez accéder aux coordonnées de votre interlocuteur.
+            </p>
+            <a href="#" rel="modal:close">Close</a>
+        </div>';
+
+
     if (isset($_SESSION['Client'])) {
         error_log("Model home.php POST EMPTY On est Client");
         $resultskill = new Skill ($bdd);
@@ -31,16 +44,13 @@ $titre_comp="";
         error_log("Model home.php On a renseigne listcom : $listcomp");
 
         $menuclientorfreelance .= '
-        <li><a href="/websphereProject/src/?p=dashboardC">Dashboard client</a></li>
+        <a href="/websphereProject/src/?p=dashboardC">Dashboard client</a>
         ';
 
         $buttonrechercheC = '
         <div class="choix">
-                    <h2>Chercher un professionnel pour votre projet web</h2>
                     <a href="/websphereProject/src/?p=dashboardC">
-                        <div class="buttonAccueil">
-                             <p>Créer votre projet et trouver un Freelance</p> 
-                        </div>
+                        <button type="button" class="btn btn-lg"><p>Client : Créer un projet, trouver un freelance</p></button>
                     </a>
                 </div>';
         error_log("Model home.php On a renseigne buttonrechercheC : $buttonrechercheC");
@@ -49,18 +59,15 @@ $titre_comp="";
 if (isset($_SESSION['Freelance'])) {
     $buttonrechercheF = '
     <div class="choix">
-				<h2>Vous êtes Freelance ?</h2>
-				<a href="/websphereProject/src/?p=dashboardF">
-					<div class="buttonAccueil">
-				<p>Mettez à jour vos compétences</p>
-					</div>
-					</a>
-			</div>
+        <a href="/websphereProject/src/?p=dashboardF">
+            <button type="button" class="btn btn-lg"><p>Freelance : Ajouter des compétences</p></button>
+        </a>
+    </div>
 ';
 
     $menuclientorfreelance .='
 
-        <li><a href="/websphereProject/src/?p=dashboardF">Dashboard freelance</a></li>
+        <a href="/websphereProject/src/?p=dashboardF">Dashboard freelance</a>
         ';
 
 }

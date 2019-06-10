@@ -4,19 +4,64 @@
         <title>{{ title }}</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+        <link rel="stylesheet" href="assets/css/reset.css">
+        <link rel="stylesheet" href="assets/css/style.css">
+        <link href="https://fonts.googleapis.com/css?family=Arimo|Lato&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <!-- Remember to include jQuery :) -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+        <!-- jQuery Modal -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
     </head>
     <body>
 
-    <header class="header">
-        <ul class="main-nav">
-            <img src="/websphereProject/src/assets/images/logo_websphere.png" alt="logo_websphere">
-            <li><a href="/websphereProject/src/?p=pagelogin">Connexion</a></li>
-            <li><a href="/websphereProject/src/?p=inscription">Inscription</a></li>
-        </ul>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light position-fixed mb-5 w-100 d-flex justify-content-around">
+            <div>
+                <li><a href="/websphereProject/src/index.php"><img src="/websphereProject/src/assets/images/logo_websphere.png" alt="logo_websphere"></a></li>
+            </div>
+            <div>
+                <li class="nav-item active">
+                    <a href="#pop-up" rel="modal:open">Comment ça marche ?</a>
+                </li>
+            </div>
+            <div>
+                <li class="nav-item">
+                    <a href="/websphereProject/src/?p=pagelogin">Connexion</a>
+                </li>
+            </div>
+            <div>
+                <li class="nav-item">
+                    <a href="/websphereProject/src/?p=inscription">Inscription</a>
+                </li>
+            </div>
+        </nav>
     </header>
 
-        <div class="container">
+    <div id="pop-up" class="modal">
+        <h3>Client :</h3>
+        <p> Vous êtes client et souhaitez faire réaliser un projet web ?<br>
+            Quelques étapes à suivre : <br>
+            1- Allez sur votre dashboard client, créez un projet en remplissant les champs indiqués et postez le.<br>
+            2- Après création, cliquez sur "gérer votre projet" depuis cette page, vous pourrez choisir un ou plusieurs freelances selon <br>
+            les compétences souhaitées à la réalisation. <br>
+            3- Attendez qu'un freelance accepte votre projet pour pouvoir vous mettre en relation.
+        </p>
+
+        <h3>Freelance :</h3>
+        <p> Si vous êtes freelance, consultez votre dashboard régulièrement pour voir si vous avez des projets proposés <br>
+            afin de les accepter.
+            Le cas échéant, vous pourrez accéder aux coordonnées de votre interlocuteur.
+        </p>
+        <a href="#" rel="modal:close">Close</a>
+    </div>
+
+        <div class="login">
             <form id="contact" action="" method="post">
                 <h3>Connexion Websphere</h3>
                     <p>{{msg}}</p>
@@ -27,7 +72,7 @@
                         <input class="input100" type="password" name="pass" placeholder="Password" required>
                     </fieldset>
                     <fieldset>
-                        <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Submit</button>
+                        <button name="submit" type="submit" id="contact-submit" class="btn btn-primary" data-submit="...Sending">Submit</button>
                     </fieldset>
             </form>
         </div>

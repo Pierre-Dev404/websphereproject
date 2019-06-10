@@ -11,6 +11,7 @@ error_log("controler home.php ENTREE");
     'buttonF' => $buttonrechercheF,
     'buttonC' => $buttonrechercheC,
     'listcomp' => $listcomp,
+    'msg_pop_up' => $message_pop_up,
     'deconnexion' => $_url_deconnexion )
     );
 

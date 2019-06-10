@@ -18,8 +18,6 @@ class Project{
 
 
     function deleteProject($dp_id_user, $dp_id_project){
-
-        error_log('DELETE FROM work w WHERE w.id_user=:$dp_id_user AND w.id_type = 1 AND w.id_project =:$dp_id_project');
         $req = $this->_bdd->prepare('DELETE FROM work 
                                             WHERE id_user=:dp_id_user 
                                             AND id_type = 1 
@@ -27,6 +25,18 @@ class Project{
 
         $req->bindParam(':dp_id_user', $dp_id_user);
         $req->bindParam(':dp_id_project', $dp_id_project);
+        $req->execute();
+    }
+    function acceptProjectandDeleteOtherFl($apd_id_user, $apd_id_project){
+        $req = $this->_bdd->prepare('UPDATE project SET id_project_status = 2 WHERE id_project =:id_project');
+        $req->bindParam(':id_project', $apd_id_project);
+        $req->execute();
+
+        $req = $this->_bdd->prepare("DELETE w
+                                        FROM work w 
+                                        JOIN project p ON p.id_project = w.id_project
+                                        WHERE w.id_user !=:apd_id_user AND w.id_type = 1");
+        $req->bindParam(':apd_id_user', $apd_id_user);
         $req->execute();
     }
 
@@ -88,27 +98,12 @@ class Project{
                             return $resultat_project_status;
     }
 
-    function acceptProjectandDeleteOtherFl($apd_id_user, $apd_id_project){
-        error_log("Classe Project,methode acceptProjectandDeleteOtherFl : le id_user est $apd_id_user");
-        error_log("Classe Project,methode acceptProjectandDeleteOtherFl : le id_project  est $apd_id_project");
-        $req = $this->_bdd->prepare('UPDATE project SET id_project_status = 2 WHERE id_project =:id_project');
-        $req->bindParam(':id_project', $apd_id_project);
-        $req->execute();
-
-        $req = $this->_bdd->prepare("DELETE w
-                                        FROM work w 
-                                        JOIN project p ON p.id_project = w.id_project
-                                        WHERE w.id_user !=:apd_id_user AND w.id_type = 1");
-        $req->bindParam(':apd_id_user', $apd_id_user);
-        $req->execute();
-        error_log("Classe Project,methode acceptProjectandDeleteOtherFl : SORTIE !!");
-    }
 
     //creation d'un projet
     function createProject($cr_title,$cr_start_date,$cr_end_date,$cr_price,$cr_content)
     {
-        error_log("Classe Project, : Entree methode createProject");
         $status_initial_projet = "1" ; // 1 = Status Non accepte
+
         if (isset($_SESSION['Client'])) {
             $cp_id_user = $_SESSION['id'];
             $req = $this->_bdd->prepare('INSERT INTO project (title, start_date, end_date, price, content, id_project_status) 
@@ -122,12 +117,10 @@ class Project{
             $req->execute();
             $erreur_insert_project=$req->errorInfo() ;
             $erreur_insert_project_code=$erreur_insert_project['0'] ;
+
             //On recupère l'ID du dernier projet inseré
             $lastId = $this->_bdd->lastInsertId();
             $ID_TYPE=$_SESSION['Client'];
-            error_log("Classe Project,methode createProject : le id_user est $cp_id_user");
-            error_log("Classe Project,methode createProject : le lastId recupere de insertion dans project est $lastId");
-            error_log("Classe Project,methode createProject : le id_type  est $ID_TYPE");
 
             $req = $this->_bdd->prepare('INSERT INTO work (id_user, id_project, id_type) VALUES (:label_id_user, :label_id_project, :label_id_type)');
             $req->bindParam(':label_id_user', $cp_id_user);

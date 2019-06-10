@@ -2,21 +2,39 @@
 
 
 
-// Les traitements qui suivent sont executes qu'il y ait des donnees POST ou non !!
+
 
 error_log("model dashboardclient.php : ENTREE");
-// Formulaire de création de projet
-// On (re)affiche le formulaire de creation de projet dans tous les cas
 
-$menuclientorfreelance="<ul>";
+// message de la pop_up comment ca marche:
+$message_pop_up='<div id="pop-up" class="modal">
+            <h3>Client :</h3>
+            <p> Vous êtes client et souhaitez faire réaliser un projet web ?<br>
+                Quelques étapes à suivre : <br>
+                1- Allez sur votre dashboard client, créez un projet en remplissant les champs indiqués et postez le.<br>
+                2- Après création, cliquez sur \"gérer votre projet\" depuis cette page, vous pourrez choisir un ou plusieurs freelances selon <br>
+                les compétences souhaitées à la réalisation. <br>
+                3- Attendez qu\'un freelance accepte votre projet pour pouvoir vous mettre en relation.
+            </p>
+
+            <h3>Freelance :</h3>
+            <p> Si vous êtes freelance, consultez votre dashboard régulièrement pour voir si vous avez des projets proposés <br>
+                afin de les accepter.
+                Le cas échéant, vous pourrez accéder aux coordonnées de votre interlocuteur.
+            </p>
+            <a href="#" rel="modal:close">Close</a>
+        </div>';
+
 if (isset($_SESSION['Client'])) {
     error_log("model dashboardclient.php : Session client is set");
-    $menuclientorfreelance .= '
+    $menuclientorfreelance = '
 
-        <li><a href="/websphereProject/src/?p=dashboardC">Dashboard client</a></li>
+        <a href="/websphereProject/src/?p=dashboardC">Dashboard client</a>
     
        ';
 
+    // Formulaire de création de projet
+    // On (re)affiche le formulaire de creation de projet dans tous les cas
     $formulaire_creation_projet = '
             <div class="container">
                 <form id="contact" action="" method="post">
@@ -49,6 +67,9 @@ if (isset($_SESSION['Client'])) {
             </div>
         ';
 
+
+    // On récupère tous les projets créés par l'utilisateur qui ont le statut 1,2 ou 3 et quand le type d'utilisateur
+    // est client (2).
     $myproject= new Project($bdd);
     $id=$_SESSION['id'];
     error_log("model dashboardclient.php : Test si des projets sont crees = getAllProjectsByIdUserAndStatus($id, '2', '1,2,3')");
@@ -59,7 +80,7 @@ if (isset($_SESSION['Client'])) {
 
     $getinfo = new User ($bdd);
 
-    // $mesprojets.='<div class="projet">';
+    // On les affiche :
     foreach($result as $element) {
         if ($mesprojets == $mesprojets_default_message) {
             $mesprojets = '<div class="projet">';
@@ -72,8 +93,10 @@ if (isset($_SESSION['Client'])) {
         <p> Titre: ' . $element['title'] . '</p>
         <p> Date de début: ' . $element['start_date'] . '</p>
         <p>Date de fin: ' . $element['end_date'] . '</p>
-        <p>Prix: ' . $element['price'] . '</p> <br>';
+        <p>Prix: ' . (float)$element['price'] . '</p> <br>';
 
+        // Si le projet est différent du statut, donc accepté par un freelance,
+        // On envoi les informations du freelance lié à se projet.
         if($element['idProjectStatus'] != 1){
         $mesprojets .= '
         <p> Contacter le freelance </p>
@@ -83,6 +106,9 @@ if (isset($_SESSION['Client'])) {
         $mesprojets .= '
         <p>Avancement: ' . $element['status_name'] . ' / ' . $element['idProjectStatus'] . '</p>
         
+      <!-- Ici on récupère les information du projet selectionné,
+           qui seront envoyés dans la page de gestion de projet 
+           qu on récupère grace au name, --->
         <form role="form" method="post" action="?p=gestionprojetC">
             <input  type="hidden" name="nm_id_project" value="' . $element['id_project'] . '">
             <input  type="hidden" name="nm_title" value="' . $element['title'] . '">
@@ -92,7 +118,7 @@ if (isset($_SESSION['Client'])) {
             <input  type="hidden" name="nm_content" value="' . $element['content'] . '">
             <input  type="hidden" name="nm_status_name" value="' . $element['status_name'] . '">
             <input  type="hidden" name="nm_idProjectStatus" value="' . $element['idProjectStatus'] . '">
-            <button type="submit">Gérer votre projet</button>  
+            <button type="submit" class="btn btn-primary">Gérer votre projet</button>  
         </form>
 </div>
         ';
@@ -126,7 +152,7 @@ foreach ($result_projet_terminé as $element) {
         <p> Titre: ' . $element['title'] . '</p>
         <p> Date de début: ' . $element['start_date'] . '</p>
         <p>Date de fin: ' . $element['end_date'] . '</p>
-        <p>Prix :' . $element['price'] . '</p>
+        <p>Prix :' . (float)$element['price'] . '</p>
         <p>Avancement: ' . $element['status_name'] . ' / ' . $element['idProjectStatus'] . '</p>
 </div>
         ';
@@ -163,21 +189,14 @@ if(!empty($_POST)) {
         $crP_content = $_POST['content'];
         // On arrive du formulaire de creation de projet
 
-        error_log("model dashboardclient.php : instanciation objet Project ");
         $project = new Project($bdd);
-        error_log("model dashboardclient.php : appel methode createProject de Project = createProject($crP_title, $crP_start_date, $crP_end_date, $crP_price, $crP_content)");
         $result = $project->createProject($crP_title, $crP_start_date, $crP_end_date, $crP_price, $crP_content);
-        error_log("model dashboardclient.php : Sortie de methode createProject de Project ");
-        error_log("model dashboardclient.php : SORTIE CONNEXION APRES CREATION PROJET");
 
     } else {
         error_log("model dashboardclient.php : TOUS LES CHAMPS N'ONT PAS ETE SAISIS");
         if (!empty($_POST['nm_id_project'])) {
             // On gere le projet sur lequel on a clique
             // rien a faire, on est parti sur la page de gestion du projet
-
-
-
         }
 
     }
@@ -189,8 +208,7 @@ if(!empty($_POST)) {
     if (isset($_SESSION['Freelance'])) {
         $menuclientorfreelance .= '
 
-        <li><a href="/websphereProject/src/?p=dashboardF">Dashboard freelance</a></li>
+        <a href="/websphereProject/src/?p=dashboardF">Dashboard freelance</a>
         ';
 
 }
-    $menuclientorfreelance.="</ul>";

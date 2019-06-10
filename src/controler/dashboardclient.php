@@ -9,6 +9,7 @@ echo $twig->render('dashboardClient.html',
         'menuclientorfreelance' => $menuclientorfreelance,
         'name' => $_SESSION['surname']." ".$_SESSION['name'],
        'mesprojets' => $mesprojets,
+        'msg_pop_up' => $message_pop_up,
         'mesprojetstermines'=> $mesprojetstermines,
        'formprojet' => $formulaire_creation_projet
         ));
